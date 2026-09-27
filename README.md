@@ -43,7 +43,7 @@ the pad, the ascent corridor, real lightning flashes and cloud layers at their a
 | Layer | Tool | Job | Status |
 |---|---|---|---|
 | Data | scrubline | 1,502 non-launch events, METAR / lightning / radar / upper-air per attempt, lightning-rule engine, launch windows | **have** |
-| Space Force forecasts | 45th Weather Squadron | Past pre-launch forecasts (probability of violating weather constraints, primary concerns, shear/solar/recovery ratings) | **have**: 465 forecasts parsed so far, 2020-2026 |
+| Space Force forecasts | 45th Weather Squadron | Past pre-launch forecasts (probability of violating weather constraints, primary concerns, shear/solar/recovery ratings) | **have**: 525 forecasts parsed, 2020-2026 (3 not retrievable from the archive, 1 image-only) |
 | Next-week weather | Open-Meteo + NOAA SWPC | 7-day hourly forecast at CCSFS and KSC incl. 11 pressure levels (winds, temps, heights, shear), freezing level, CAPE, cloud cover; 3-day solar Kp | **have** |
 | Prediction | Gradient-boosted trees | Chance of scrub/slip + top factors. Milliseconds, zero tokens | to build |
 | Memory | **GBrain** | Every attempt as an entity with sourced facts; lessons when a prediction was wrong; precedents for explanations | to wire |
@@ -64,12 +64,12 @@ label; these are **candidates** for a person or the River labeler to confirm.
 |---|---|---|---|
 | INSTRUMENT | Weather rules fired on real observations at the pad | Yes: fires on 35% of known weather scrubs vs 10% of known non-weather events | 113 |
 | CARRY | Same mission's previous event (within 7 days) has a stated cause | Logical continuation | 68 |
-| FORECAST | Space Force forecast exists for that mission/date; its probability is attached | Yes: median 60% before known weather scrubs vs 20% before non-weather ones | 40 |
+| FORECAST | Space Force forecast exists for that mission/date; its probability is attached | Yes: median 60% before known weather scrubs vs 20% before non-weather ones | 45 |
 | ~~PAD~~ | Another launch from the same pad within 48 h | **Rejected**: fires 38% on known vehicle/weather events vs 40% on unknowns (no signal) | - |
 | ~~RANGE~~ | Another scrub at the Cape in the previous 24 h | **Rejected**: 14% vs 13% (no signal) | - |
 
-**Result: 196 of 1,235 unexplained events now have an evidence-backed candidate cause
-(63 of 132 scrubs, 133 of 1,103 slips). 1,039 have no evidence in any data we hold.**
+**Result: 200 of 1,235 unexplained events now have an evidence-backed candidate cause
+(67 of 132 scrubs, 133 of 1,103 slips). 1,035 have no evidence in any data we hold.**
 Those need the research pass (webcast recaps, operator posts, press) run by agents, then
 the River labeler. Earlier webcast work closed 19% of unknowns, and routine Starlink slips
 barely close at all, so we report the close rate rather than promise one.
