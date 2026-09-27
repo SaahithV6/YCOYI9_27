@@ -1,0 +1,78 @@
+{
+  "features": [
+    "temperature_2m",
+    "relative_humidity_2m",
+    "precipitation",
+    "cloud_cover_low",
+    "cloud_cover_mid",
+    "cloud_cover_high",
+    "visibility",
+    "wind_speed_10m",
+    "wind_gusts_10m",
+    "cape",
+    "lifted_index",
+    "freezing_level_height",
+    "precipitation_max5h",
+    "cape_max5h",
+    "wind_gusts_10m_max5h",
+    "cloud_cover_low_max5h",
+    "max_shear_kt_per_km",
+    "wind_250hPa_kt",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos",
+    "site_CCSFS",
+    "site_KSC",
+    "vehicle_atlas_v",
+    "vehicle_delta_iv",
+    "vehicle_falcon_9",
+    "vehicle_falcon_heavy",
+    "vehicle_other",
+    "vehicle_sls",
+    "vehicle_terran",
+    "vehicle_vulcan"
+  ],
+  "categoricals": [
+    "site",
+    "vehicle"
+  ],
+  "params": {
+    "objective": "binary",
+    "learning_rate": 0.03,
+    "num_leaves": 15,
+    "min_data_in_leaf": 10,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "verbose": -1,
+    "seed": 0
+  },
+  "rounds": 300,
+  "trained_rows": 499,
+  "test_metrics": {
+    "lightgbm": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.735,
+      "pr_auc": 0.42,
+      "brier": 0.1178
+    },
+    "logistic_regression": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.685,
+      "pr_auc": 0.396,
+      "brier": 0.1773
+    },
+    "base_rate": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.5,
+      "pr_auc": 0.154,
+      "brier": 0.1304,
+      "note": "constant = train positive rate; AUC 0.5 by construction"
+    }
+  }
+}

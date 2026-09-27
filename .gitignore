@@ -6,3 +6,6 @@ node_modules/
 *.db
 *.db-*
 cache/
+runs/*.log
+data/corrections.jsonl
+__pycache__/

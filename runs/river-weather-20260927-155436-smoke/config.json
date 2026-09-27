@@ -1,0 +1,12 @@
+{
+  "base": "Qwen/Qwen3.5-9B",
+  "epochs": 3,
+  "batch": 16,
+  "lr": 0.0001,
+  "rank": 16,
+  "pos_repeat": 3,
+  "seed": 0,
+  "smoke": true,
+  "n_train": 304,
+  "n_test": 195
+}

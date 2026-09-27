@@ -1,0 +1,6 @@
+{"mission": "Starlink Group 10-43", "time_utc": "2026-06-03T11:25:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Amazon Leo (LA-07)", "time_utc": "2026-05-29T23:29:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-13T22:51:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-13T22:55:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-12T20:21:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "ViaSat-3 F3 (ViaSat-3 Asia-Pacific)", "time_utc": "2026-04-27T14:21:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}

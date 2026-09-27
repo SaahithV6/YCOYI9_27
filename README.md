@@ -21,6 +21,67 @@ the correction is remembered, and the next answer is better.
 2. Do we trust the enrichment numbers in section 3 (they are measured, see how)?
 3. Sponsors: GBrain (memory, precedents, corrections, scheduled refreshes) and River (cause labeler). QM was dropped: GBrain's hosted workspace already has an agent, chat and scheduled runs, so QM only added Slack.
 
+## Why it matters: the cost of a launch that doesn't go
+
+A launch that doesn't go costs more than the day. The range time is spent, crews and
+propellant are stood down, the satellite customer's schedule moves, and the pad stays
+occupied. That last cost is the one that compounds, because the next rocket can't use
+the pad until this one leaves it.
+
+The Space Coast averaged **73 launches a year** in 2021-2026. If every pad kept up
+the pace it already manages in its better quarters (its own 25th-percentile gap between
+launches), the same pads would fly **143** (a16z_throughput_numbers.md). That is a
+pace each pad has already shown, not a sustained rate we promise, and the gaps include
+planned downtime. Turnaround is what separates the pads:
+
+| pad | fastest demonstrated turnaround, 2015-2026 | launches 2021-2026 | flights/yr at its own p25 pace |
+|---|---|---|---|
+| SLC-40 | 45 h | 284 | 92 |
+| LC-39A | 126 h | 98 | 41 |
+| SLC-41 | 498 h | 26 | 9 |
+
+Sources: turnaround from ~/Documents/scrubline/README.md; launch counts and flights/yr from
+~/Documents/jobs/a16z_throughput_numbers.md.
+
+The limit is the pad, not the range. The range has cleared two launches from
+different pads 2.9 h apart, but no pad has flown twice in under 45 h, and range-caused
+stops are 6 of 223 stopped countdowns (a16z_throughput_numbers.md). So each avoidable
+stand-down takes up hours on the operator's scarcest resource. And demand keeps growing:
+the FAA expects licensed operations to double by 2029, with 14 licensed spaceports
+(a16z_throughput_building_answer.txt). At higher cadence, one lost pad day delays more of
+the launches queued behind it.
+
+**What the money figures say, and what they don't.** The earlier pitch used $0.5-1M per
+scrub, and up to $1.2M for a scrub after propellant loading. At about 7.5 day-of weather
+stops a year across the whole coast (45 of the 105 countdowns stopped on the day,
+2021-2026), that works out to a $4-8M/yr weather problem shared by every operator
+(a16z_throughput_numbers.md, a16z_throughput_building_answer.txt). Those dollar figures
+are the pitch's own estimates, and none of our datasets records their original source.
+Read them as an order of magnitude, not a measured cost per scrub. We have no measured
+market size. By the same record, weather alone is a small slice. The bigger costs are
+turnaround and sequencing, and the 82% of misses that nobody explains, which means
+nobody can plan around them.
+
+**Where this project cuts the cost:**
+
+- **Pick the window before committing the pad.** The hour-level weather-risk model scores
+  2025-26 launches it never saw at ROC-AUC 0.735 and PR-AUC 0.42, against a 0.15 base rate
+  (runs/weather-20260927-155215/metrics.json). The 7-day hourly risk view lets a scheduler
+  choose a low-risk hour before the pad is tied up. Flexibility is the biggest lever we
+  measured: a longer window plus a next-day recycle takes the weather-scrub risk from
+  14.5% to 0.5% (a16z_throughput_numbers.md, from ~/Documents/scrubline/artifacts/mitigation.json).
+- **Recover the cause.** 1,235 of 1,502 misses (82%) have no published cause (this
+  README, section 3). Each one we explain with evidence gives operators, schedulers and
+  insurers a case they can learn from, not just a blank.
+- **Say what's missing before GO.** The rules check never marks an unmeasured rule as
+  fine. It names the missing instrument (`UNAVAILABLE`), so a team knows before the count
+  what it is flying blind on. Five of the ten launch commit criteria can't be evaluated
+  from public data (a16z_throughput_numbers.md).
+
+**Who it's for:** launch operators and range schedulers deciding which window to take;
+satellite customers waiting on a ride, whose date depends on the launches ahead of them;
+and insurers who need to know why a launch didn't go, not only that it didn't.
+
 ## 1. The demo (MVP)
 
 1. User sets **date, time, rocket** (and pad).

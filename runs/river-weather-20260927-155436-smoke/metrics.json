@@ -1,0 +1,12 @@
+{
+  "n_test": 6,
+  "positives": 6,
+  "unparseable": 0,
+  "river_llm": {
+    "yes_calls": 5,
+    "precision": 1.0,
+    "recall": 0.833,
+    "f1": 0.909
+  },
+  "checkpoint": null
+}

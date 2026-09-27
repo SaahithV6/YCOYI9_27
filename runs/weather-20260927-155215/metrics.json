@@ -1,0 +1,89 @@
+{
+  "split": {
+    "train": "< 2025-01-01",
+    "test": ">= 2025-01-01"
+  },
+  "train": {
+    "n": 304,
+    "positives": 51
+  },
+  "test": {
+    "lightgbm": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.735,
+      "pr_auc": 0.42,
+      "brier": 0.1178
+    },
+    "logistic_regression": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.685,
+      "pr_auc": 0.396,
+      "brier": 0.1773
+    },
+    "base_rate": {
+      "n": 195,
+      "positives": 30,
+      "roc_auc": 0.5,
+      "pr_auc": 0.154,
+      "brier": 0.1304,
+      "note": "constant = train positive rate; AUC 0.5 by construction"
+    }
+  },
+  "top_features_by_gain": [
+    [
+      "cloud_cover_low_max5h",
+      1049.2
+    ],
+    [
+      "lifted_index",
+      906.2
+    ],
+    [
+      "visibility",
+      665.3
+    ],
+    [
+      "hour_cos",
+      594.1
+    ],
+    [
+      "max_shear_kt_per_km",
+      592.7
+    ],
+    [
+      "relative_humidity_2m",
+      585.4
+    ],
+    [
+      "wind_250hPa_kt",
+      576.5
+    ],
+    [
+      "cloud_cover_mid",
+      553.7
+    ],
+    [
+      "temperature_2m",
+      549.8
+    ],
+    [
+      "wind_gusts_10m",
+      514.9
+    ],
+    [
+      "cloud_cover_low",
+      461.0
+    ],
+    [
+      "wind_gusts_10m_max5h",
+      406.9
+    ]
+  ],
+  "note": "scale_pos_weight balances classes, so raw scores are ranked risk, not calibrated probabilities.",
+  "unexplained_scored": {
+    "n": 111,
+    "score_ge_0.5": 23
+  }
+}

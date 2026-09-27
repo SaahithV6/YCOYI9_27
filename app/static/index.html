@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrubline · Launch Weather Officer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/cesium@1.121.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070d; --panel:#0c111c; --panel2:#111827; --line:#1e293b; --text:#e6edf7; --muted:#8b98ad;
+  --accent:#5b8cff; --accent2:#9b6bff; --go:#22c55e; --nogo:#ef4444; --und:#f59e0b; --glow:rgba(91,140,255,.35);
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rgba(5,7,13,.72);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.14em}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 16px var(--glow)}
+.nav{color:var(--muted);font-size:14px;display:flex;gap:22px}
+.hero{padding:70px 0 40px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-40% -10% auto -10%;height:520px;background:radial-gradient(closest-side,rgba(91,140,255,.18),transparent),radial-gradient(closest-side at 70% 40%,rgba(155,107,255,.14),transparent);pointer-events:none}
+.eyebrow{color:var(--accent);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:14px 0 18px;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,#fff,#9fb7ff 40%,#b99bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--muted);font-size:18px;max-width:760px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:18px}
+.stat .n{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.stat .l{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.4}
+section{padding:26px 0}
+h2{font-size:22px;margin:0 0 14px;font-weight:700}
+.sub{color:var(--muted);font-size:14px;margin:-8px 0 16px}
+.grid2{display:grid;grid-template-columns:420px 1fr;gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:12px 0 6px}
+input,select{width:100%;background:#0a0f1a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px;font:inherit}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{cursor:pointer;border:0;border-radius:12px;padding:14px 18px;font:600 15px Inter;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));width:100%;margin-top:18px;box-shadow:0 10px 30px -10px var(--glow)}
+button:disabled{opacity:.6;cursor:wait}
+button.ghost{background:transparent;border:1px solid var(--line);box-shadow:none;margin-top:10px}
+#globe{height:420px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#02040a;position:relative}
+#globe .tag{position:absolute;left:14px;bottom:14px;z-index:5;background:rgba(5,7,13,.8);border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:13px}
+.cesium-viewer-bottom{display:none!important}
+.verdict{display:grid;grid-template-columns:260px 1fr;gap:18px}
+.vbox{border-radius:18px;padding:22px;border:1px solid var(--line);background:var(--panel2);text-align:center}
+.vlabel{font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.vword{font-size:44px;font-weight:800;margin:10px 0;letter-spacing:-.01em}
+.v-GO{color:var(--go)} .v-NO-GO{color:var(--nogo)} .v-UNDECIDED{color:var(--und)}
+.gauge{margin:6px auto 0;width:200px}
+.why{color:var(--muted);line-height:1.55;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.cols3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:18px;margin-top:18px}
+.bar{display:grid;grid-template-columns:170px 1fr 54px;align-items:center;gap:10px;margin:9px 0;font-size:13px}
+.track{height:10px;background:#0a0f1a;border-radius:6px;position:relative;overflow:hidden}
+.track i{position:absolute;top:0;bottom:0;border-radius:6px}
+.check{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.check:last-child{border:0}
+.st{font:600 11px 'JetBrains Mono';padding:4px 8px;border-radius:6px;white-space:nowrap;align-self:flex-start}
+.st-NO_GO{background:rgba(239,68,68,.15);color:#fca5a5} .st-UNAVAILABLE{background:rgba(148,163,184,.12);color:#cbd5e1}
+.st-MEASURED{background:rgba(91,140,255,.15);color:#b3c7ff} .st-CLEAR_IN_FORECAST{background:rgba(34,197,94,.14);color:#86efac}
+.cd{color:var(--muted);font-size:12px;margin-top:3px}
+.prec{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;display:flex;justify-content:space-between;gap:10px}
+.prec:last-child{border:0}
+.o-flew{color:#86efac} .o-weather{color:#fca5a5} .o-no{color:#fcd34d}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{background:#0a0f1a;border:1px solid var(--line);border-radius:12px;padding:12px}
+.tile .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.tile .v{font:600 18px 'JetBrains Mono';margin-top:6px}
+#heat{display:grid;grid-template-columns:70px repeat(24,1fr);gap:3px;font-size:11px;color:var(--muted)}
+#heat .c{height:22px;border-radius:4px;cursor:pointer;transition:transform .1s}
+#heat .c:hover{transform:scale(1.25);outline:1px solid #fff}
+.legend{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:10px}
+.legend .ramp{height:8px;width:180px;border-radius:4px;background:linear-gradient(90deg,#10233f,#2f5bd3,#f59e0b,#ef4444)}
+textarea{width:100%;min-height:74px;background:#0a0f1a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px;font:inherit}
+.hidden{display:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13px;color:var(--muted);line-height:1.5}
+.step b{display:block;color:var(--text);font-size:14px;margin-bottom:6px}
+.step .num{font:600 12px 'JetBrains Mono';color:var(--accent)}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;color:var(--muted);font-size:13px;line-height:1.6}
+.err{color:#fca5a5;margin-top:10px;font-size:14px}
+@media (max-width:980px){.grid2,.verdict,.cols3,.flow{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}.nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><span class="dot"></span>SCRUBLINE</div>
+  <div class="nav"><a href="#problem">Problem</a><a href="#console">Assess</a><a href="#week">This week</a><a href="#how">How it works</a></div>
+</div></header>
+
+<div class="hero" id="problem"><div class="wrap">
+  <div class="eyebrow">Launch weather officer</div>
+  <h1><span class="grad">Pick a rocket and a time.<br>Get a go/no-go with receipts.</span></h1>
+  <p class="lede">Space Coast pads have shown they can fly <b id="s-dem">143</b> times a year. They fly <b id="s-flown">73</b>.
+    When a launch doesn't go, the industry rarely learns why. Scrubline checks the real launch rules against the forecast,
+    scores the weather risk with a model trained on every past attempt, and shows the failures that looked like this one.</p>
+  <div class="stats">
+    <div class="stat"><div class="n" id="s-missed">1,502</div><div class="l">times a Cape launch missed its announced date since 2020</div></div>
+    <div class="stat"><div class="n" id="s-unk">82%</div><div class="l">of those have no published cause</div></div>
+    <div class="stat"><div class="n" id="s-scrubs">286</div><div class="l">countdown scrubs · <span id="s-slips">1,216</span> slips before the count</div></div>
+    <div class="stat"><div class="n" id="s-auc">–</div><div class="l">model ROC-AUC on 2025–26 launches it never saw</div></div>
+  </div>
+</div></div>
+
+<section id="console"><div class="wrap">
+  <h2>Assess a launch</h2>
+  <p class="sub">Any hour in the next 16 days, or a past date to replay what the forecast said.</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="row">
+        <div><label>Date (UTC)</label><input type="date" id="date"></div>
+        <div><label>Time (UTC)</label><input type="time" id="time" value="14:00" step="3600"></div>
+      </div>
+      <label>Launch site</label>
+      <select id="site"><option value="CCSFS">Cape Canaveral SFS (SLC-40, SLC-41)</option><option value="KSC">Kennedy Space Center (LC-39A, 39B)</option></select>
+      <label>Rocket</label>
+      <select id="vehicle"><option value="falcon_9">Falcon 9</option><option value="falcon_heavy">Falcon Heavy</option><option value="atlas_v">Atlas V</option><option value="vulcan">Vulcan</option><option value="new_glenn">New Glenn</option><option value="sls">SLS</option></select>
+      <button id="go">Assess launch</button>
+      <div class="err" id="err"></div>
+    </div>
+    <div id="globe"><div class="tag" id="globeTag">Cape Canaveral SFS · 28.49°N 80.57°W</div></div>
+  </div>
+</div></section>
+
+<section id="result" class="hidden"><div class="wrap">
+  <div class="verdict">
+    <div class="vbox">
+      <div class="vlabel">Weather call</div>
+      <div class="vword" id="vword">–</div>
+      <svg class="gauge" viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#1e293b" stroke-width="14" stroke-linecap="round"/>
+        <path id="garc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/>
+        <defs><linearGradient id="gg"><stop offset="0" stop-color="#2f5bd3"/><stop offset=".6" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+        <text x="100" y="92" text-anchor="middle" fill="#e6edf7" font-size="28" font-weight="800" id="gpct">–</text>
+        <text x="100" y="114" text-anchor="middle" fill="#8b98ad" font-size="10">riskier than % of launches that flew</text></svg>
+    </div>
+    <div class="card">
+      <div class="vlabel" id="vtitle">–</div>
+      <p class="why" id="vwhy"></p>
+      <div class="chips" id="vchips"></div>
+    </div>
+  </div>
+  <div class="cols3">
+    <div class="card"><h2>What drives the risk</h2><p class="sub">Model factor contributions for this hour</p><div id="factors"></div></div>
+    <div class="card"><h2>Launch rules</h2><p class="sub">What a forecast can and can't settle</p><div id="checks"></div></div>
+    <div class="card"><h2>Past attempts like this</h2><p class="sub" id="precsum"></p><div id="precs"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h2>Forecast at T-0</h2><p class="sub" id="src"></p><div class="tiles" id="tiles"></div></div>
+  <div class="card" style="margin-top:18px">
+    <h2>Correct the officer</h2><p class="sub">Was the call wrong? Say why. Corrections are saved and feed the next training run.</p>
+    <textarea id="corr" placeholder="e.g. This window scrubbed for cumulus over the pad at T-10."></textarea>
+    <button class="ghost" id="send">Save correction</button> <span id="sent" class="sub"></span>
+  </div>
+</div></section>
+
+<section id="week"><div class="wrap">
+  <h2>Best windows this week</h2>
+  <p class="sub">Hourly weather risk for the selected site, next 7 days (UTC). Click an hour to assess it.</p>
+  <div class="card"><div id="heat"></div>
+    <div class="legend">lower risk <span class="ramp"></span> higher risk · colour = rank vs launches that flew</div></div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2>How it works</h2>
+  <div class="flow">
+    <div class="step"><span class="num">01</span><b>Every miss, recorded</b>1,502 non-launches with the weather observed at the pad, cause labels with evidence grades, and 525 archived Space Force forecasts.</div>
+    <div class="step"><span class="num">02</span><b>Causes recovered</b>Validated enrichment and quote-checked web research recover causes the record never published.</div>
+    <div class="step"><span class="num">03</span><b>Weather model</b>Gradient-boosted trees on archived forecasts at each attempt's hour: trained on what a forecast said, served on a forecast. No LLM, zero tokens.</div>
+    <div class="step"><span class="num">04</span><b>Rules, honestly</b>The 10 lightning rules and user constraints. A forecast can fire a rule, never clear one; missing instruments are named.</div>
+    <div class="step"><span class="num">05</span><b>Memory that learns</b>Every mission lives in GBrain with sourced facts; corrections feed the next run.</div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div id="modelline"></div>
+  Data: Launch Library 2 update stream, KXMR METAR, GOES GLM, NEXRAD, IGRA soundings, archived 45th Weather Squadron forecasts, Open-Meteo live and archived forecasts, NOAA SWPC.
+  A forecast is never graded as an observation; a model score is a ranked risk, not a probability of scrub.
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/cesium@1.121.0/Build/Cesium/Cesium.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const SITES = {CCSFS:{name:"Cape Canaveral SFS",lat:28.49,lon:-80.57,pads:[["SLC-40",28.5621,-80.5772],["SLC-41",28.5833,-80.5829]]},
+               KSC:{name:"Kennedy Space Center",lat:28.59,lon:-80.65,pads:[["LC-39A",28.6082,-80.6041],["LC-39B",28.6272,-80.6208]]}};
+const today = new Date(); $("date").value = today.toISOString().slice(0,10);
+
+// ---- globe ------------------------------------------------------------------
+let viewer = null;
+try {
+  viewer = new Cesium.Viewer("globe", {
+    baseLayer: new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png", credit:"© OpenStreetMap"})),
+    baseLayerPicker:false, geocoder:false, homeButton:false, sceneModePicker:false, navigationHelpButton:false,
+    animation:false, timeline:false, fullscreenButton:false, infoBox:false, selectionIndicator:false });
+  viewer.scene.skyAtmosphere.show = true; viewer.scene.globe.enableLighting = false;
+} catch (e) { $("globe").insertAdjacentHTML("beforeend", "<div style='padding:30px;color:#8b98ad'>3D globe unavailable in this browser.</div>"); }
+function showSite(key, risk) {
+  const s = SITES[key]; $("globeTag").textContent = `${s.name} · ${s.lat.toFixed(2)}°N ${Math.abs(s.lon).toFixed(2)}°W`;
+  if (!viewer) return;
+  viewer.entities.removeAll();
+  const col = risk == null ? Cesium.Color.fromCssColorString("#5b8cff") : Cesium.Color.fromCssColorString(risk > 75 ? "#ef4444" : risk > 45 ? "#f59e0b" : "#22c55e");
+  for (const [n, la, lo] of s.pads) {
+    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), point:{pixelSize:12, color:col, outlineColor:Cesium.Color.WHITE, outlineWidth:2},
+      label:{text:n, font:"600 13px Inter", fillColor:Cesium.Color.WHITE, outlineColor:Cesium.Color.BLACK, outlineWidth:3, style:Cesium.LabelStyle.FILL_AND_OUTLINE, pixelOffset:new Cesium.Cartesian2(0,-20)}});
+    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), ellipse:{semiMajorAxis:18520, semiMinorAxis:18520, material:col.withAlpha(0.08), outline:true, outlineColor:col.withAlpha(0.6), height:0}});
+  }
+  viewer.camera.flyTo({destination:Cesium.Cartesian3.fromDegrees(s.lon + 0.05, s.lat - 0.55, 60000), orientation:{heading:0, pitch:Cesium.Math.toRadians(-38), roll:0}, duration:1.6});
+}
+showSite("CCSFS");
+$("site").onchange = () => { showSite($("site").value); loadWeek(); };
+
+// ---- stats ------------------------------------------------------------------
+fetch("/api/stats").then(r => r.json()).then(s => {
+  $("s-missed").textContent = s.missed.toLocaleString(); $("s-unk").textContent = s.unexplained_pct + "%";
+  $("s-scrubs").textContent = s.scrubs; $("s-slips").textContent = s.slips.toLocaleString();
+  const m = s.model.lightgbm; $("s-auc").textContent = m.roc_auc.toFixed(2);
+  $("modelline").innerHTML = `Model: LightGBM, test on ${m.n} launches from 2025–26 (${m.positives} weather-stopped): ROC-AUC <b>${m.roc_auc}</b>, PR-AUC <b>${m.pr_auc}</b> (base rate ${(m.positives/m.n).toFixed(2)}), Brier ${m.brier}. Logistic regression on the same features: ROC-AUC ${s.model.logistic_regression.roc_auc}.<br>`;
+});
+
+// ---- assess -----------------------------------------------------------------
+let last = null;
+async function assess() {
+  $("err").textContent = ""; $("go").disabled = true; $("go").innerHTML = '<span class="spin"></span>Assessing';
+  const q = new URLSearchParams({date:$("date").value, time:$("time").value, site:$("site").value, vehicle:$("vehicle").value});
+  try {
+    const r = await (await fetch("/api/assess?" + q)).json();
+    if (r.error) { $("err").textContent = r.error; return; }
+    last = r; render(r); showSite(r.input.site, r.risk.pct_vs_flew);
+    $("result").classList.remove("hidden"); $("result").scrollIntoView({behavior:"smooth"});
+  } catch (e) { $("err").textContent = "Server error: " + e; }
+  finally { $("go").disabled = false; $("go").textContent = "Assess launch"; }
+}
+$("go").onclick = assess;
+
+function render(r) {
+  $("vword").textContent = r.verdict; $("vword").className = "vword v-" + r.verdict;
+  const pct = r.risk.pct_vs_flew; $("gpct").textContent = pct + "%";
+  $("garc").style.transition = "stroke-dashoffset 1s ease"; $("garc").style.strokeDashoffset = 251 * (1 - pct / 100);
+  $("vtitle").textContent = `${r.input.vehicle} · ${r.input.site_name} · ${r.input.date} ${r.input.time} UTC`;
+  $("vwhy").innerHTML = r.verdict_reason + ` Weather risk is higher than <b>${pct}%</b> of launches that flew and higher than <b>${r.risk.pct_vs_weather_scrubs}%</b> of past weather scrubs.`;
+  $("vchips").innerHTML = [r.source, `model score ${r.risk.score}`, r.precedent_summary].map(t => `<span class="chip">${t}</span>`).join("");
+  const mx = Math.max(...r.factors.map(f => Math.abs(f.push)), 0.01);
+  $("factors").innerHTML = r.factors.map(f => {
+    const w = 50 * Math.abs(f.push) / mx, up = f.push > 0;
+    return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#334155"></i></span><span style="text-align:right;font-family:JetBrains Mono">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`;
+  }).join("") + `<p class="cd">Red pushes risk up, green pulls it down (log-odds).</p>`;
+  $("checks").innerHTML = r.checks.map(c => `<div class="check"><div>${c.rule}<div class="cd">${c.detail}</div></div><span class="st st-${c.status}">${c.status.replaceAll("_", " ")}</span></div>`).join("");
+  $("precsum").textContent = r.precedent_summary;
+  $("precs").innerHTML = r.precedents.map(p => {
+    const cls = p.outcome === "flew" ? "o-flew" : p.outcome === "weather scrub" ? "o-weather" : "o-no";
+    return `<div class="prec"><div>${p.mission}<div class="cd">${p.time_utc} UTC · ${p.site}</div></div><span class="${cls}">${p.outcome}${p.cause && p.outcome !== "flew" && p.cause !== "UNKNOWN" ? " · " + p.cause : ""}</span></div>`;
+  }).join("");
+  $("src").textContent = `${r.source}, Open-Meteo best-match model. Forecast, not observation.`;
+  const w = r.weather, T = [["Rain at T-0", w.precipitation + " mm"], ["Storm energy", Math.round(w.cape) + " J/kg"], ["Gusts", Math.round(w.wind_gusts_10m) + " kt"],
+    ["Low cloud", w.cloud_cover_low + "%"], ["Freezing level", Math.round(w.freezing_level_height) + " m"], ["Upper shear", w.max_shear_kt_per_km + " kt/km"],
+    ["Jet wind 250 hPa", Math.round(w.wind_250hPa_kt) + " kt"], ["Humidity", w.relative_humidity_2m + "%"]];
+  $("tiles").innerHTML = T.map(([k, v]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+  $("sent").textContent = ""; $("corr").value = "";
+}
+
+$("send").onclick = async () => {
+  if (!last || !$("corr").value.trim()) return;
+  await fetch("/api/correct", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({assessment:last.input, verdict:last.verdict, risk:last.risk, correction:$("corr").value})});
+  $("sent").textContent = "Saved. It will be used in the next training run.";
+};
+
+// ---- week heatmap -----------------------------------------------------------
+function color(p) { const s = [[0,[16,35,63]],[50,[47,91,211]],[80,[245,158,11]],[100,[239,68,68]]];
+  for (let i = 1; i < s.length; i++) if (p <= s[i][0]) { const [a, ca] = s[i-1], [b, cb] = s[i], t = (p - a) / (b - a);
+    return `rgb(${ca.map((c, j) => Math.round(c + t * (cb[j] - c))).join(",")})`; } return "rgb(239,68,68)"; }
+async function loadWeek() {
+  $("heat").innerHTML = '<div style="grid-column:1/-1;padding:14px"><span class="spin"></span>Scoring 168 hours…</div>';
+  const r = await (await fetch(`/api/week?site=${$("site").value}&vehicle=${$("vehicle").value}`)).json();
+  if (r.error) { $("heat").innerHTML = `<div class="err">${r.error}</div>`; return; }
+  const byDay = {}; for (const h of r.hours) (byDay[h.t.slice(0,10)] ||= [])[+h.t.slice(11,13)] = h;
+  let html = "<div></div>" + Array.from({length:24}, (_, i) => `<div style="text-align:center">${i % 3 ? "" : String(i).padStart(2,"0")}</div>`).join("");
+  for (const [d, hs] of Object.entries(byDay)) {
+    html += `<div>${new Date(d + "T00:00Z").toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"})}</div>`;
+    for (let i = 0; i < 24; i++) { const h = hs[i];
+      html += h ? `<div class="c" title="${d} ${String(i).padStart(2,"0")}:00 UTC · riskier than ${h.pct_vs_flew}% of flown launches" style="background:${color(h.pct_vs_flew)}" onclick="pick('${d}',${i})"></div>` : "<div></div>"; }
+  }
+  $("heat").innerHTML = html;
+}
+function pick(d, h) { $("date").value = d; $("time").value = String(h).padStart(2,"0") + ":00"; assess(); }
+loadWeek();
+</script>
+</body>
+</html>
