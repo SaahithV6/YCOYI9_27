@@ -36,6 +36,7 @@ def prf(gold, pred):
     fn = sum(g and not p for g, p in zip(gold, pred))
     prec = tp / (tp + fp) if tp + fp else 0.0
     rec = tp / (tp + fn) if tp + fn else 0.0
+    tp, fp, fn = int(tp), int(fp), int(fn)
     return {"yes_calls": tp + fp, "precision": round(prec, 3), "recall": round(rec, 3),
             "f1": round(2 * prec * rec / (prec + rec), 3) if prec + rec else 0.0}
 

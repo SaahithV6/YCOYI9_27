@@ -1,0 +1,29 @@
+{
+  "n_test": 195,
+  "positives": 30,
+  "unparseable": 0,
+  "river_llm": {
+    "yes_calls": 24,
+    "precision": 0.5,
+    "recall": 0.4,
+    "f1": 0.444
+  },
+  "lightgbm_same_number_of_yes_calls": {
+    "yes_calls": 24,
+    "precision": 0.5,
+    "recall": 0.4,
+    "f1": 0.444
+  },
+  "checkpoint_name": "scrubline-weather-river-weather-20260927-155515",
+  "note": "metrics recomputed from saved predictions after a JSON serialization error at the end of the run",
+  "agreement": {
+    "both_say_yes": 14,
+    "hits_when_both_say_yes": 11,
+    "precision_when_both_agree": 0.786,
+    "either_says_yes": 34,
+    "hits_either": 13,
+    "precision_either": 0.38,
+    "river_only_hits": 1,
+    "lightgbm_only_hits": 1
+  }
+}
