@@ -95,7 +95,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--sky))
 <script>
 const $ = id => document.getElementById(id);
 let cur = 0; const S = [...document.querySelectorAll(".slide")];
-function show(i) { cur = Math.max(0, Math.min(S.length - 1, i)); S.forEach((s, j) => s.classList.toggle("on", j === cur)); $("nav").textContent = `${cur + 1} / ${S.length} · ← →`; }
+function show(i) { if (i >= S.length) { location.href = "/"; return; }  // past the last slide -> live demo
+  cur = Math.max(0, Math.min(S.length - 1, i)); S.forEach((s, j) => s.classList.toggle("on", j === cur)); $("nav").textContent = cur === S.length - 1 ? `${cur + 1} / ${S.length} · click → live demo` : `${cur + 1} / ${S.length} · ← →`; }
 addEventListener("keydown", e => { if (["ArrowRight", " ", "PageDown"].includes(e.key)) show(cur + 1); if (["ArrowLeft", "PageUp"].includes(e.key)) show(cur - 1); });
 addEventListener("click", () => show(cur + 1));
 window.show = show;
