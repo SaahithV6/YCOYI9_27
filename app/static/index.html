@@ -415,7 +415,7 @@ function simulate(a, call) {
                : call === "UNDECIDED" ? "weather risk above the typical flown launch; waiting on the Space Force L-1 forecast" : "";
   const holdAt = call === "NO-GO" ? 4 : call === "LIKELY NO-GO" ? 2 : call === "UNDECIDED" ? 1 : -1;  // countdown second that holds
   $("simres").textContent = ""; const t0 = performance.now(), drops = Array.from({length:160}, () => [Math.random() * W, Math.random() * H]);
-  const ASC = [[0,0,0],[4,800,6],[8,4000,30],[12,12000,90],[16,26000,220],[20,45000,420],[24,70000,700]];  // sim-seconds, ft, px downrange
+  const ASC = [[0,0,0],[3,800,6],[6,4000,30],[8.5,12000,90],[11,26000,220],[14,45000,420],[17,70000,700]];  // sim-seconds, ft, px downrange
   function rocketAt(t) { for (let i = 1; i < ASC.length; i++) if (t <= ASC[i][0]) { const [ta, fa, xa] = ASC[i - 1], [tb, fb, xb] = ASC[i], k = (t - ta) / (tb - ta);
       return [xa + k * (xb - xa), fa + k * (fb - fa), Math.atan2(-(fb - fa) / maxFt * (H - 60), xb - xa)]; } return [ASC.at(-1)[2], ASC.at(-1)[1], -0.6]; }
   function frame(now) {
@@ -447,9 +447,9 @@ function simulate(a, call) {
     const label = held ? (s > 6.5 ? (call === "UNDECIDED" ? "HOLD" : "SCRUB") : `HOLD T-00:0${Math.max(cd, holdAt)}`) : lift ? `T+00:${String(Math.floor((s - 5.2) * 6)).padStart(2, "0")}` : `T-00:0${Math.max(cd, 0)}`;
     g.fillText(label, 220, 40);
     if (lift) { const ts = s - 5.2; g.font = "12px Inter"; g.fillStyle = "#a39a90";
-      if (ts > 9 && ts < 14) g.fillText("Max-Q", rx + 14, Y(rft)); if (ts > 16 && ts < 21) g.fillText("MECO · stage sep", rx - 150, Y(rft) + 18); }
+      if (ts > 6.5 && ts < 10) g.fillText("Max-Q", rx + 14, Y(rft)); if (ts > 11.5 && ts < 15.5) g.fillText("MECO · stage sep", rx - 150, Y(rft) + 18); }
     if (held && s > 6.5) { g.font = "600 13px Inter"; g.fillStyle = "#f3eee8"; g.fillText(reason, 220, 64); }
-    const done = lift && s - 5.2 > 24;
+    const done = lift && s - 5.2 > 17;
     if (done) { g.font = "700 20px Inter"; g.fillStyle = "#4ade80"; g.fillText("ORBIT INSERTION ✓  launch successful (simulated)", 220, 70);
       $("simres").textContent = "Simulated success: no deciding rule violated at this hour."; return; }
     if (held && s > 8) { $("simres").textContent = call === "UNDECIDED" ? "Held: not enough certainty from a forecast alone." : `Scrubbed by ${reason}. See the better windows below.`; return; }
