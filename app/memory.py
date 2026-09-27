@@ -12,17 +12,33 @@ import urllib.request
 
 
 class GBrain:
+    """Minimal MCP streamable-HTTP client: initialize once (keeps the Mcp-Session-Id), then tools/call."""
+    _session = None
+
     def __init__(self, url, token):
         self.url, self.token, self.n = url, token, 0
 
+    def _post(self, payload, timeout):
+        headers = {"content-type": "application/json", "accept": "application/json, text/event-stream",
+                   "authorization": f"Bearer {self.token}"}
+        if GBrain._session:
+            headers["mcp-session-id"] = GBrain._session
+        resp = urllib.request.urlopen(urllib.request.Request(self.url, data=json.dumps(payload).encode(), headers=headers),
+                                      timeout=timeout)
+        GBrain._session = resp.headers.get("mcp-session-id") or GBrain._session
+        return resp.read().decode()
+
+    def _init(self, timeout):
+        self._post({"jsonrpc": "2.0", "id": 0, "method": "initialize", "params": {
+            "protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "scrubline", "version": "0.1"}}}, timeout)
+        self._post({"jsonrpc": "2.0", "method": "notifications/initialized"}, timeout)
+
     def call(self, tool, args, timeout=15):
+        if GBrain._session is None:
+            self._init(timeout)
         self.n += 1
-        body = json.dumps({"jsonrpc": "2.0", "id": self.n, "method": "tools/call",
-                           "params": {"name": tool, "arguments": args}}).encode()
-        req = urllib.request.Request(self.url, data=body, headers={
-            "content-type": "application/json", "accept": "application/json, text/event-stream",
-            "authorization": f"Bearer {self.token}"})
-        raw = urllib.request.urlopen(req, timeout=timeout).read().decode()
+        raw = self._post({"jsonrpc": "2.0", "id": self.n, "method": "tools/call",
+                          "params": {"name": tool, "arguments": args}}, timeout)
         if raw.lstrip().startswith("event:") or "\ndata:" in raw:  # streamable-HTTP SSE framing
             raw = next(l[5:] for l in raw.splitlines() if l.startswith("data:"))
         msg = json.loads(raw)
@@ -50,6 +66,21 @@ def precedents(local_rows, query):
         return {"source": "gbrain", "items": items, "local": local_rows}
     except Exception as e:
         return {"source": "local", "items": local_rows, "gbrain_error": f"{type(e).__name__}: {e}"[:200]}
+
+
+def search(query, local_search, k=6):
+    """Tool body for Qwen's search_memory: GBrain page search when configured, else local keyword search."""
+    g = _gbrain()
+    if g is not None:
+        try:
+            hits = g.call("search", {"query": query, "limit": k, "snippet_chars": 300})
+            rows = hits if isinstance(hits, list) else hits.get("results", [])
+            return {"source": "gbrain", "hits": [{"page": h.get("slug"), "title": h.get("title"),
+                                                  "text": (h.get("chunk_text") or "")[:300]} for h in rows]}
+        except Exception as e:
+            err = f"{type(e).__name__}: {e}"[:160]
+            return {"source": "local", "gbrain_error": err, "hits": local_search(query, k)}
+    return {"source": "local", "hits": local_search(query, k)}
 
 
 def status():

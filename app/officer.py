@@ -27,11 +27,22 @@ def _client():
     return river.Client(api_key=os.environ["RIVER_API_KEY"], endpoint="api.river.ai")
 
 
-def _chat(messages, max_tokens=400):
+def _chat(messages, max_tokens=400, tools=None):
+    kw = {"tools": tools, "tool_choice": "auto"} if tools else {}
     r = _client().chat_complete(messages, base_model=BASE_MODEL, max_tokens=max_tokens, temperature=0.0, timeout=60,
-                                chat_template_kwargs={"enable_thinking": False})
+                                chat_template_kwargs={"enable_thinking": False}, **kw)
     body = r.response_json if isinstance(r.response_json, dict) else json.loads(r.response_json)
-    return body["choices"][0]["message"].get("content") or ""
+    msg = body["choices"][0]["message"]
+    return msg if tools else (msg.get("content") or "")
+
+
+SEARCH_TOOL = [{"type": "function", "function": {
+    "name": "search_memory",
+    "description": "Search Scrubline memory (GBrain): one page per past Cape/KSC mission with every scrub and slip, "
+                   "its cause, evidence grade and the weather at the pad; plus launch-rule and forecast pages. "
+                   "Returns matching pages with a text snippet. Use it to find precedents before making the call.",
+    "parameters": {"type": "object", "properties": {"query": {"type": "string", "description": "keywords, e.g. 'KSC cumulus scrub October'"}},
+                   "required": ["query"]}}}]
 
 
 def _json(text):
@@ -53,11 +64,15 @@ def parse(question):
 
 
 def gate(a):
-    forecast_nogo = [c["rule"] for c in a["checks"] if c["status"] == "NO_GO"]
-    return ["NO-GO"] if forecast_nogo else ["LIKELY NO-GO", "UNDECIDED", "LIKELY GO"]
+    """Calls the evidence allows. Qwen picks within these; it cannot move the call across the deterministic line."""
+    if a["verdict"] == "NO-GO":
+        return ["NO-GO"]
+    if a["verdict"] == "LIKELY NO-GO":          # a medium/high-confidence estimated violation exists
+        return ["LIKELY NO-GO", "UNDECIDED"]
+    return ["UNDECIDED", "LIKELY GO"]          # nothing deciding: advisory / low-confidence flags cannot make it a no-go
 
 
-def narrate(a, qw, mem, allowed):
+def narrate(a, qw, mem, allowed, local_search=None, trace=None):
     viol = [f"{c['id']} {c['rule']}: {c.get('value')} {c.get('unit') or ''} vs limit {c.get('threshold_desc') or c.get('threshold')} "
             f"({c.get('confidence')} confidence{', advisory' if c['id'] == 'LLCC-9' else ''})"
             for c in a["checks"] if c["status"] in ("ESTIMATED_VIOLATION", "NO_GO")]
@@ -72,13 +87,35 @@ def narrate(a, qw, mem, allowed):
         "precedents": [p.get("mission", "") + (f" ({p['outcome']})" if p.get("outcome") else "") for p in mem["items"][:5]],
         "precedent_source": mem["source"],
     }
-    text = _chat([{"role": "system", "content":
-                   "You are the launch weather officer for Cape Canaveral / Kennedy. Using ONLY the evidence JSON, make the "
-                   f"weather call. The call MUST be one of {allowed}. Reply only JSON: "
+    messages = [{"role": "system", "content":
+                   "You are the launch weather officer for Cape Canaveral / Kennedy. First call search_memory (at most 3 times) to "
+                   "find past attempts like this one, then, using ONLY the evidence JSON and the memory results, make the "
+                   f"weather call. The call MUST be one of {allowed}. Final reply: only JSON "
                    '{"call": "...", "headline": "one sentence", "reasons": ["3 short reasons, each citing a tool: rules, LightGBM, fine-tuned Qwen, precedents"], '
                    '"watch": ["what would change the call"]}. Quote numbers exactly as the evidence states them; '
                    'never state a threshold, limit or number that is not in the evidence. "watch" items must name conditions, not new numbers.'},
-                  {"role": "user", "content": json.dumps(evidence)}], max_tokens=500)
+                  {"role": "user", "content": json.dumps(evidence)}]
+    text, searches = "", []
+    for _ in range(4):  # tool loop: Qwen decides what to look up; our code executes the search
+        msg = _chat(messages, max_tokens=500, tools=SEARCH_TOOL if len(searches) < 3 else None)
+        if isinstance(msg, str):
+            text = msg
+            break
+        calls = msg.get("tool_calls") or []
+        if not calls:
+            text = msg.get("content") or ""
+            break
+        messages.append({"role": "assistant", "content": msg.get("content") or "", "tool_calls": calls})
+        for c in calls:
+            s = time.time()
+            q = json.loads(c["function"].get("arguments") or "{}").get("query", "")
+            res = memory.search(q, local_search)
+            searches.append({"query": q, "source": res["source"], "hits": len(res["hits"])})
+            if trace is not None:
+                trace.append({"step": f"Qwen → search_memory(\"{q[:60]}\") · {res['source']} · {len(res['hits'])} hits",
+                              "ok": True, "ms": round(1000 * (time.time() - s)), "note": res.get("gbrain_error", "")})
+            messages.append({"role": "tool", "tool_call_id": c.get("id", ""), "content": json.dumps(res)[:3500]})
+    evidence["memory_searches"] = searches
     out = _json(text) or {}
     if out.get("call") not in allowed:  # the gate wins over the model
         out["call_overridden"] = out.get("call")
@@ -86,7 +123,7 @@ def narrate(a, qw, mem, allowed):
     return out, evidence
 
 
-def run(assess_fn, qwen_fn, question=None, params=None):
+def run(assess_fn, qwen_fn, question=None, params=None, local_search=None):
     trace, t0 = [], time.time()
 
     def step(name, fn, *args):
@@ -124,7 +161,7 @@ def run(assess_fn, qwen_fn, question=None, params=None):
     allowed = step("Gate · allowed calls", gate, a)
     try:
         s = time.time()
-        brief, evidence = narrate(a, qw, mem, allowed)
+        brief, evidence = narrate(a, qw, mem, allowed, local_search, trace)
         trace.append({"step": "Qwen · write the call", "ok": True, "ms": round(1000 * (time.time() - s))})
     except Exception as e:
         brief, evidence = {"call": a["verdict"], "headline": a["verdict_reason"], "reasons": [], "watch": []}, {}

@@ -189,6 +189,22 @@ def assess(day, hhmm, site, vehicle):
     }
 
 
+def local_search(query, k=6):
+    """Keyword search over past attempts (mission, cause, site, month) for Qwen's search_memory tool."""
+    words = [w for w in query.lower().replace(",", " ").split() if len(w) > 2]
+    rows = HIST_ROWS.assign(_t=(HIST_ROWS["mission"].astype(str) + " " + HIST_ROWS["cause"].fillna("").astype(str) + " " +
+                                HIST_ROWS["site"].astype(str) + " " + HIST_ROWS["kind"].astype(str) + " " +
+                                pd.to_datetime(HIST_ROWS["time_utc"], utc=True).dt.strftime("%B %Y")).str.lower())
+    rows = rows.assign(_s=rows["_t"].apply(lambda s: sum(w in s for w in words))).sort_values("_s", ascending=False).head(k)
+    out = []
+    for _, r in rows.iterrows():
+        outcome = "flew" if r.get("label") == 0 else ("weather scrub" if r.get("label") == 1 else "scrub, no published cause")
+        out.append({"title": r["mission"], "text": f"{str(r['time_utc'])[:16]} UTC {r['site']}: {outcome}"
+                    f"{'' if pd.isna(r.get('cause')) or r.get('cause') in ('', 'UNKNOWN') else ' (' + str(r['cause']) + ')'}; "
+                    f"forecast CAPE {r.get('cape')}, low cloud {r.get('cloud_cover_low')}%, rain {r.get('precipitation')} mm"})
+    return out
+
+
 def week(site, vehicle):
     days = [date.today() + timedelta(days=d) for d in range(7)]
     out = []
@@ -278,7 +294,7 @@ class Handler(BaseHTTPRequestHandler):
             if u.path == "/api/ask":
                 params = None if q.get("q") else {"date": q["date"], "time": q.get("time", "12:00"),
                                                   "site": q.get("site", "CCSFS"), "vehicle": q.get("vehicle", "falcon_9")}
-                return self._send(200, officer.run(assess, qwen, question=q.get("q"), params=params))
+                return self._send(200, officer.run(assess, qwen, question=q.get("q"), params=params, local_search=local_search))
             if u.path == "/api/memory":
                 return self._send(200, memory.status())
             if u.path == "/api/qwen":

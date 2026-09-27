@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/cesium@1.121.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 <style>
-:root{--bg:#04060b;--p1:#0a0e17;--p2:#0f1522;--line:#1b2536;--line2:#26334a;--text:#e7edf6;--muted:#7f8ba0;--dim:#56627a;
-  --blue:#4f8dff;--violet:#8b6bff;--go:#22c55e;--nogo:#ef4444;--warn:#f59e0b;--und:#a3a3a3;--cyan:#38bdf8}
+:root{--bg:#0b0a09;--p1:#141211;--p2:#1b1917;--line:#2a2623;--line2:#3a3531;--text:#f3eee8;--muted:#a39a90;--dim:#6f675f;
+  --blue:#14b8a6;--violet:#0ea5e9;--go:#22c55e;--nogo:#ef4444;--warn:#eab308;--und:#a3a3a3;--cyan:#5eead4}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,sans-serif}
 .mono{font-family:'JetBrains Mono',monospace}
 button,input,select{font:inherit;color:inherit}
 /* top bar */
 .top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;padding:0 20px;height:56px;border-bottom:1px solid var(--line);background:rgba(4,6,11,.85);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.16em;font-size:13px}
-.brand i{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 14px rgba(79,141,255,.7)}
+.brand i{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 14px rgba(20,184,166,.7)}
 .tabs{display:flex;background:var(--p1);border:1px solid var(--line);border-radius:10px;padding:3px}
 .tabs button{border:0;background:none;padding:6px 14px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em}
 .tabs button.on{background:var(--p2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
@@ -36,13 +36,13 @@ button,input,select{font:inherit;color:inherit}
 .ph h3{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .ph span{font-size:11px;color:var(--dim)}
 label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:12px 0 5px}
-input,select{width:100%;background:#070a12;border:1px solid var(--line);border-radius:9px;padding:10px 11px}
+input,select{width:100%;background:#0f0d0c;border:1px solid var(--line);border-radius:9px;padding:10px 11px}
 input:focus,select:focus{outline:0;border-color:var(--blue)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .presets button{border:1px solid var(--line);background:var(--p2);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--muted);cursor:pointer}
 .presets button:hover{color:var(--text);border-color:var(--line2)}
-.go-btn{width:100%;margin-top:16px;border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 10px 26px -12px rgba(79,141,255,.8)}
+.go-btn{width:100%;margin-top:16px;border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 10px 26px -12px rgba(20,184,166,.75)}
 .go-btn:disabled{opacity:.6;cursor:wait}
 .cd{margin-top:14px;padding:12px;border:1px dashed var(--line2);border-radius:10px;text-align:center}
 .cd .k{font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
@@ -68,7 +68,7 @@ input:focus,select:focus{outline:0;border-color:var(--blue)}
 .lamp .dot{position:absolute;top:10px;right:9px;width:11px;height:11px;border-radius:50%}
 .lamp .val{font:700 13px 'JetBrains Mono';margin-top:6px;color:var(--text)}
 .lamp .thr{font:500 10.5px 'JetBrains Mono';color:var(--dim);margin-top:2px}
-.ask{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(79,141,255,.06),rgba(139,107,255,.04))}
+.ask{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(20,184,166,.07),rgba(14,165,233,.04))}
 .ask input{flex:1;font-size:15px;padding:12px 14px}
 .ask button{border:0;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--violet))}
 .brief{margin-top:12px;padding:14px;border:1px solid var(--line2);border-radius:12px;background:var(--p2)}
@@ -77,14 +77,14 @@ input:focus,select:focus{outline:0;border-color:var(--blue)}
 .brief .w{margin-top:8px;font-size:12px;color:var(--dim)}
 .trace{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .trace span{font:500 11px 'JetBrains Mono';padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
-.trace span.par{border-color:rgba(79,141,255,.5);color:#b3c7ff}
+.trace span.par{border-color:rgba(20,184,166,.55);color:#99f6e4}
 .trace span.bad{border-color:rgba(239,68,68,.5);color:#fca5a5}
 .lamp.est{border-style:dashed}
 .lamp.low{opacity:.72}
 .s-red .dot{background:var(--nogo);box-shadow:0 0 12px var(--nogo)} .s-green .dot{background:var(--go);box-shadow:0 0 10px rgba(34,197,94,.7)}
 .s-blue .dot{background:var(--cyan);box-shadow:0 0 10px rgba(56,189,248,.6)} .s-gray .dot{background:#475569}
 .s-red{border-color:rgba(239,68,68,.45)}
-.detail{margin-top:10px;background:#070a12;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;color:var(--muted);display:none}
+.detail{margin-top:10px;background:#0f0d0c;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;color:var(--muted);display:none}
 .detail b{color:var(--text)}
 /* globe */
 #globe{height:100%;min-height:380px;border-radius:12px;overflow:hidden;position:relative;background:#02040a}
@@ -92,7 +92,7 @@ input:focus,select:focus{outline:0;border-color:var(--blue)}
 .cesium-viewer-bottom,.cesium-widget-credits{display:none!important}
 /* factors */
 .bar{display:grid;grid-template-columns:150px 1fr 48px;gap:10px;align-items:center;margin:8px 0;font-size:12.5px}
-.track{height:8px;background:#070a12;border-radius:5px;position:relative;overflow:hidden}
+.track{height:8px;background:#0f0d0c;border-radius:5px;position:relative;overflow:hidden}
 .track i{position:absolute;top:0;bottom:0;border-radius:5px}
 /* precedents */
 .prec{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
@@ -111,7 +111,7 @@ input:focus,select:focus{outline:0;border-color:var(--blue)}
 .best button{background:var(--p2);border:1px solid rgba(74,222,128,.3);border-radius:9px;padding:9px;text-align:left;cursor:pointer}
 .best button:hover{border-color:#4ade80}
 .best .k{font:600 12px 'JetBrains Mono'} .best .s{font-size:11px;color:var(--muted)}
-textarea{width:100%;min-height:60px;background:#070a12;border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--text);font:inherit;resize:vertical}
+textarea{width:100%;min-height:60px;background:#0f0d0c;border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--text);font:inherit;resize:vertical}
 .ghost{margin-top:8px;border:1px solid var(--line2);background:var(--p2);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12.5px}
 .empty{color:var(--dim);text-align:center;padding:40px 10px}
 .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:s .9s linear infinite;vertical-align:-1px;margin-right:7px}
@@ -145,6 +145,8 @@ footer{padding:18px 20px 40px;color:var(--dim);font-size:12px;line-height:1.6;bo
     <label>Rocket</label>
     <select id="vehicle"><option value="falcon_9">Falcon 9</option><option value="falcon_heavy">Falcon Heavy</option><option value="atlas_v">Atlas V</option><option value="vulcan">Vulcan</option><option value="new_glenn">New Glenn</option><option value="sls">SLS</option></select>
     <div class="two"><div><label>Date</label><input type="date" id="date"></div><div><label>T-0</label><input type="time" id="time" value="14:00" step="3600"></div></div>
+    <label>Trajectory (illustrative)</label>
+    <select id="orbit"><option value="44">ISS / LEO · 44° NE</option><option value="53">Starlink shell · 53°</option><option value="90">GTO · 90° E</option><option value="165">Polar / SSO · south</option></select>
     <div class="presets" id="presets"></div>
     <button class="go-btn" id="go">Run weather assessment</button>
     <div class="cd"><div class="k">T-0 countdown</div><div class="v" id="countdown">–</div></div>
@@ -160,7 +162,7 @@ footer{padding:18px 20px 40px;color:var(--dim);font-size:12px;line-height:1.6;bo
     <div id="vbody" style="display:none">
       <div class="vbar" id="vbar">
         <div><div class="vcall" id="vcall">–</div><div class="vsub" id="vwhy"></div></div>
-        <svg class="gauge" viewBox="0 0 150 96"><path d="M15 80 A60 60 0 0 1 135 80" fill="none" stroke="#1b2536" stroke-width="11" stroke-linecap="round"/>
+        <svg class="gauge" viewBox="0 0 150 96"><path d="M15 80 A60 60 0 0 1 135 80" fill="none" stroke="#2a2623" stroke-width="11" stroke-linecap="round"/>
           <path id="garc" d="M15 80 A60 60 0 0 1 135 80" fill="none" stroke="url(#gg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189" style="transition:stroke-dashoffset .9s ease"/>
           <defs><linearGradient id="gg"><stop offset="0" stop-color="#22c55e"/><stop offset=".55" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
           <text x="75" y="72" text-anchor="middle" fill="#e7edf6" font-size="22" font-weight="800" font-family="JetBrains Mono" id="gpct">–</text>
@@ -178,7 +180,9 @@ footer{padding:18px 20px 40px;color:var(--dim);font-size:12px;line-height:1.6;bo
     </div>
   </div>
 
-  <div class="panel globe-col" style="padding:8px"><div id="globe"><div class="tag" id="gtag">Cape Canaveral SFS</div></div></div>
+  <div class="panel globe-col" style="padding:8px"><div id="globe"><div class="tag" id="gtag">Cape Canaveral SFS</div>
+  <div class="tag" style="top:auto;bottom:12px;left:12px;font-size:11px;line-height:1.5" id="glegend">Run an assessment to fly the ascent through the forecast atmosphere.</div>
+  <button class="ghost" id="replay" style="position:absolute;right:12px;bottom:12px;z-index:5;margin:0">▶ Replay ascent</button></div></div>
 </div>
 
 <div class="row2">
@@ -230,17 +234,55 @@ let viewer = null;
 try { viewer = new Cesium.Viewer("globe", {baseLayer:new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png"})),
   baseLayerPicker:false,geocoder:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,animation:false,timeline:false,fullscreenButton:false,infoBox:false,selectionIndicator:false}); }
 catch (e) { $("globe").insertAdjacentHTML("beforeend", "<div class='empty'>3D globe unavailable</div>"); }
-function showSite(call) {
-  const s = SITES[site]; $("gtag").textContent = `${s.name} · ${s.lat.toFixed(2)}°N ${Math.abs(s.lon).toFixed(2)}°W`;
-  if (!viewer) return; viewer.entities.removeAll();
-  const col = Cesium.Color.fromCssColorString({"NO-GO":"#ef4444","LIKELY NO-GO":"#fb923c","LIKELY GO":"#22c55e","UNDECIDED":"#f59e0b"}[call] || "#4f8dff");
-  for (const [n, la, lo] of s.pads) {
-    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), point:{pixelSize:11, color:col, outlineColor:Cesium.Color.WHITE, outlineWidth:2},
-      label:{text:n, font:"600 12px Inter", fillColor:Cesium.Color.WHITE, outlineColor:Cesium.Color.BLACK, outlineWidth:3, style:Cesium.LabelStyle.FILL_AND_OUTLINE, pixelOffset:new Cesium.Cartesian2(0,-18)}});
-    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), ellipse:{semiMajorAxis:18520, semiMinorAxis:18520, material:col.withAlpha(.07), outline:true, outlineColor:col.withAlpha(.55)}});
-  }
-  viewer.camera.flyTo({destination:Cesium.Cartesian3.fromDegrees(s.lon + .06, s.lat - .5, 55000), orientation:{heading:0, pitch:Cesium.Math.toRadians(-36), roll:0}, duration:1.4});
+// Illustrative Falcon-9-class ascent: (seconds, altitude km, downrange km). Not a mission trajectory.
+const ASCENT = [[0,0,0],[20,1,0.1],[40,4,0.8],[60,9,3],[75,13,6],[90,22,12],[120,42,30],[150,65,62],[180,90,110]];
+function destination(lat, lon, km, azDeg) {  // great-circle step from (lat, lon)
+  const R = 6371, d = km / R, az = azDeg * Math.PI / 180, la = lat * Math.PI / 180, lo = lon * Math.PI / 180;
+  const la2 = Math.asin(Math.sin(la) * Math.cos(d) + Math.cos(la) * Math.sin(d) * Math.cos(az));
+  const lo2 = lo + Math.atan2(Math.sin(az) * Math.sin(d) * Math.cos(la), Math.cos(d) - Math.sin(la) * Math.sin(la2));
+  return [la2 * 180 / Math.PI, lo2 * 180 / Math.PI];
 }
+let lastScene = null;
+function showSite(call, a) {
+  const s = SITES[site]; $("gtag").textContent = `${s.name} · ${s.lat.toFixed(2)}°N ${Math.abs(s.lon).toFixed(2)}°W`;
+  if (!viewer) return; viewer.entities.removeAll(); lastScene = {call, a};
+  const col = Cesium.Color.fromCssColorString({"NO-GO":"#ef4444","LIKELY NO-GO":"#fb923c","LIKELY GO":"#22c55e","UNDECIDED":"#eab308"}[call] || "#14b8a6");
+  const [pn, pla, plo] = s.pads[0];
+  for (const [n, la, lo] of s.pads) viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), point:{pixelSize:10, color:col, outlineColor:Cesium.Color.WHITE, outlineWidth:2},
+    label:{text:n, font:"600 12px Inter", fillColor:Cesium.Color.WHITE, outlineColor:Cesium.Color.BLACK, outlineWidth:3, style:Cesium.LabelStyle.FILL_AND_OUTLINE, pixelOffset:new Cesium.Cartesian2(0,-16)}});
+  // LLCC-1: 10 nmi lightning circle
+  viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(plo, pla), ellipse:{semiMajorAxis:18520, semiMinorAxis:18520, material:col.withAlpha(.06), outline:true, outlineColor:col.withAlpha(.6), height:0}});
+  const legend = ["<b>10 nmi lightning circle</b> (LLCC-1)"];
+  if (a) {
+    const pr = a.profile || [], ftToM = ft => ft * 0.3048;
+    // cloud layers (RH >= 90%) as translucent discs at their estimated heights
+    for (let i = 0; i < pr.length; i++) if (pr[i].rh >= 90) viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(plo, pla),
+      ellipse:{semiMajorAxis:30000, semiMinorAxis:30000, height:ftToM(pr[i].ft), material:Cesium.Color.fromCssColorString("#e7e5e4").withAlpha(.16)}});
+    if (pr.some(p => p.rh >= 90)) legend.push("<b>cloud layers</b> at forecast heights (RH ≥ 90%)");
+    if (a.freezing_level_ft) { viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(plo, pla), ellipse:{semiMajorAxis:26000, semiMinorAxis:26000, height:ftToM(a.freezing_level_ft), material:Cesium.Color.fromCssColorString("#5eead4").withAlpha(.12), outline:true, outlineColor:Cesium.Color.fromCssColorString("#5eead4").withAlpha(.7)}});
+      legend.push(`<b style="color:#5eead4">freezing level</b> ${Math.round(a.freezing_level_ft).toLocaleString()} ft`); }
+    const anvil = (a.checks || []).find(c => c.id === "LLCC-2/3");
+    if (anvil && anvil.value > 0) { viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(plo, pla), ellipse:{semiMajorAxis:anvil.value * 1852, semiMinorAxis:anvil.value * 1852, material:Cesium.Color.fromCssColorString("#f472b6").withAlpha(.05), outline:true, outlineColor:Cesium.Color.fromCssColorString("#f472b6").withAlpha(.7), height:0}});
+      legend.push(`<b style="color:#f472b6">anvil extent</b> ≈${anvil.value} nmi`); }
+  }
+  // animated ascent along the chosen azimuth
+  const az = +$("orbit").value, start = Cesium.JulianDate.now(), pos = new Cesium.SampledPositionProperty(), pts = [];
+  for (const [t, km, dr] of ASCENT) { const [la, lo] = destination(pla, plo, dr, az); const c = Cesium.Cartesian3.fromDegrees(lo, la, km * 1000);
+    pos.addSample(Cesium.JulianDate.addSeconds(start, t, new Cesium.JulianDate()), c); pts.push(c); }
+  viewer.entities.add({polyline:{positions:pts, width:2, material:new Cesium.PolylineDashMaterialProperty({color:Cesium.Color.WHITE.withAlpha(.55)})}});
+  viewer.entities.add({position:pos, point:{pixelSize:9, color:Cesium.Color.fromCssColorString("#fde68a"), outlineColor:Cesium.Color.fromCssColorString("#f97316"), outlineWidth:3},
+    path:{width:3, leadTime:0, trailTime:200, material:new Cesium.PolylineGlowMaterialProperty({glowPower:.3, color:Cesium.Color.fromCssColorString("#f97316")})},
+    label:{text:"ascent", font:"600 11px Inter", fillColor:Cesium.Color.WHITE, pixelOffset:new Cesium.Cartesian2(12,-10), showBackground:true, backgroundColor:Cesium.Color.BLACK.withAlpha(.5)}});
+  viewer.clock.startTime = start.clone(); viewer.clock.currentTime = start.clone();
+  viewer.clock.stopTime = Cesium.JulianDate.addSeconds(start, 180, new Cesium.JulianDate());
+  viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; viewer.clock.multiplier = 6; viewer.clock.shouldAnimate = true;
+  legend.push(`<b style="color:#f97316">illustrative ascent</b> at ${az}° (not a mission trajectory)`);
+  $("glegend").innerHTML = legend.join("<br>");
+  viewer.camera.flyTo({destination:Cesium.Cartesian3.fromDegrees(plo - 0.55 * Math.sin(az * Math.PI / 180), pla - 0.55 * Math.cos(az * Math.PI / 180) - 0.35, 42000),
+    orientation:{heading:Cesium.Math.toRadians(az), pitch:Cesium.Math.toRadians(-22), roll:0}, duration:1.6});
+}
+$("replay").onclick = () => lastScene && showSite(lastScene.call, lastScene.a);
+$("orbit").onchange = () => lastScene && showSite(lastScene.call, lastScene.a);
 $("tabs").onclick = e => { const b = e.target.closest("button"); if (!b) return;
   site = b.dataset.site; [...$("tabs").children].forEach(x => x.classList.toggle("on", x === b)); showSite(); loadWeek(); if (last) assess(); };
 $("vehicle").onchange = () => { loadWeek(); if (last) assess(); };
@@ -264,7 +306,7 @@ async function runOfficer(query) {
     if (r.error) { $("err").textContent = r.error; return; }
     const p = r.params; $("date").value = p.date; $("time").value = p.time; $("vehicle").value = p.vehicle;
     if (p.site !== site) { site = p.site; [...$("tabs").children].forEach(x => x.classList.toggle("on", x.dataset.site === site)); loadWeek(); }
-    last = r.assessment; render(r.assessment); showSite(r.brief.call || r.assessment.verdict); renderBrief(r);
+    last = r.assessment; render(r.assessment); showSite(r.brief.call || r.assessment.verdict, r.assessment); renderBrief(r);
   } catch (e) { $("err").textContent = "Server error: " + e; }
   finally { $("go").disabled = false; $("askb").disabled = false; $("go").textContent = "Run weather assessment"; }
 }
@@ -322,7 +364,7 @@ function render(r) {
   drawProfile(r);
   const mx = Math.max(...r.factors.map(f => Math.abs(f.push)), .01);
   $("factors").className = ""; $("factors").innerHTML = r.factors.map(f => { const w = 50 * Math.abs(f.push) / mx, up = f.push > 0;
-    return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#334155"></i></span><span class="mono" style="text-align:right;font-size:12px">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`; }).join("")
+    return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#4a433d"></i></span><span class="mono" style="text-align:right;font-size:12px">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`; }).join("")
     + `<div class="small" style="margin-top:8px">Red raises weather risk, green lowers it.</div>`;
   $("precsum").textContent = r.precedent_summary.replace(" of the 6 most similar past attempts were stopped by weather", "/6 stopped by weather");
   $("precs").className = ""; $("precs").innerHTML = r.precedents.map(x => { const o = x.outcome === "flew" ? "o1" : x.outcome === "weather scrub" ? "o2" : "o3";
@@ -339,7 +381,7 @@ function drawProfile(r) {
   const W = 460, H = 330, L = 44, R = 96, T = 10, B = 28, maxFt = 42000, tMin = -60, tMax = 35;
   const x = t => L + (t - tMin) / (tMax - tMin) * (W - L - R), y = ft => H - B - ft / maxFt * (H - T - B);
   let s = "";
-  for (let ft = 0; ft <= maxFt; ft += 10000) s += `<line x1="${L}" x2="${W - R}" y1="${y(ft)}" y2="${y(ft)}" stroke="#1b2536"/><text x="${L - 6}" y="${y(ft) + 3}" fill="#56627a" font-size="9" text-anchor="end">${ft / 1000}k ft</text>`;
+  for (let ft = 0; ft <= maxFt; ft += 10000) s += `<line x1="${L}" x2="${W - R}" y1="${y(ft)}" y2="${y(ft)}" stroke="#2a2623"/><text x="${L - 6}" y="${y(ft) + 3}" fill="#56627a" font-size="9" text-anchor="end">${ft / 1000}k ft</text>`;
   for (let t = -60; t <= 30; t += 30) s += `<text x="${x(t)}" y="${H - 10}" fill="#56627a" font-size="9" text-anchor="middle">${t}°C</text>`;
   const pr = r.profile.filter(p => p.ft <= maxFt);
   // cloud bands from consecutive saturated levels
@@ -352,7 +394,7 @@ function drawProfile(r) {
   s += `<polyline fill="none" stroke="#f59e0b" stroke-width="2.2" points="${pr.map(p => `${x(p.temp_c)},${y(p.ft)}`).join(" ")}"/>`;
   s += pr.map(p => `<circle cx="${x(p.temp_c)}" cy="${y(p.ft)}" r="2.6" fill="#f59e0b"/>`).join("");
   s += `<text x="${W - R + 10}" y="${T + 8}" fill="#56627a" font-size="9">RH · wind</text>`;
-  s += pr.map(p => `<rect x="${W - R + 10}" y="${y(p.ft) - 4}" width="${p.rh * .42}" height="7" rx="2" fill="${p.rh >= 90 ? "#94a3b8" : "#334155"}"/><text x="${W - R + 58}" y="${y(p.ft) + 3}" fill="#7f8ba0" font-size="8.5" font-family="JetBrains Mono">${Math.round(p.wind_kt ?? 0)} kt</text>`).join("");
+  s += pr.map(p => `<rect x="${W - R + 10}" y="${y(p.ft) - 4}" width="${p.rh * .42}" height="7" rx="2" fill="${p.rh >= 90 ? "#94a3b8" : "#4a433d"}"/><text x="${W - R + 58}" y="${y(p.ft) + 3}" fill="#7f8ba0" font-size="8.5" font-family="JetBrains Mono">${Math.round(p.wind_kt ?? 0)} kt</text>`).join("");
   $("prof").innerHTML = s;
 }
 
