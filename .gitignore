@@ -9,3 +9,4 @@ cache/
 runs/*.log
 data/corrections.jsonl
 __pycache__/
+demo/*.mp4

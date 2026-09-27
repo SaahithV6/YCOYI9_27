@@ -83,6 +83,21 @@ def search(query, local_search, k=6):
     return {"source": "local", "hits": local_search(query, k)}
 
 
+def remember(fact, provenance, entity=None):
+    """Write a correction back to GBrain as a sourced fact (the learning loop). Local-only when GBrain is off."""
+    g = _gbrain()
+    if g is None:
+        return {"saved_to": "local"}
+    try:
+        args = {"fact": fact, "provenance": provenance, "kind": "fact"}
+        if entity:
+            args["entity"] = entity
+        r = g.call("remember", args)
+        return {"saved_to": "gbrain", "id": (r or {}).get("id") if isinstance(r, dict) else None}
+    except Exception as e:
+        return {"saved_to": "local", "gbrain_error": f"{type(e).__name__}: {e}"[:200]}
+
+
 def status():
     g = _gbrain()
     return {"backend": "gbrain" if g else "local", "url": os.environ.get("GBRAIN_MCP_URL", "")}

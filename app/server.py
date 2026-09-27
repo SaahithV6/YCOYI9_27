@@ -189,6 +189,33 @@ def assess(day, hhmm, site, vehicle):
     }
 
 
+def alternatives(day, hhmm, site, vehicle, n=5):
+    """Better hours when the requested one is bad: LIKELY GO hours in the next 7 days, nearest to the request first
+    (then lowest risk), each with a full rule assessment computed in parallel."""
+    from concurrent.futures import ThreadPoolExecutor
+    want = datetime.combine(day, datetime.strptime(hhmm, "%H:%M").time()).replace(tzinfo=timezone.utc)
+    now = datetime.now(timezone.utc)
+    hours = [h for h in week(site, vehicle)["hours"] if h["call"] == "LIKELY GO"]
+    for h in hours:
+        h["_t"] = datetime.fromisoformat(h["t"]).replace(tzinfo=timezone.utc)
+    hours = [h for h in hours if h["_t"] > now and h["_t"] != want]
+    hours.sort(key=lambda h: (abs((h["_t"] - want).total_seconds()) // 21600, h["pct_vs_flew"]))  # 6-h proximity buckets, then risk
+    picks = hours[:n]
+    with ThreadPoolExecutor(n or 1) as ex:
+        full = list(ex.map(lambda h: assess(h["_t"].date(), h["_t"].strftime("%H:%M"), site, vehicle), picks))
+    out = []
+    for h, a in zip(picks, full):
+        if "error" in a:
+            continue
+        out.append({"date": h["t"][:10], "time": h["t"][11:16], "call": a["verdict"], "pct_vs_flew": a["risk"]["pct_vs_flew"],
+                    "shift_hours": round((h["_t"] - want).total_seconds() / 3600),
+                    "rules_clear": sum(c["status"] in ("ESTIMATED_CLEAR", "CLEAR_IN_FORECAST") for c in a["checks"]),
+                    "rules_flagged": [c["id"] for c in a["checks"] if c["status"] in ("ESTIMATED_VIOLATION", "NO_GO")],
+                    "rules_total": len(a["checks"]),
+                    "values": {c["id"]: c.get("value") for c in a["checks"]}})
+    return {"site": site, "requested": f"{day} {hhmm}", "alternatives": out}
+
+
 def local_search(query, k=6):
     """Keyword search over past attempts (mission, cause, site, month) for Qwen's search_memory tool."""
     words = [w for w in query.lower().replace(",", " ").split() if len(w) > 2]
@@ -258,13 +285,39 @@ def qwen(day, hhmm, site, vehicle):
     return {"available": True, "weather_stop": call, "raw": text[-120:], "checkpoint": ck["inference"].split("/")[-1]}
 
 
+def cost():
+    """Weather-scrub cost from data/cost/scrub_cost_model.json (sourced research) x the scrub record."""
+    path = ROOT / "data" / "cost" / "scrub_cost_model.json"
+    ev = json.loads((Path.home() / "Documents/scrubline/artifacts/all_events.json").read_text())
+    wx = [e for e in ev if e["kind"] == "SCRUB" and e["category"] in ("WX_LAUNCH_SITE", "WX_UPPER_WINDS", "WX_RECOVERY")]
+    years = sorted({e["date"][:4] for e in ev})
+    by_year = {y: sum(e["date"].startswith(y) for e in wx) for y in years}
+    avoid = float(np.mean(WX_SCORES >= np.percentile(FLEW_SCORES, 90)))
+    out = {"weather_scrubs": len(wx), "by_year": by_year, "span": f"{years[0]}-{years[-1]}", "avoidable_share": round(avoid, 3)}
+    if path.exists():
+        m = json.loads(path.read_text())
+        # A weather scrub = the direct cost of the attempt + one day of delay (the standard 24 h recycle).
+        d, dl = m["per_scrub_usd"], m["delay_cost_per_day_usd"]
+        per = {k: d[k] + dl[k] for k in ("low", "central", "high")}
+        out["per_scrub_breakdown"] = {"direct": d, "one_day_delay": {k: dl[k] for k in ("low", "central", "high")}}
+        out.update(model=m, per_scrub=per,
+                   total={k: per[k] * len(wx) for k in per},
+                   per_year={k: per[k] * len(wx) / max(1, len(years) - 0.25) for k in per},  # 2026 is ~3/4 of a year
+                   avoidable_total={k: per[k] * len(wx) * avoid for k in per})
+    return out
+
+
 def stats():
     ev = json.loads((Path.home() / "Documents/scrubline/artifacts/all_events.json").read_text())
     unk = sum(e["category"] == "UNKNOWN" for e in ev)
     known = [e for e in ev if e["kind"] == "SCRUB" and e["category"] != "UNKNOWN"]
     wx = [e for e in known if e["category"] in ("WX_LAUNCH_SITE", "WX_UPPER_WINDS", "WX_RECOVERY")]
     thr = np.percentile(FLEW_SCORES, 90)  # move the riskiest 10% of launch hours (out-of-fold ranking)
-    return {"weather_scrubs": len(wx), "known_cause_scrubs": len(known), "weather_share_pct": round(100 * len(wx) / len(known)),
+    causes = {}
+    for e in known:
+        causes[e["category"]] = causes.get(e["category"], 0) + 1
+    return {"causes": dict(sorted(causes.items(), key=lambda x: -x[1])),
+            "weather_scrubs": len(wx), "known_cause_scrubs": len(known), "weather_share_pct": round(100 * len(wx) / len(known)),
             "avoidable_pct_moving_top10": round(100 * float(np.mean(WX_SCORES >= thr))),
             "missed": len(ev), "scrubs": sum(e["kind"] == "SCRUB" for e in ev), "slips": sum(e["kind"] == "SLIP" for e in ev),
             "unexplained": unk, "unexplained_pct": round(100 * unk / len(ev)), "pads_demonstrated": 143, "pads_flown": 73,
@@ -286,6 +339,12 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if u.path in ("/", "/index.html"):
                 return self._send(200, (ROOT / "app" / "static" / "index.html").read_bytes(), "text/html; charset=utf-8")
+            if u.path == "/demo_cues.json":
+                return self._send(200, (ROOT / "app" / "static" / "demo_cues.json").read_bytes())
+            if u.path in ("/slides", "/prompter"):
+                return self._send(200, (ROOT / "app" / "static" / (u.path[1:] + ".html")).read_bytes(), "text/html; charset=utf-8")
+            if u.path == "/api/cost":
+                return self._send(200, cost())
             if u.path == "/api/stats":
                 return self._send(200, stats())
             if u.path == "/api/assess":
@@ -294,7 +353,11 @@ class Handler(BaseHTTPRequestHandler):
             if u.path == "/api/ask":
                 params = None if q.get("q") else {"date": q["date"], "time": q.get("time", "12:00"),
                                                   "site": q.get("site", "CCSFS"), "vehicle": q.get("vehicle", "falcon_9")}
-                return self._send(200, officer.run(assess, qwen, question=q.get("q"), params=params, local_search=local_search))
+                return self._send(200, officer.run(assess, qwen, question=q.get("q"), params=params, local_search=local_search,
+                                                   alternatives_fn=alternatives))
+            if u.path == "/api/alternatives":
+                return self._send(200, alternatives(date.fromisoformat(q["date"]), q.get("time", "12:00"), q.get("site", "CCSFS"),
+                                                    q.get("vehicle", "falcon_9")))
             if u.path == "/api/memory":
                 return self._send(200, memory.status())
             if u.path == "/api/qwen":
@@ -313,7 +376,12 @@ class Handler(BaseHTTPRequestHandler):
         rec = {"at": datetime.now(timezone.utc).isoformat(timespec="seconds"), **body}
         with (ROOT / "data" / "corrections.jsonl").open("a") as f:
             f.write(json.dumps(rec) + "\n")
-        self._send(200, {"saved": True})
+        a = body.get("assessment") or {}
+        fact = (f"Correction for {a.get('vehicle', '')} at {a.get('site_name', a.get('site', ''))} {a.get('date', '')} "
+                f"{a.get('time', '')} UTC (officer said {body.get('verdict')}): {body.get('correction', '')}")
+        res = memory.remember(fact, provenance=f"Scrubline console correction {rec['at']}",
+                              entity=f"launch-windows/{str(a.get('site', 'cape')).lower()}")
+        self._send(200, {"saved": True, **res})
 
     def log_message(self, format, *args):
         pass

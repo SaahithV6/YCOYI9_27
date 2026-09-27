@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrubline · Slides</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0a09;--p1:#141211;--p2:#1b1917;--line:#2a2623;--text:#f3eee8;--muted:#a39a90;--dim:#6f675f;--teal:#14b8a6;--sky:#0ea5e9;--red:#ef4444;--amber:#eab308;--green:#22c55e}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+.slide{position:absolute;inset:0;padding:5.5vh 6vw;display:none;flex-direction:column}
+.slide.on{display:flex;animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.eyebrow{font:700 1.3vw 'JetBrains Mono';letter-spacing:.2em;color:var(--teal);text-transform:uppercase}
+h1{font-size:4vw;line-height:1.05;margin:1.4vh 0 2.4vh;font-weight:800;letter-spacing:-.02em}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grid{display:grid;gap:2vw;flex:1;min-height:0}
+#s2 .grid{flex:none}
+#costyears div{position:relative}
+#costyears b.av{position:absolute;bottom:2.6vh;left:0;background:linear-gradient(180deg,#4ade80,#15803d);opacity:.9}
+.card{background:var(--p1);border:1px solid var(--line);border-radius:1.2vw;padding:2.4vh 1.6vw;min-width:0}
+.big{font:800 5.2vw 'JetBrains Mono';letter-spacing:-.03em;line-height:1}
+.lab{color:var(--muted);font-size:1.25vw;margin-top:1vh;line-height:1.35}
+.k{font:700 .95vw 'JetBrains Mono';letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4vh}
+.bar{display:grid;grid-template-columns:11vw 1fr 3.5vw;gap:1vw;align-items:center;margin:1.1vh 0;font-size:1.15vw}
+.track{display:block;height:2.2vh;background:var(--p2);border-radius:.6vh;overflow:hidden}
+.track i{display:block;height:100%;border-radius:.6vh;transition:width 1.2s ease}
+.years{display:flex;align-items:flex-end;gap:1vw;height:22vh;margin-top:1vh}
+.years div{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.6vh;font:600 1vw 'JetBrains Mono';color:var(--muted)}
+.years b{display:block;width:100%;border-radius:.5vh .5vh 0 0;background:linear-gradient(180deg,var(--red),#b91c1c);transition:height 1.2s ease}
+.src{position:absolute;left:6vw;right:6vw;bottom:2.6vh;font-size:.85vw;color:var(--dim);line-height:1.45}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1.4vw;margin-top:1vh;flex:1;margin-bottom:6vh}
+.node{background:var(--p1);border:1px solid var(--line);border-radius:1vw;padding:1.8vh 1.1vw;position:relative}
+.node .t{font-weight:700;font-size:1.55vw}.node .d{color:var(--muted);font-size:1.15vw;margin-top:1vh;line-height:1.45}
+.node .m{font:700 1.1vw 'JetBrains Mono';color:var(--teal);margin-top:1vh}
+.node.sponsor{border-color:rgba(20,184,166,.55);box-shadow:0 0 0 1px rgba(20,184,166,.15) inset}
+.tag{position:absolute;top:1.2vh;right:1vw;font:700 .75vw 'JetBrains Mono';letter-spacing:.1em;color:var(--sky)}
+.nav{position:fixed;right:2vw;bottom:2vh;font:600 1vw 'JetBrains Mono';color:var(--dim)}
+.brand{position:fixed;left:6vw;top:2.4vh;font:800 1vw Inter;letter-spacing:.22em;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="brand">SCRUBLINE</div>
+
+<section class="slide on" id="s1">
+  <div class="eyebrow" style="margin-top:3vh">01 · The problem</div>
+  <h1>Weather is the scrub<br><em>you can see coming.</em></h1>
+  <div class="grid" style="grid-template-columns:1fr 1.25fr 1fr">
+    <div class="card"><div class="k">Known scrub causes, Cape 2020–26</div><div id="causes"></div></div>
+    <div class="card"><div class="k">Weather scrubs per year</div><div class="years" id="years"></div>
+      <div class="lab">and launch cadence keeps climbing: <b style="color:var(--text)">72 → 93 → 109</b> Cape launches (2023–25)</div></div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div><div class="big" id="wxshare" style="color:var(--red)">59%</div><div class="lab">of scrubs with a known cause were weather (<span id="wxn">91 of 154</span>)</div></div>
+      <div><div class="big">73<span style="color:var(--dim)">/143</span></div><div class="lab">launches a year flown vs what the pads have demonstrated</div></div>
+    </div>
+  </div>
+  <div class="src">Scrub record: Launch Library 2 update stream, labeled by operator statement / webcast / press (scrubline). Cadence: Florida Today 2025-07-17, Central Florida Public Media 2025-12-26, The Space Review 2026-02-09.</div>
+</section>
+
+<section class="slide" id="s2">
+  <div class="eyebrow" style="margin-top:3vh">02 · The money</div>
+  <h1>Weather scrubs cost the Cape<br><em id="h2total">~$61M</em> since 2021.</h1>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card"><div class="k">One weather scrub</div><div class="big" id="per">$0.7M</div>
+      <div class="lab" id="perbreak">attempt cost (propellant, range, team) + one day of delay</div></div>
+    <div class="card"><div class="k">Every year, and rising</div><div class="big" id="peryr">$9M</div>
+      <div class="lab"><span id="n">91</span> weather scrubs in <span id="span">2021–26</span>, from 6 in 2021 to 27 in 2025</div></div>
+    <div class="card" style="border-color:rgba(34,197,94,.45)"><div class="k" style="color:#4ade80">Avoidable with Scrubline</div><div class="big" id="avoid" style="color:#4ade80">$28M</div>
+      <div class="lab">moving just the riskiest 10% of launch hours avoids <b style="color:var(--text)" id="avpct">47%</b> of weather scrubs</div></div>
+  </div>
+  <div class="card" style="margin-top:2vh;flex:1;display:flex;flex-direction:column;min-height:0">
+    <div class="k">Weather-scrub cost per year (central estimate)</div>
+    <div class="years" id="costyears" style="flex:1;height:auto"></div>
+    <div class="lab" style="margin-top:1vh" id="range">Range: low–high.</div></div>
+  <div class="src">Per-scrub model (data/cost/scrub_cost_sources.md): Falcon 9 propellant ~$200–300k (Musk, Space.com 2017-04-10); Eastern Range ~$300M/yr contracting (USSF, 2021) allocated per attempt; one day of delay valued at the Jupiter-3 delay compensation ~$8M/month (2022). No agency publishes a per-scrub cost: components are sourced, the bridge to "per scrub" is a labeled assumption. Avoidable share: out-of-fold model ranking.</div>
+</section>
+
+<section class="slide" id="s3">
+  <div class="eyebrow" style="margin-top:3vh">03 · The solution</div>
+  <h1>A launch weather officer<br><em>with receipts.</em></h1>
+  <div class="flow">
+    <div class="node"><div class="t">Every past attempt</div><div class="d">1,502 non-launches, observed weather at the pad (METAR, GOES lightning, radar, soundings), 525 archived Space Force forecasts</div><div class="m">286 scrubs · 91 weather</div></div>
+    <div class="node"><div class="t">Weather-risk model</div><div class="d">LightGBM on archived forecasts at each attempt's hour: trained on what a forecast said, served on a forecast. Zero tokens.</div><div class="m">ROC-AUC 0.735 on unseen 2025–26</div></div>
+    <div class="node"><div class="t">All 10 launch rules</div><div class="d">Value vs limit for every Lightning Launch Commit Criterion, estimated from the forecast profile; lightning calibrated on GOES flashes</div><div class="m">3 estimators built in parallel</div></div>
+    <div class="node sponsor"><span class="tag">RIVER</span><div class="t">Fine-tuned Qwen3.5-9B</div><div class="d">LoRA SFT on River: "will weather stop this attempt?" Second opinion next to LightGBM</div><div class="m">precision 0.57 vs 0.48</div></div>
+    <div class="node sponsor"><span class="tag">RIVER</span><div class="t">Qwen officer</div><div class="d">Parses the question, runs the tools in parallel, calls search_memory itself, writes the call. A hard gate keeps it honest.</div><div class="m">~10 s end to end</div></div>
+    <div class="node sponsor"><span class="tag">GBRAIN</span><div class="t">Memory that learns</div><div class="d">389 mission pages, rule + forecast pages; Qwen searches it live, and corrections are written back as facts</div><div class="m">precedents with sources</div></div>
+    <div class="node"><div class="t">Launch console</div><div class="d">Status board, atmosphere profile, launch simulation, 7-day window planner, better-window suggestions</div><div class="m">pick the hour before the pad</div></div>
+    <div class="node" style="border-color:rgba(34,197,94,.45)"><div class="t" style="color:#4ade80">Outcome</div><div class="d">Move the riskiest hours before committing the pad</div><div class="m" style="color:#4ade80" id="s3avoid">47% of weather scrubs avoidable</div></div>
+  </div>
+  <div class="src">Call logic: NO-GO if the forecast shows rain or thunder at T-0; LIKELY NO-GO on a medium/high-confidence estimated rule violation; never plain GO from a forecast. Estimates are labeled as estimates.</div>
+</section>
+
+<div class="nav" id="nav">1 / 3 · ← →</div>
+<script>
+const $ = id => document.getElementById(id);
+let cur = 0; const S = [...document.querySelectorAll(".slide")];
+function show(i) { cur = Math.max(0, Math.min(S.length - 1, i)); S.forEach((s, j) => s.classList.toggle("on", j === cur)); $("nav").textContent = `${cur + 1} / ${S.length} · ← →`; }
+addEventListener("keydown", e => { if (["ArrowRight", " ", "PageDown"].includes(e.key)) show(cur + 1); if (["ArrowLeft", "PageUp"].includes(e.key)) show(cur - 1); });
+addEventListener("click", () => show(cur + 1));
+window.show = show;
+const M = v => v >= 1e6 ? `$${(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)}M` : `$${Math.round(v / 1e3)}k`;
+const NAMES = {WX_LAUNCH_SITE:"Weather · site", VEHICLE:"Vehicle", RANGE:"Range", WX_RECOVERY:"Weather · recovery", SCHEDULE:"Schedule", WX_UPPER_WINDS:"Weather · upper winds", GROUND_SYSTEM:"Ground system", PAYLOAD:"Payload"};
+fetch("/api/stats").then(r => r.json()).then(s => {
+  $("wxshare").textContent = s.weather_share_pct + "%"; $("wxn").textContent = `${s.weather_scrubs} of ${s.known_cause_scrubs}`;
+  const mx = Math.max(...Object.values(s.causes));
+  $("causes").innerHTML = Object.entries(s.causes).map(([k, v]) => `<div class="bar"><span>${NAMES[k] || k}</span><span class="track"><i style="width:0;background:${k.startsWith("WX") ? "var(--red)" : "#57534e"}" data-w="${100 * v / mx}"></i></span><span style="font-family:JetBrains Mono">${v}</span></div>`).join("");
+  setTimeout(() => document.querySelectorAll("#causes i").forEach(i => i.style.width = i.dataset.w + "%"), 150);
+});
+fetch("/api/cost").then(r => r.json()).then(c => {
+  const ys = Object.entries(c.by_year).filter(([y]) => y >= "2021"), mx = Math.max(...ys.map(([, v]) => v));
+  $("years").innerHTML = ys.map(([y, v]) => `<div><span>${v}</span><b style="height:0" data-h="${100 * v / mx}"></b><span>${y}${y === "2026" ? "*" : ""}</span></div>`).join("");
+  setTimeout(() => document.querySelectorAll("#years b").forEach(b => b.style.height = b.dataset.h + "%"), 150);
+  if (!c.total) return;
+  $("h2total").textContent = "~" + M(c.total.central); $("per").textContent = M(c.per_scrub.central);
+  $("perbreak").textContent = `${M(c.per_scrub_breakdown.direct.central)} attempt cost (propellant, range, team) + ${M(c.per_scrub_breakdown.one_day_delay.central)} for one day of delay`;
+  $("peryr").textContent = M(c.per_year.central); $("n").textContent = c.weather_scrubs; $("span").textContent = "2021–26";
+  $("avoid").textContent = M(c.avoidable_total.central); $("avpct").textContent = Math.round(100 * c.avoidable_share) + "%";
+  $("s3avoid").textContent = `${Math.round(100 * c.avoidable_share)}% of weather scrubs · ~${M(c.avoidable_total.central)} avoidable`;
+  const per = c.per_scrub.central, cy = ys.map(([y, v]) => [y, v * per]), cmx = Math.max(...cy.map(([, v]) => v));
+  $("costyears").innerHTML = cy.map(([y, v]) => `<div><span>${M(v)}</span><b style="height:0;background:linear-gradient(180deg,#ef4444,#7f1d1d)" data-h="${100 * v / cmx}"></b><span>${y}${y === "2026" ? "*" : ""}</span></div>`).join("");
+  setTimeout(() => document.querySelectorAll("#costyears b").forEach(b => b.style.height = (0.82 * b.dataset.h) + "%"), 200);
+  $("range").innerHTML = `Range across the cost model: <b style="color:var(--text)">${M(c.total.low)} – ${M(c.total.high)}</b> total since 2021 (central ${M(c.total.central)}), avoidable <b style="color:var(--text)">${M(c.avoidable_total.low)} – ${M(c.avoidable_total.high)}</b>. *2026 through September.`;
+});
+</script>
+</body>
+</html>

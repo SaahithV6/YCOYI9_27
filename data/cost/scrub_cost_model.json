@@ -1,0 +1,47 @@
+{
+  "per_scrub_usd": {
+    "low": 100000,
+    "central": 400000,
+    "high": 1050000
+  },
+  "components": [
+    {
+      "name": "Propellant & pressurant (assumed lost/reloaded fraction, Falcon 9)",
+      "low": 50000,
+      "central": 150000,
+      "high": 300000,
+      "source": "assumption, anchored to sourced figures: Elon Musk stated Falcon 9's full-vehicle propellant+pressurant cost at ~$200,000 (https://www.nextbigfuture.com/2012/05/interview-elon-musk-of-spacex-talks.html, 2012 interview) and separately that refueling a reusable first stage runs ~$200,000-$300,000 (https://www.space.com/36412-spacex-completely-reusable-rocket-elon-musk.html, 2017-04-10). No public source states what fraction of a loaded scrub is actually vented/lost vs. detanked and reused (informal discussion only: https://www.reddit.com/r/spacex/comments/28tgm6/how_much_does_a_scrub_cost/, 2014-06-22, explicitly speculative). LOW assumes most propellant is recovered; HIGH assumes a near-full reload is needed."
+    },
+    {
+      "name": "Range & launch-team labor for the extra countdown/turnaround day",
+      "low": 50000,
+      "central": 250000,
+      "high": 750000,
+      "source": "assumption, derived from two sourced numbers with no public marginal-cost figure to connect them: Space Launch Delta 45 (Eastern Range) obligates roughly $300 million/year in contracts (https://www.airforcesmallbiz.af.mil/Portals/58/Brochures/USSF%20Trifold%20Sept%2021.pdf, Sept 2021 SLD45 small-business brief) across ~109 Cape Canaveral/KSC launches in 2025 (https://www.cfpublic.org/space/2025-12-26/florida-rocket-launches-break-record-reaching-triple-digits-in-2025, 2025-12-26), i.e. ~$2.75M of range-support spend allocated per launch on average. This line assumes a scrub/recycle consumes a small share (roughly 2%-25%) of that as marginal range and launch-team overtime/labor for one extra day; neither SpaceX nor SLD45 publishes an actual per-scrub labor charge, so treat this as an order-of-magnitude allocation, not a billed cost."
+    }
+  ],
+  "delay_cost_per_day_usd": {
+    "low": 20000,
+    "central": 267000,
+    "high": 1000000,
+    "source": "No public per-day 'satellite revenue lost to launch delay' figure was found. CENTRAL uses the closest sourced analog: Maxar's settlement paying EchoStar/Hughes ~$8M/month (~$267,000/day) in compensation for delaying delivery of the Jupiter-3/EchoStar-24 GEO broadband satellite (https://www.kratosspace.com/constellations/articles/maxar-concessions-to-echostar-for-jupiter-3-delay-show-limit-of-force-majeure, 2022-11-23) -- this is a satellite-manufacturing delay payment, not a launch-scrub-specific figure, but is the best available sourced order-of-magnitude proxy for one day of a large GEO satellite's delayed revenue. LOW assumes a small rideshare/smallsat payload with near-zero daily opportunity cost. HIGH is an unsourced order-of-magnitude ceiling assumption for a flagship GEO comsat or national-security payload generating higher daily revenue/strategic value; no public source was found for it."
+  },
+  "cadence": [
+    {
+      "year": 2023,
+      "cape_launches": 72,
+      "source": "https://eu.app.com/story/tech/science/space/2025/07/17/will-cape-canaveral-see-unprecedented-100-rocket-launches-during-2025-in-brevard-county-florida/85196064007/ (Florida Today/USA Today Network, 2025-07-17)"
+    },
+    {
+      "year": 2024,
+      "cape_launches": 93,
+      "source": "https://eu.app.com/story/tech/science/space/2025/07/17/will-cape-canaveral-see-unprecedented-100-rocket-launches-during-2025-in-brevard-county-florida/85196064007/ (Florida Today/USA Today Network, 2025-07-17; 2024 called a 'record-shattering' year at the time)"
+    },
+    {
+      "year": 2025,
+      "cape_launches": 109,
+      "source": "https://www.cfpublic.org/space/2025-12-26/florida-rocket-launches-break-record-reaching-triple-digits-in-2025 (Central Florida Public Media, 2025-12-26), corroborated by https://thespacereview.com/article/5156/1 (The Space Review, 2026-02-09: '109 launches from KSC and ... Cape Canaveral Space Force Station' in 2025, 101 of them SpaceX Falcon 9)"
+    }
+  ],
+  "notes": "This model covers Falcon 9 / Cape Canaveral-Kennedy Space Center only; ULA and SLS-specific direct-cost figures were not found and are not included. No SpaceX, NASA, GAO, or Space Force document publishes an actual per-scrub dollar figure for Falcon 9 -- every component above is either a sourced base number with an explicitly labeled assumption connecting it to a 'per scrub' cost, or is left out entirely (helium/nitrogen consumable cost, droneship/recovery-fleet day rate, and SpaceX 'standing army' payroll all have no public dollar figures and were omitted rather than invented; see scrub_cost_sources.md for detail). The commonly repeated 'Space Shuttle scrub cost ~$1 million' claim could not be traced to a primary NASA/GAO document in this research pass; the closest sourced Shuttle-era $1M figure found is for fuel plus overtime on a LANDING diversion to California (https://ictnews.org/archive/herringtons-shuttle-sets-new-record-for-landing-delays/, 2002-12-06), not a launch scrub, and a former Shuttle launch/program official has publicly cautioned that clean per-event Shuttle cost figures are contested (https://waynehale.wordpress.com/2019/11/09/what-figure-did-you-have-in-mind/, 2019-11-09). NASA OIG's ~$4.1 billion per-launch figure for SLS/Orion (Artemis I-IV) is a total production-and-operations cost, not a scrub increment, and is cited only as unrelated context, not folded into the Falcon-9 model. Falcon 9 list price ($67M as of the March 2022 increase, https://www.space.com/spacex-raises-prices-launch-starlink-inflation) is provided as reference/context for the value of a launch, not used directly as a cost component. Cape Canaveral/KSC cadence for 2020-2022 was not found from a citable Cape-specific source in this pass and was omitted rather than estimated."
+}

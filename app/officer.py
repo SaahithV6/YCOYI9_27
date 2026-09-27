@@ -65,14 +65,12 @@ def parse(question):
 
 def gate(a):
     """Calls the evidence allows. Qwen picks within these; it cannot move the call across the deterministic line."""
-    if a["verdict"] == "NO-GO":
-        return ["NO-GO"]
-    if a["verdict"] == "LIKELY NO-GO":          # a medium/high-confidence estimated violation exists
-        return ["LIKELY NO-GO", "UNDECIDED"]
-    return ["UNDECIDED", "LIKELY GO"]          # nothing deciding: advisory / low-confidence flags cannot make it a no-go
+    # The call is the deterministic one (rules + forecast + risk). Qwen explains it, searches memory and suggests
+    # better windows; it cannot move the call in either direction.
+    return [a["verdict"]]
 
 
-def narrate(a, qw, mem, allowed, local_search=None, trace=None):
+def narrate(a, qw, mem, allowed, local_search=None, trace=None, alts=None):
     viol = [f"{c['id']} {c['rule']}: {c.get('value')} {c.get('unit') or ''} vs limit {c.get('threshold_desc') or c.get('threshold')} "
             f"({c.get('confidence')} confidence{', advisory' if c['id'] == 'LLCC-9' else ''})"
             for c in a["checks"] if c["status"] in ("ESTIMATED_VIOLATION", "NO_GO")]
@@ -86,13 +84,16 @@ def narrate(a, qw, mem, allowed, local_search=None, trace=None):
         "cloud_layers": a.get("cloud_layers"), "freezing_level_ft": a.get("freezing_level_ft"),
         "precedents": [p.get("mission", "") + (f" ({p['outcome']})" if p.get("outcome") else "") for p in mem["items"][:5]],
         "precedent_source": mem["source"],
+        "better_windows": [f"{x['date']} {x['time']} UTC ({x['shift_hours']:+d} h): {x['call']}, risk higher than "
+                           f"{x['pct_vs_flew']}% of flown, {x['rules_clear']}/{x['rules_total']} rules clear"
+                           for x in (alts or {}).get("alternatives", [])[:3]],
     }
     messages = [{"role": "system", "content":
                    "You are the launch weather officer for Cape Canaveral / Kennedy. First call search_memory (at most 3 times) to "
                    "find past attempts like this one, then, using ONLY the evidence JSON and the memory results, make the "
                    f"weather call. The call MUST be one of {allowed}. Final reply: only JSON "
                    '{"call": "...", "headline": "one sentence", "reasons": ["3 short reasons, each citing a tool: rules, LightGBM, fine-tuned Qwen, precedents"], '
-                   '"watch": ["what would change the call"]}. Quote numbers exactly as the evidence states them; '
+                   '"watch": ["what would change the call"], "suggest": "if the call is not LIKELY GO, recommend the best of better_windows in one sentence"}. Quote numbers exactly as the evidence states them; '
                    'never state a threshold, limit or number that is not in the evidence. "watch" items must name conditions, not new numbers.'},
                   {"role": "user", "content": json.dumps(evidence)}]
     text, searches = "", []
@@ -123,7 +124,7 @@ def narrate(a, qw, mem, allowed, local_search=None, trace=None):
     return out, evidence
 
 
-def run(assess_fn, qwen_fn, question=None, params=None, local_search=None):
+def run(assess_fn, qwen_fn, question=None, params=None, local_search=None, alternatives_fn=None):
     trace, t0 = [], time.time()
 
     def step(name, fn, *args):
@@ -141,9 +142,10 @@ def run(assess_fn, qwen_fn, question=None, params=None, local_search=None):
     args = (d, params["time"], params["site"], params["vehicle"])
 
     s = time.time()
-    with ThreadPoolExecutor(3) as ex:
+    with ThreadPoolExecutor(4) as ex:
         fa = ex.submit(assess_fn, *args)
         fq = ex.submit(qwen_fn, *args)
+        falt = ex.submit(alternatives_fn, *args) if alternatives_fn else None
         a = fa.result()
         if "error" in a:
             return {"params": params, "error": a["error"], "trace": trace}
@@ -151,21 +153,25 @@ def run(assess_fn, qwen_fn, question=None, params=None, local_search=None):
             c["rule"] for c in a["checks"] if c["status"] in ("ESTIMATED_VIOLATION", "NO_GO"))[:200]
         fm = ex.submit(memory.precedents, a["precedents"], q)
         qw, mem = fq.result(), fm.result()
+        alts = falt.result() if falt else {"alternatives": []}
     par_ms = round(1000 * (time.time() - s))
     trace += [{"step": "Forecast + rule estimates + LightGBM", "ok": True, "ms": par_ms, "parallel": True},
               {"step": "Fine-tuned Qwen (River checkpoint)", "ok": qw.get("available", False), "ms": par_ms, "parallel": True,
                "note": qw.get("reason", "")},
               {"step": f"Memory · precedents ({mem['source']})", "ok": True, "ms": par_ms, "parallel": True,
-               "note": mem.get("gbrain_error", "")}]
+               "note": mem.get("gbrain_error", "")},
+              {"step": f"Better windows · {len(alts['alternatives'])} LIKELY GO hours with full rule checks", "ok": True,
+               "ms": par_ms, "parallel": True}]
 
     allowed = step("Gate · allowed calls", gate, a)
     try:
         s = time.time()
-        brief, evidence = narrate(a, qw, mem, allowed, local_search, trace)
+        brief, evidence = narrate(a, qw, mem, allowed, local_search, trace, alts)
         trace.append({"step": "Qwen · write the call", "ok": True, "ms": round(1000 * (time.time() - s))})
     except Exception as e:
         brief, evidence = {"call": a["verdict"], "headline": a["verdict_reason"], "reasons": [], "watch": []}, {}
         trace.append({"step": "Qwen · write the call", "ok": False, "ms": 0, "note": f"{type(e).__name__}: {e}"[:200]})
     return {"params": params, "assessment": a, "qwen_classifier": qw, "memory": mem, "allowed_calls": allowed,
+            "alternatives": alts.get("alternatives", []),
             "brief": brief, "evidence": evidence, "trace": trace, "total_ms": round(1000 * (time.time() - t0)),
             "at": datetime.now(timezone.utc).isoformat(timespec="seconds")}

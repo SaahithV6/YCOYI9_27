@@ -107,6 +107,14 @@ input:focus,select:focus{outline:0;border-color:var(--blue)}
 #heat .c.now{box-shadow:inset 0 0 0 2px #fff}
 .legend{display:flex;gap:14px;margin-top:12px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.sim{position:relative}
+#simc{width:100%;height:340px;display:block;border-radius:10px;background:#0f0d0c}
+.simbar{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.alts{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.alt{background:var(--p2);border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:10px 12px}
+.alt .k{font:700 13px 'JetBrains Mono'} .alt .s{font-size:11.5px;color:var(--muted);margin-top:3px}
+.alt button{margin-top:8px;width:100%;border:1px solid var(--line2);background:var(--p1);border-radius:7px;padding:6px;cursor:pointer;font-size:12px}
+.alt button:hover{border-color:#22c55e}
 .best{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
 .best button{background:var(--p2);border:1px solid rgba(74,222,128,.3);border-radius:9px;padding:9px;text-align:left;cursor:pointer}
 .best button:hover{border-color:#4ade80}
@@ -185,6 +193,12 @@ footer{padding:18px 20px 40px;color:var(--dim);font-size:12px;line-height:1.6;bo
   <button class="ghost" id="replay" style="position:absolute;right:12px;bottom:12px;z-index:5;margin:0">▶ Replay ascent</button></div></div>
 </div>
 
+<div class="row3"><div class="panel sim">
+  <div class="ph"><h3>Launch simulation</h3><span id="simnote">driven by the assessment: forecast cloud layers, freezing level, rule calls</span></div>
+  <canvas id="simc" width="1400" height="340"></canvas>
+  <div class="simbar"><button class="ghost" id="simb" style="margin:0">▶ Simulate launch</button><span class="small" id="simres"></span></div>
+  <div id="altwrap" style="display:none"><div class="ph" style="margin-top:14px"><h3>Better windows</h3><span>LIKELY GO hours nearby, full rule check on each</span></div><div class="alts" id="alts"></div></div>
+</div></div>
 <div class="row2">
   <div class="panel"><div class="ph"><h3>Atmosphere at T-0</h3><span>temperature · cloud (RH ≥ 90%) · wind</span></div><svg id="prof" viewBox="0 0 460 330" style="width:100%"></svg></div>
   <div class="panel"><div class="ph"><h3>What drives the risk</h3><span>log-odds contribution</span></div><div id="factors" class="empty">–</div></div>
@@ -306,7 +320,8 @@ async function runOfficer(query) {
     if (r.error) { $("err").textContent = r.error; return; }
     const p = r.params; $("date").value = p.date; $("time").value = p.time; $("vehicle").value = p.vehicle;
     if (p.site !== site) { site = p.site; [...$("tabs").children].forEach(x => x.classList.toggle("on", x.dataset.site === site)); loadWeek(); }
-    last = r.assessment; render(r.assessment); showSite(r.brief.call || r.assessment.verdict, r.assessment); renderBrief(r);
+    last = r.assessment; lastCall = r.brief.call || r.assessment.verdict; render(r.assessment); showSite(lastCall, r.assessment); renderBrief(r);
+    renderAlts(r.alternatives || [], lastCall); simulate(r.assessment, lastCall);
   } catch (e) { $("err").textContent = "Server error: " + e; }
   finally { $("go").disabled = false; $("askb").disabled = false; $("go").textContent = "Run weather assessment"; }
 }
@@ -377,6 +392,80 @@ function fmtVal(c) { if (c.value == null) return c.status === "NOT_ESTIMABLE" ? 
   return `${c.status.startsWith("ESTIMATED") ? "≈" : ""}${fmtN(c.value)} ${c.unit || ""}`; }
 function fmtThr(c) { if (c.threshold == null) return c.threshold_desc ? (c.threshold_desc.length > 26 ? c.threshold_desc.slice(0, 24) + "…" : c.threshold_desc) : "";
   return `limit ${fmtN(c.threshold)} ${c.unit && c.unit.length < 8 ? c.unit : ""}`; }
+// ---------------- launch simulation ----------------
+let lastCall = null, simRAF = null;
+function simScene(a) {
+  const pr = (a.profile || []).filter(p => p.ft != null), clouds = [];
+  for (let i = 0; i < pr.length; i++) if (pr[i].rh >= 90) {
+    const lo = i ? (pr[i - 1].ft + pr[i].ft) / 2 : pr[i].ft - 900, hi = i < pr.length - 1 ? (pr[i].ft + pr[i + 1].ft) / 2 : pr[i].ft + 900;
+    clouds.push([lo, hi, pr[i].temp_c]); }
+  const iso = t => { for (let i = 1; i < pr.length; i++) { const a0 = pr[i - 1], b0 = pr[i];
+      if ((a0.temp_c - t) * (b0.temp_c - t) <= 0 && a0.temp_c !== b0.temp_c) return a0.ft + (t - a0.temp_c) / (b0.temp_c - a0.temp_c) * (b0.ft - a0.ft); } return null; };
+  const chk = id => (a.checks || []).find(c => c.id === id) || {};
+  const deciding = (a.checks || []).filter(c => c.status === "NO_GO" || (c.status === "ESTIMATED_VIOLATION" && ["medium", "high"].includes(c.confidence) && c.id !== "LLCC-9"));
+  return {clouds, frz:a.freezing_level_ft, m10:iso(-10), m20:iso(-20), rain:(chk("PRECIP").value || 0) > 0,
+          lightning: chk("LLCC-1").status === "ESTIMATED_VIOLATION" || chk("THUNDER").status === "NO_GO", deciding};
+}
+function fmtRule(c) { return `${c.id} ${SHORT[c.id] || c.rule}${c.value != null ? `: ${fmtN(c.value)} ${c.unit || ""}` : ""}${c.threshold_desc ? ` (limit: ${c.threshold_desc})` : ""}`; }
+function simulate(a, call) {
+  if (!a) return; cancelAnimationFrame(simRAF);
+  const cv = $("simc"), g = cv.getContext("2d"), W = cv.width, H = cv.height, sc = simScene(a), maxFt = 45000;
+  const Y = ft => H - 30 - ft / maxFt * (H - 60), go = call === "LIKELY GO";
+  const reason = call === "NO-GO" || call === "LIKELY NO-GO" ? (sc.deciding[0] ? fmtRule(sc.deciding[0]) : "estimated rule violation")
+               : call === "UNDECIDED" ? "weather risk above the typical flown launch; waiting on the Space Force L-1 forecast" : "";
+  const holdAt = call === "NO-GO" ? 4 : call === "LIKELY NO-GO" ? 2 : call === "UNDECIDED" ? 1 : -1;  // countdown second that holds
+  $("simres").textContent = ""; const t0 = performance.now(), drops = Array.from({length:160}, () => [Math.random() * W, Math.random() * H]);
+  const ASC = [[0,0,0],[4,800,6],[8,4000,30],[12,12000,90],[16,26000,220],[20,45000,420],[24,70000,700]];  // sim-seconds, ft, px downrange
+  function rocketAt(t) { for (let i = 1; i < ASC.length; i++) if (t <= ASC[i][0]) { const [ta, fa, xa] = ASC[i - 1], [tb, fb, xb] = ASC[i], k = (t - ta) / (tb - ta);
+      return [xa + k * (xb - xa), fa + k * (fb - fa), Math.atan2(-(fb - fa) / maxFt * (H - 60), xb - xa)]; } return [ASC.at(-1)[2], ASC.at(-1)[1], -0.6]; }
+  function frame(now) {
+    const s = (now - t0) / 1000; g.clearRect(0, 0, W, H);
+    const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, "#07080b"); sky.addColorStop(1, sc.rain ? "#1c1f24" : "#1a2230"); g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    g.font = "11px JetBrains Mono"; g.fillStyle = "#6f675f";
+    for (let ft = 0; ft <= maxFt; ft += 10000) { g.fillText(`${ft / 1000}k ft`, 8, Y(ft) + 4); g.strokeStyle = "rgba(255,255,255,.04)"; g.beginPath(); g.moveTo(60, Y(ft)); g.lineTo(W, Y(ft)); g.stroke(); }
+    for (const [lo, hi, tc] of sc.clouds) { const y1 = Y(hi), y2 = Y(lo); g.fillStyle = tc < -20 ? "rgba(203,213,225,.13)" : "rgba(231,229,228,.22)";
+      for (let x = 60; x < W; x += 46) { g.beginPath(); g.ellipse(x + 20 * Math.sin(x + s * .3), (y1 + y2) / 2, 42, Math.max(6, (y2 - y1) / 2), 0, 0, 7); g.fill(); } }
+    for (const [ft, col, lab] of [[sc.frz, "#5eead4", "0 °C freezing level"], [sc.m10, "#a78bfa", "-10 °C"], [sc.m20, "#f472b6", "-20 °C"]]) if (ft) {
+      g.setLineDash([6, 6]); g.strokeStyle = col; g.globalAlpha = .7; g.beginPath(); g.moveTo(60, Y(ft)); g.lineTo(W, Y(ft)); g.stroke(); g.setLineDash([]); g.globalAlpha = 1;
+      g.fillStyle = col; g.fillText(`${lab} · ${Math.round(ft).toLocaleString()} ft`, W - 230, Y(ft) - 5); }
+    if (sc.rain) { g.strokeStyle = "rgba(148,163,184,.35)"; for (const d of drops) { d[1] = (d[1] + 9) % H; g.beginPath(); g.moveTo(d[0], d[1]); g.lineTo(d[0] - 3, d[1] + 10); g.stroke(); } }
+    if (sc.lightning && Math.floor(s * 3) % 5 === 0) { g.strokeStyle = "#fde68a"; g.lineWidth = 2.5; g.beginPath(); let x = 420 + 300 * Math.abs(Math.sin(Math.floor(s))), y = Y(20000); g.moveTo(x, y);
+      for (let i = 0; i < 6; i++) { x += (Math.random() - .5) * 40; y += (H - 30 - Y(20000)) / 6; g.lineTo(x, y); } g.stroke(); g.lineWidth = 1; }
+    g.fillStyle = "#3a3531"; g.fillRect(0, H - 30, W, 30); g.fillStyle = "#78716c"; g.fillRect(96, H - 70, 8, 40); g.fillRect(90, H - 34, 60, 4);
+    // countdown -> hold or liftoff
+    const cd = 5 - Math.floor(s), held = holdAt >= 0 && cd <= holdAt, lift = !held && s >= 5.2;
+    let rx = 128, rft = 0, ang = -Math.PI / 2;
+    if (lift) { const [dx, ft, a2] = rocketAt(s - 5.2); rx = 128 + dx; rft = ft; ang = a2 < -0.01 ? a2 : -Math.PI / 2 + (s - 5.2) * 0.05; }
+    g.save(); g.translate(rx, Y(rft) - 4); g.rotate(ang + Math.PI / 2);
+    if (lift) { const fl = 18 + 8 * Math.random(); const gr = g.createLinearGradient(0, 14, 0, 14 + fl); gr.addColorStop(0, "#fff7ed"); gr.addColorStop(.4, "#fb923c"); gr.addColorStop(1, "rgba(239,68,68,0)");
+      g.fillStyle = gr; g.beginPath(); g.moveTo(-5, 14); g.lineTo(5, 14); g.lineTo(0, 14 + fl); g.fill(); }
+    g.fillStyle = "#f5f5f4"; g.beginPath(); g.moveTo(0, -20); g.lineTo(5, -10); g.lineTo(5, 14); g.lineTo(-5, 14); g.lineTo(-5, -10); g.closePath(); g.fill();
+    g.fillStyle = "#14b8a6"; g.fillRect(-5, 2, 10, 3); g.restore();
+    if (lift) { g.strokeStyle = "rgba(251,146,60,.35)"; g.lineWidth = 2; g.beginPath(); g.moveTo(128, H - 34);
+      for (let t = 0; t <= s - 5.2; t += .2) { const [dx, ft] = rocketAt(t); g.lineTo(128 + dx, Y(ft)); } g.stroke(); g.lineWidth = 1; }
+    g.font = "700 22px JetBrains Mono"; g.fillStyle = held ? (call === "UNDECIDED" ? "#eab308" : "#ef4444") : "#f3eee8";
+    const label = held ? (s > 6.5 ? (call === "UNDECIDED" ? "HOLD" : "SCRUB") : `HOLD T-00:0${Math.max(cd, holdAt)}`) : lift ? `T+00:${String(Math.floor((s - 5.2) * 6)).padStart(2, "0")}` : `T-00:0${Math.max(cd, 0)}`;
+    g.fillText(label, 220, 40);
+    if (lift) { const ts = s - 5.2; g.font = "12px Inter"; g.fillStyle = "#a39a90";
+      if (ts > 9 && ts < 14) g.fillText("Max-Q", rx + 14, Y(rft)); if (ts > 16 && ts < 21) g.fillText("MECO · stage sep", rx - 150, Y(rft) + 18); }
+    if (held && s > 6.5) { g.font = "600 13px Inter"; g.fillStyle = "#f3eee8"; g.fillText(reason, 220, 64); }
+    const done = lift && s - 5.2 > 24;
+    if (done) { g.font = "700 20px Inter"; g.fillStyle = "#4ade80"; g.fillText("ORBIT INSERTION ✓  launch successful (simulated)", 220, 70);
+      $("simres").textContent = "Simulated success: no deciding rule violated at this hour."; return; }
+    if (held && s > 8) { $("simres").textContent = call === "UNDECIDED" ? "Held: not enough certainty from a forecast alone." : `Scrubbed by ${reason}. See the better windows below.`; return; }
+    simRAF = requestAnimationFrame(frame);
+  }
+  simRAF = requestAnimationFrame(frame);
+}
+$("simb").onclick = () => last && simulate(last, lastCall);
+function renderAlts(alts, call) {
+  if (call === "LIKELY GO" || !alts.length) { $("altwrap").style.display = "none"; return; }
+  $("altwrap").style.display = "";
+  $("alts").innerHTML = alts.map(x => `<div class="alt"><div class="k">${new Date(x.date + "T00:00Z").toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"})} ${x.time}Z</div>
+    <div class="s">${x.shift_hours > 0 ? "+" : ""}${x.shift_hours} h · ${x.call} · riskier than ${x.pct_vs_flew}% of flown</div>
+    <div class="s">${x.rules_clear}/${x.rules_total} rules clear${x.rules_flagged.length ? " · flagged " + x.rules_flagged.join(", ") : ""}</div>
+    <button onclick="pick('${x.date}',${+x.time.slice(0, 2)})">▶ Simulate this window</button></div>`).join("");
+}
 function drawProfile(r) {
   const W = 460, H = 330, L = 44, R = 96, T = 10, B = 28, maxFt = 42000, tMin = -60, tMax = 35;
   const x = t => L + (t - tMin) / (tMax - tMin) * (W - L - R), y = ft => H - B - ft / maxFt * (H - T - B);
@@ -399,8 +488,8 @@ function drawProfile(r) {
 }
 
 $("send").onclick = async () => { if (!last || !$("corr").value.trim()) return;
-  await fetch("/api/correct", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({assessment:last.input, verdict:last.verdict, risk:last.risk, correction:$("corr").value})});
-  $("sent").textContent = "Saved for the next training run."; };
+  const r = await (await fetch("/api/correct", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({assessment:last.input, verdict:last.verdict, risk:last.risk, correction:$("corr").value})})).json();
+  $("sent").textContent = r.saved_to === "gbrain" ? "Saved to GBrain memory and the training log." : "Saved to the training log."; };
 
 // window planner
 const CALLC = {"NO-GO":[239,68,68],"LIKELY NO-GO":[251,146,60],"UNDECIDED":[163,163,163],"LIKELY GO":[34,197,94]};
