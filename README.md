@@ -19,7 +19,7 @@ the correction is remembered, and the next answer is better.
 **For the feasibility check, the questions are:**
 1. Is the demo below buildable in 3h45m with the pieces marked "have"?
 2. Do we trust the enrichment numbers in section 3 (they are measured, see how)?
-3. Which sponsor pieces do we actually wire up: QM, GBrain, River (Memorable optional)?
+3. Sponsors: GBrain (memory, precedents, corrections, scheduled refreshes) and River (cause labeler). QM was dropped: GBrain's hosted workspace already has an agent, chat and scheduled runs, so QM only added Slack.
 
 ## 1. The demo (MVP)
 
@@ -33,7 +33,7 @@ the correction is remembered, and the next answer is better.
 5. A **non-LLM model** scores the chance of a scrub or slip and lists the top factors.
 6. The agent writes **GO / NO-GO / UNDECIDED** with reasons, each one cited. GO requires
    that something was actually decided; otherwise it's UNDECIDED.
-7. The team **corrects** it in Slack; the correction goes to memory and the model retrains.
+7. The user **corrects** it on the page; the correction is saved to GBrain as a sourced fact and the model retrains.
 
 Visual: a CesiumJS globe (the engine GeoFS runs on; GeoFS itself can't be embedded) showing
 the pad, the ascent corridor, real lightning flashes and cloud layers at their altitudes.
@@ -46,10 +46,10 @@ the pad, the ascent corridor, real lightning flashes and cloud layers at their a
 | Space Force forecasts | 45th Weather Squadron | Past pre-launch forecasts (probability of violating weather constraints, primary concerns, shear/solar/recovery ratings) | **have**: 525 forecasts parsed, 2020-2026 (3 not retrievable from the archive, 1 image-only) |
 | Next-week weather | Open-Meteo + NOAA SWPC | 7-day hourly forecast at CCSFS and KSC incl. 11 pressure levels (winds, temps, heights, shear), freezing level, CAPE, cloud cover; 3-day solar Kp | **have** |
 | Prediction | Gradient-boosted trees | Chance of scrub/slip + top factors. Milliseconds, zero tokens | to build |
-| Memory | **GBrain** | Every attempt as an entity with sourced facts; lessons when a prediction was wrong; precedents for explanations | to wire |
-| Agent + team | **QM** | Launch weather officer in Slack/web; feedback in the thread; nightly retrain | to wire |
+| Memory | **GBrain** (gbrain.io) | Every mission as a page with sourced events; lessons when a prediction was wrong; precedents for explanations | **loading**: 391 pages (all 389 missions incl. every unexplained event) |
+| Front end | Web page + CesiumJS | Date / time / rocket input, the recommendation with citations, the correction box, the globe | to build |
+| Scheduled jobs | **GBrain** (gbrain.io schedules) | Refresh the week's forecast, check for new Space Force forecasts, nightly retrain | to wire |
 | Cause labeler | **River** | Post-train a small open model on evidence-verified causes, label the unknowns (stays "predicted" until confirmed) | stretch |
-| Token savings | Memorable | Reuses the agent's own brief-building procedure (optional) | optional |
 
 GBrain is good at shared memory with a source on every fact, links between launches /
 boosters / pads / causes, and corrections. It is not a predictor and not a numeric
@@ -88,10 +88,10 @@ barely close at all, so we report the close rate rather than promise one.
 1. Feature table: join events + Space Force forecasts + weather (**mostly done**).
 2. Gradient-boosted baseline with factor explanations, 45 min.
 3. Load attempts into GBrain as sourced facts, 30 min.
-4. QM agent: the brief + feedback capture, 60 min.
+4. Recommendation step (one LLM call over model score + rule results + GBrain precedents) and the correction box, 60 min.
 5. CesiumJS view, 30 min (parallel, second person).
 6. Demo run: real upcoming launch, a teammate corrects it, rerun cites the lesson.
-7. Stretch: River cause labeler; Memorable config.
+7. Stretch: River cause labeler.
 
 ## Ground rules
 
