@@ -14,8 +14,9 @@
   "date": "2025-06-23",
   "cause": "PAYLOAD",
   "quote_check": "PARTIAL 96%",
-  "accepted": false,
-  "note": "real cause (ISS Zvezda readiness) but no label fits; mapping to PAYLOAD would be false"
+  "accepted": true,
+  "note": "real cause (ISS Zvezda repair evaluation); research said PAYLOAD, relabeled STATION_READINESS when the label was added 2026-09-27",
+  "cause_override": "STATION_READINESS"
  },
  {
   "event_index": 434,

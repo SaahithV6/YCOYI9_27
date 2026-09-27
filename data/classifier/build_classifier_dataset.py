@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ART = ROOT / "artifacts"
 OUT = ART / "classifier"
 CAUSES = ["WX_LAUNCH_SITE", "WX_RECOVERY", "WX_UPPER_WINDS", "VEHICLE", "GROUND_SYSTEM", "PAYLOAD",
-          "RANGE", "TRAFFIC_ORBITAL", "SCHEDULE", "CASCADE", "UNKNOWN"]
+          "RANGE", "TRAFFIC_ORBITAL", "SCHEDULE", "CASCADE", "STATION_READINESS", "UNKNOWN"]
 SYSTEM = ("You classify why a rocket launch at Cape Canaveral or Kennedy did not go when announced. "
           f"Answer with JSON {{\"cause\": <one of {', '.join(CAUSES)}>}}. "
           "Use UNKNOWN when the input does not support a cause. Observed weather is from instruments at the pad; "
@@ -74,10 +74,14 @@ def main():
            if r["evidence_grade"] == "FORECAST" and r["forecast_pov_pct"]}
     # Only research rows whose quote was checked against the source (research/verified.json).
     vpath = ART / "research" / "verified.json"
-    accepted = {r["event_index"] for r in json.loads(vpath.read_text()) if r["accepted"]} if vpath.exists() else set()
+    vrows = json.loads(vpath.read_text()) if vpath.exists() else []
+    accepted = {r["event_index"] for r in vrows if r["accepted"]}
+    override = {r["event_index"]: r["cause_override"] for r in vrows if r.get("cause_override")}
     web = {}
     for f in glob.glob(str(ART / "research" / "results_*.json")):
         for r in json.loads(Path(f).read_text()):
+            if int(r["event_index"]) in override:
+                r = {**r, "cause": override[int(r["event_index"])]}
             if r.get("evidence_grade") == "WEB" and r.get("cause") in CAUSES and r["cause"] != "UNKNOWN" and r.get("quote") and r.get("source_url") \
                     and int(r["event_index"]) in accepted:
                 web[int(r["event_index"])] = r
