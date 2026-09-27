@@ -1,0 +1,44 @@
+{
+  "task": "single-label classification of why a Cape launch did not go when announced",
+  "output": {
+    "type": "object",
+    "properties": {
+      "cause": {
+        "type": "string",
+        "enum": [
+          "WX_LAUNCH_SITE",
+          "WX_RECOVERY",
+          "WX_UPPER_WINDS",
+          "VEHICLE",
+          "GROUND_SYSTEM",
+          "PAYLOAD",
+          "RANGE",
+          "TRAFFIC_ORBITAL",
+          "SCHEDULE",
+          "CASCADE",
+          "UNKNOWN"
+        ]
+      }
+    },
+    "required": [
+      "cause"
+    ]
+  },
+  "input_fields": [
+    "mission",
+    "vehicle",
+    "pad",
+    "provider",
+    "event kind",
+    "what happened",
+    "month",
+    "hour UTC",
+    "observed weather (verdict, rules fired, ceiling, CAPE, freezing level, nearest lightning, echo tops)",
+    "45WS forecast POV (when one exists)",
+    "stated text / quote (full variant only)"
+  ],
+  "labels_from": "confirmed evidence only: operator statement, webcast quote, press, or web research with URL + quote",
+  "split": "train < 2025-01-01 <= eval; each labeled event twice (full + masked)",
+  "format": "OpenAI-style chat JSONL (system, user, assistant) with metadata",
+  "system_prompt": "You classify why a rocket launch at Cape Canaveral or Kennedy did not go when announced. Answer with JSON {\"cause\": <one of WX_LAUNCH_SITE, WX_RECOVERY, WX_UPPER_WINDS, VEHICLE, GROUND_SYSTEM, PAYLOAD, RANGE, TRAFFIC_ORBITAL, SCHEDULE, CASCADE, UNKNOWN>}. Use UNKNOWN when the input does not support a cause. Observed weather is from instruments at the pad; a forecast probability is a forecast, not an observation."
+}
