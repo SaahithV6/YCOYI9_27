@@ -92,7 +92,14 @@ def main():
                        "grad_norm": opt.metrics.get("grad_norm")}
                 log.write(json.dumps(rec) + "\n"); log.flush()
                 print(rec, flush=True)
-        ckpt = None if a.smoke else model.save_weights(f"scrubline-weather-{run.name}")
+        ckpt = None
+        if not a.smoke:
+            ckpt = model.save_weights(f"scrubline-weather-{run.name}")
+            infer = model.save_weights(f"scrubline-weather-infer-{run.name}", mode="inference")
+            # Written immediately so a later failure cannot lose the paths the app serves from.
+            (run / "checkpoint.json").write_text(json.dumps({"training": ckpt.path, "inference": infer.path,
+                                                              "base_model": a.base}, indent=2))
+            (ROOT / "models" / "river_weather_checkpoint.json").write_text((run / "checkpoint.json").read_text())
         evalrows = test[:6] if a.smoke else test
         preds = []
         for i in range(0, len(evalrows), 16):

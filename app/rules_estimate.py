@@ -103,4 +103,26 @@ def estimate(h, i):
            "medium", "convective environment (CAPE > 0, weak inhibition) with an RH-diagnosed layer based below the freezing level and topping colder than +5 C (high cirrus excluded)",
            {"convective": convective, "layers": lay}, "radar echo tops + ceilometer"),
     ]
-    return {"rules": rules, "evidence": ev, "cloud_rh_threshold": CLOUD_RH}
+    # Quantitative estimators (app/estimators/*): overlay value / range / threshold and let their calibrated
+    # verdict set the status. Rules without a module keep the qualitative estimate above.
+    from estimators import estimate_all
+    g = lambda k: (h.get(k) or [None] * (i + 1))[i]  # noqa: E731
+    ctx = {"levels": [{"hPa": p, "ft": round((g(f"geopotential_height_{p}hPa") or 0) * M_FT) if g(f"geopotential_height_{p}hPa") is not None else None,
+                       "temp_c": g(f"temperature_{p}hPa"), "rh": g(f"relative_humidity_{p}hPa"),
+                       "wind_kt": g(f"wind_speed_{p}hPa"), "wind_dir": g(f"wind_direction_{p}hPa")} for p in LEVELS],
+           "surface": {"cape": cape, "cin": cin, "lifted_index": g("lifted_index"), "precipitation": rain,
+                       "cloud_cover_low": g("cloud_cover_low"), "cloud_cover_mid": g("cloud_cover_mid"),
+                       "cloud_cover_high": g("cloud_cover_high"), "visibility": g("visibility"), "freezing_level_ft": frz_ft,
+                       "wind_kt": g("wind_speed_10m"), "gust_kt": g("wind_gusts_10m")},
+           "weather_code": wcode, "weather_codes_last3h": recent, "layers": ls}
+    quant, errors = estimate_all(ctx)
+    for r in rules:
+        q = quant.get(r["id"])
+        if not q:
+            continue
+        r.update({k: q.get(k) for k in ("quantity", "value", "unit", "low", "high", "threshold", "threshold_desc", "calibration")})
+        r["confidence"] = q.get("confidence", r["confidence"])
+        r["method"] = q.get("basis") or r["method"]
+        r["status"] = ("ESTIMATED_VIOLATION" if q.get("violated") else "ESTIMATED_CLEAR" if q.get("violated") is False
+                       else "NOT_ESTIMABLE")
+    return {"rules": rules, "evidence": ev, "cloud_rh_threshold": CLOUD_RH, "estimator_errors": errors}

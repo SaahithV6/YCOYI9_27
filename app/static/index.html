@@ -3,296 +3,383 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scrubline · Launch Weather Officer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>Scrubline · Launch Weather Console</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/cesium@1.121.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 <style>
-:root{
-  --bg:#05070d; --panel:#0c111c; --panel2:#111827; --line:#1e293b; --text:#e6edf7; --muted:#8b98ad;
-  --accent:#5b8cff; --accent2:#9b6bff; --go:#22c55e; --nogo:#ef4444; --und:#f59e0b; --glow:rgba(91,140,255,.35);
-}
-*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-a{color:var(--accent)}
-.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rgba(5,7,13,.72);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.14em}
-.brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 16px var(--glow)}
-.nav{color:var(--muted);font-size:14px;display:flex;gap:22px}
-.hero{padding:70px 0 40px;position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;inset:-40% -10% auto -10%;height:520px;background:radial-gradient(closest-side,rgba(91,140,255,.18),transparent),radial-gradient(closest-side at 70% 40%,rgba(155,107,255,.14),transparent);pointer-events:none}
-.eyebrow{color:var(--accent);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
-h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:14px 0 18px;font-weight:800;letter-spacing:-.02em}
-h1 .grad{background:linear-gradient(90deg,#fff,#9fb7ff 40%,#b99bff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{color:var(--muted);font-size:18px;max-width:760px;line-height:1.55}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
-.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:18px}
-.stat .n{font-size:34px;font-weight:800;letter-spacing:-.02em}
-.stat .l{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.4}
-section{padding:26px 0}
-h2{font-size:22px;margin:0 0 14px;font-weight:700}
-.sub{color:var(--muted);font-size:14px;margin:-8px 0 16px}
-.grid2{display:grid;grid-template-columns:420px 1fr;gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
-label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:12px 0 6px}
-input,select{width:100%;background:#0a0f1a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px;font:inherit}
-input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button{cursor:pointer;border:0;border-radius:12px;padding:14px 18px;font:600 15px Inter;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));width:100%;margin-top:18px;box-shadow:0 10px 30px -10px var(--glow)}
-button:disabled{opacity:.6;cursor:wait}
-button.ghost{background:transparent;border:1px solid var(--line);box-shadow:none;margin-top:10px}
-#globe{height:420px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#02040a;position:relative}
-#globe .tag{position:absolute;left:14px;bottom:14px;z-index:5;background:rgba(5,7,13,.8);border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:13px}
-.cesium-viewer-bottom{display:none!important}
-.verdict{display:grid;grid-template-columns:260px 1fr;gap:18px}
-.vbox{border-radius:18px;padding:22px;border:1px solid var(--line);background:var(--panel2);text-align:center}
-.vlabel{font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.vword{font-size:44px;font-weight:800;margin:10px 0;letter-spacing:-.01em}
-.v-GO{color:var(--go)} .v-NO-GO{color:var(--nogo)} .v-UNDECIDED{color:var(--und)}
-.gauge{margin:6px auto 0;width:200px}
-.why{color:var(--muted);line-height:1.55;font-size:15px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
-.cols3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:18px;margin-top:18px}
-.bar{display:grid;grid-template-columns:170px 1fr 54px;align-items:center;gap:10px;margin:9px 0;font-size:13px}
-.track{height:10px;background:#0a0f1a;border-radius:6px;position:relative;overflow:hidden}
-.track i{position:absolute;top:0;bottom:0;border-radius:6px}
-.check{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
-.check:last-child{border:0}
-.st{font:600 11px 'JetBrains Mono';padding:4px 8px;border-radius:6px;white-space:nowrap;align-self:flex-start}
-.st-NO_GO{background:rgba(239,68,68,.15);color:#fca5a5} .st-UNAVAILABLE{background:rgba(148,163,184,.12);color:#cbd5e1}
-.st-MEASURED{background:rgba(91,140,255,.15);color:#b3c7ff} .st-CLEAR_IN_FORECAST{background:rgba(34,197,94,.14);color:#86efac}
-.st-ESTIMATED_VIOLATION{background:rgba(239,68,68,.10);color:#fca5a5;border:1px dashed rgba(239,68,68,.5)}
-.st-ESTIMATED_CLEAR{background:rgba(34,197,94,.08);color:#86efac;border:1px dashed rgba(34,197,94,.45)}
-.st-NOT_ESTIMABLE{background:rgba(148,163,184,.10);color:#94a3b8}
-.v-LIKELY{font-size:34px} .v-LIKELY.GO{color:#4ade80} .v-LIKELY.NOGO{color:#f87171}
-.cd{color:var(--muted);font-size:12px;margin-top:3px}
-.prec{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;display:flex;justify-content:space-between;gap:10px}
+:root{--bg:#04060b;--p1:#0a0e17;--p2:#0f1522;--line:#1b2536;--line2:#26334a;--text:#e7edf6;--muted:#7f8ba0;--dim:#56627a;
+  --blue:#4f8dff;--violet:#8b6bff;--go:#22c55e;--nogo:#ef4444;--warn:#f59e0b;--und:#a3a3a3;--cyan:#38bdf8}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+button,input,select{font:inherit;color:inherit}
+/* top bar */
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:18px;padding:0 20px;height:56px;border-bottom:1px solid var(--line);background:rgba(4,6,11,.85);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.16em;font-size:13px}
+.brand i{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 14px rgba(79,141,255,.7)}
+.tabs{display:flex;background:var(--p1);border:1px solid var(--line);border-radius:10px;padding:3px}
+.tabs button{border:0;background:none;padding:6px 14px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em}
+.tabs button.on{background:var(--p2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.spacer{flex:1}
+.clock{font:500 13px 'JetBrains Mono';color:var(--muted)} .clock b{color:var(--text)}
+.pill{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:4px 9px;border-radius:999px}
+/* strip */
+.strip{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.strip>div{background:var(--bg);padding:14px 20px}
+.strip .t{font-weight:700;font-size:15px}.strip .s{color:var(--muted);font-size:12px}
+.strip .n{font:700 22px 'JetBrains Mono'}
+/* layout */
+.main{display:grid;grid-template-columns:300px 1fr 380px;gap:14px;padding:14px 20px}
+.row2{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;padding:0 20px 14px}
+.row3{padding:0 20px 14px}
+.panel{background:var(--p1);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.ph{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.ph h3{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ph span{font-size:11px;color:var(--dim)}
+label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:12px 0 5px}
+input,select{width:100%;background:#070a12;border:1px solid var(--line);border-radius:9px;padding:10px 11px}
+input:focus,select:focus{outline:0;border-color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{border:1px solid var(--line);background:var(--p2);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--muted);cursor:pointer}
+.presets button:hover{color:var(--text);border-color:var(--line2)}
+.go-btn{width:100%;margin-top:16px;border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 10px 26px -12px rgba(79,141,255,.8)}
+.go-btn:disabled{opacity:.6;cursor:wait}
+.cd{margin-top:14px;padding:12px;border:1px dashed var(--line2);border-radius:10px;text-align:center}
+.cd .k{font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.cd .v{font:700 20px 'JetBrains Mono';margin-top:4px}
+/* verdict */
+.vbar{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:18px;border-radius:12px;border:1px solid var(--line2);background:linear-gradient(90deg,rgba(255,255,255,.02),transparent)}
+.vcall{font:800 40px Inter;letter-spacing:-.01em;line-height:1}
+.vsub{color:var(--muted);margin-top:8px;font-size:13px;max-width:640px}
+.c-NO-GO{color:var(--nogo)}.c-LIKELY-NO-GO{color:#fb923c}.c-LIKELY-GO{color:#4ade80}.c-UNDECIDED{color:var(--warn)}
+.b-NO-GO{border-color:rgba(239,68,68,.55)}.b-LIKELY-NO-GO{border-color:rgba(251,146,60,.5)}.b-LIKELY-GO{border-color:rgba(74,222,128,.45)}.b-UNDECIDED{border-color:rgba(245,158,11,.45)}
+.gauge{width:150px}
+.models{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.mcard{background:var(--p2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.mcard .k{font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.mcard .v{font:700 16px 'JetBrains Mono';margin-top:4px}
+.agree{color:#4ade80}.disagree{color:var(--warn)}
+/* status board */
+.board{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+.lamp{position:relative;background:var(--p2);border:1px solid var(--line);border-radius:10px;padding:10px 8px 9px;cursor:pointer;min-height:104px;transition:border-color .15s}
+.lamp:hover{border-color:var(--line2)}
+.lamp .id{font:600 10px 'JetBrains Mono';color:var(--dim)}
+.lamp .nm{font-size:11.5px;font-weight:600;margin-top:3px;line-height:1.25}
+.lamp .dot{position:absolute;top:10px;right:9px;width:11px;height:11px;border-radius:50%}
+.lamp .val{font:700 13px 'JetBrains Mono';margin-top:6px;color:var(--text)}
+.lamp .thr{font:500 10.5px 'JetBrains Mono';color:var(--dim);margin-top:2px}
+.ask{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(79,141,255,.06),rgba(139,107,255,.04))}
+.ask input{flex:1;font-size:15px;padding:12px 14px}
+.ask button{border:0;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--violet))}
+.brief{margin-top:12px;padding:14px;border:1px solid var(--line2);border-radius:12px;background:var(--p2)}
+.brief .hd{font-weight:700;font-size:14.5px}
+.brief ul{margin:8px 0 0 18px;padding:0;color:var(--muted);font-size:13px}
+.brief .w{margin-top:8px;font-size:12px;color:var(--dim)}
+.trace{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.trace span{font:500 11px 'JetBrains Mono';padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.trace span.par{border-color:rgba(79,141,255,.5);color:#b3c7ff}
+.trace span.bad{border-color:rgba(239,68,68,.5);color:#fca5a5}
+.lamp.est{border-style:dashed}
+.lamp.low{opacity:.72}
+.s-red .dot{background:var(--nogo);box-shadow:0 0 12px var(--nogo)} .s-green .dot{background:var(--go);box-shadow:0 0 10px rgba(34,197,94,.7)}
+.s-blue .dot{background:var(--cyan);box-shadow:0 0 10px rgba(56,189,248,.6)} .s-gray .dot{background:#475569}
+.s-red{border-color:rgba(239,68,68,.45)}
+.detail{margin-top:10px;background:#070a12;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;color:var(--muted);display:none}
+.detail b{color:var(--text)}
+/* globe */
+#globe{height:100%;min-height:380px;border-radius:12px;overflow:hidden;position:relative;background:#02040a}
+#globe .tag{position:absolute;left:12px;top:12px;z-index:5;background:rgba(4,6,11,.8);border:1px solid var(--line);padding:6px 10px;border-radius:8px;font-size:12px}
+.cesium-viewer-bottom,.cesium-widget-credits{display:none!important}
+/* factors */
+.bar{display:grid;grid-template-columns:150px 1fr 48px;gap:10px;align-items:center;margin:8px 0;font-size:12.5px}
+.track{height:8px;background:#070a12;border-radius:5px;position:relative;overflow:hidden}
+.track i{position:absolute;top:0;bottom:0;border-radius:5px}
+/* precedents */
+.prec{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
 .prec:last-child{border:0}
-.o-flew{color:#86efac} .o-weather{color:#fca5a5} .o-no{color:#fcd34d}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.tile{background:#0a0f1a;border:1px solid var(--line);border-radius:12px;padding:12px}
-.tile .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.tile .v{font:600 18px 'JetBrains Mono';margin-top:6px}
-#heat{display:grid;grid-template-columns:70px repeat(24,1fr);gap:3px;font-size:11px;color:var(--muted)}
-#heat .c{height:22px;border-radius:4px;cursor:pointer;transition:transform .1s}
-#heat .c:hover{transform:scale(1.25);outline:1px solid #fff}
-.legend{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:10px}
-.legend .ramp{height:8px;width:180px;border-radius:4px;background:linear-gradient(90deg,#10233f,#2f5bd3,#f59e0b,#ef4444)}
-textarea{width:100%;min-height:74px;background:#0a0f1a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px;font:inherit}
-.hidden{display:none}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px;margin-right:8px}
+.prec .d{width:8px;height:8px;border-radius:50%}
+.o1{background:var(--go)}.o2{background:var(--nogo)}.o3{background:var(--warn)}
+.small{font-size:11.5px;color:var(--dim)}
+/* heatmap */
+#heat{display:grid;grid-template-columns:86px repeat(24,1fr);gap:3px;font-size:10.5px;color:var(--dim)}
+#heat .c{height:24px;border-radius:4px;cursor:pointer;position:relative}
+#heat .c:hover{outline:2px solid #fff;z-index:2}
+#heat .c.now{box-shadow:inset 0 0 0 2px #fff}
+.legend{display:flex;gap:14px;margin-top:12px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.best{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
+.best button{background:var(--p2);border:1px solid rgba(74,222,128,.3);border-radius:9px;padding:9px;text-align:left;cursor:pointer}
+.best button:hover{border-color:#4ade80}
+.best .k{font:600 12px 'JetBrains Mono'} .best .s{font-size:11px;color:var(--muted)}
+textarea{width:100%;min-height:60px;background:#070a12;border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--text);font:inherit;resize:vertical}
+.ghost{margin-top:8px;border:1px solid var(--line2);background:var(--p2);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12.5px}
+.empty{color:var(--dim);text-align:center;padding:40px 10px}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:s .9s linear infinite;vertical-align:-1px;margin-right:7px}
 @keyframes s{to{transform:rotate(360deg)}}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13px;color:var(--muted);line-height:1.5}
-.step b{display:block;color:var(--text);font-size:14px;margin-bottom:6px}
-.step .num{font:600 12px 'JetBrains Mono';color:var(--accent)}
-footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;color:var(--muted);font-size:13px;line-height:1.6}
-.err{color:#fca5a5;margin-top:10px;font-size:14px}
-@media (max-width:980px){.grid2,.verdict,.cols3,.flow{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}.nav{display:none}}
+footer{padding:18px 20px 40px;color:var(--dim);font-size:12px;line-height:1.6;border-top:1px solid var(--line)}
+@media(max-width:1250px){.main{grid-template-columns:280px 1fr}.globe-col{grid-column:1/-1;min-height:340px}.board{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:900px){.main,.row2{grid-template-columns:1fr}.strip{grid-template-columns:1fr 1fr}.board{grid-template-columns:repeat(3,1fr)}.best{grid-template-columns:repeat(2,1fr)}.models{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-  <div class="brand"><span class="dot"></span>SCRUBLINE</div>
-  <div class="nav"><a href="#problem">Problem</a><a href="#console">Assess</a><a href="#week">This week</a><a href="#how">How it works</a></div>
-</div></header>
+<div class="top">
+  <div class="brand"><i></i>SCRUBLINE</div>
+  <div class="tabs" id="tabs"><button data-site="CCSFS" class="on">CAPE CANAVERAL SFS</button><button data-site="KSC">KENNEDY SC</button></div>
+  <div class="spacer"></div>
+  <span class="pill">LightGBM + Qwen3.5-9B (River)</span>
+  <div class="clock">UTC <b id="utc">--:--:--</b></div>
+</div>
 
-<div class="hero" id="problem"><div class="wrap">
-  <div class="eyebrow">Launch weather officer</div>
-  <h1><span class="grad">Pick a rocket and a time.<br>Get a go/no-go with receipts.</span></h1>
-  <p class="lede">Space Coast pads have shown they can fly <b id="s-dem">143</b> times a year. They fly <b id="s-flown">73</b>.
-    When a launch doesn't go, the industry rarely learns why. Scrubline checks the real launch rules against the forecast,
-    scores the weather risk with a model trained on every past attempt, and shows the failures that looked like this one.</p>
-  <div class="stats">
-    <div class="stat"><div class="n" id="s-missed">1,502</div><div class="l">times a Cape launch missed its announced date since 2020</div></div>
-    <div class="stat"><div class="n" id="s-unk">82%</div><div class="l">of those have no published cause</div></div>
-    <div class="stat"><div class="n" id="s-scrubs">286</div><div class="l">countdown scrubs · <span id="s-slips">1,216</span> slips before the count</div></div>
-    <div class="stat"><div class="n" id="s-auc">–</div><div class="l">model ROC-AUC on 2025–26 launches it never saw</div></div>
+<div class="strip">
+  <div><div class="t">Launch weather console</div><div class="s">Weather scrubs are preventable. Pick the hour before you commit the pad.</div></div>
+  <div><div class="n" id="s-wx">59%</div><div class="s">of scrubs with a known cause were weather (<span id="s-wxn">91 of 154</span>)</div></div>
+  <div><div class="n" id="s-avoid">47%</div><div class="s">of weather scrubs avoided by moving the riskiest 10% of launch hours</div></div>
+  <div><div class="n">73<span style="color:var(--dim)"> / 143</span></div><div class="s">flights/yr flown vs pad-demonstrated</div></div>
+  <div><div class="n" id="s-auc">–</div><div class="s">weather model ROC-AUC, unseen 2025–26</div></div>
+</div>
+
+<div class="ask"><input id="q" placeholder='Ask the weather officer, e.g. "Can Falcon 9 go tomorrow at 7pm UTC from SLC-40?"'><button id="askb">Ask Qwen</button></div>
+<div class="main">
+  <div class="panel">
+    <div class="ph"><h3>Mission</h3><span>UTC</span></div>
+    <label>Rocket</label>
+    <select id="vehicle"><option value="falcon_9">Falcon 9</option><option value="falcon_heavy">Falcon Heavy</option><option value="atlas_v">Atlas V</option><option value="vulcan">Vulcan</option><option value="new_glenn">New Glenn</option><option value="sls">SLS</option></select>
+    <div class="two"><div><label>Date</label><input type="date" id="date"></div><div><label>T-0</label><input type="time" id="time" value="14:00" step="3600"></div></div>
+    <div class="presets" id="presets"></div>
+    <button class="go-btn" id="go">Run weather assessment</button>
+    <div class="cd"><div class="k">T-0 countdown</div><div class="v" id="countdown">–</div></div>
+    <div id="err" style="color:#fca5a5;margin-top:10px;font-size:12.5px"></div>
+    <label style="margin-top:18px">Correct the officer</label>
+    <textarea id="corr" placeholder="e.g. This window scrubbed for cumulus at T-10."></textarea>
+    <button class="ghost" id="send">Save correction</button> <span class="small" id="sent"></span>
   </div>
+
+  <div class="panel" id="vpanel">
+    <div class="ph"><h3>Weather call</h3><span id="vsrc">–</span></div>
+    <div id="vempty" class="empty">Set a rocket and T-0, then run the assessment.<br>Or click any hour in the window planner below.</div>
+    <div id="vbody" style="display:none">
+      <div class="vbar" id="vbar">
+        <div><div class="vcall" id="vcall">–</div><div class="vsub" id="vwhy"></div></div>
+        <svg class="gauge" viewBox="0 0 150 96"><path d="M15 80 A60 60 0 0 1 135 80" fill="none" stroke="#1b2536" stroke-width="11" stroke-linecap="round"/>
+          <path id="garc" d="M15 80 A60 60 0 0 1 135 80" fill="none" stroke="url(#gg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189" style="transition:stroke-dashoffset .9s ease"/>
+          <defs><linearGradient id="gg"><stop offset="0" stop-color="#22c55e"/><stop offset=".55" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+          <text x="75" y="72" text-anchor="middle" fill="#e7edf6" font-size="22" font-weight="800" font-family="JetBrains Mono" id="gpct">–</text>
+          <text x="75" y="92" text-anchor="middle" fill="#7f8ba0" font-size="8.5">riskier than % of flown launches</text></svg>
+      </div>
+      <div class="brief" id="brief"><div class="hd" id="bhead">–</div><ul id="breasons"></ul><div class="w" id="bwatch"></div><div class="trace" id="trace"></div></div>
+      <div class="models">
+        <div class="mcard"><div class="k">LightGBM risk</div><div class="v" id="m-gbm">–</div></div>
+        <div class="mcard"><div class="k">Qwen3.5-9B · River</div><div class="v" id="m-qwen"><span class="spin"></span></div></div>
+        <div class="mcard"><div class="k">Two-model check</div><div class="v" id="m-agree">–</div></div>
+      </div>
+      <div class="ph" style="margin-top:16px"><h3>Launch commit criteria</h3><span>solid = forecast · dashed = estimated · faded = low confidence</span></div>
+      <div class="board" id="board"></div>
+      <div class="detail" id="detail"></div>
+    </div>
+  </div>
+
+  <div class="panel globe-col" style="padding:8px"><div id="globe"><div class="tag" id="gtag">Cape Canaveral SFS</div></div></div>
+</div>
+
+<div class="row2">
+  <div class="panel"><div class="ph"><h3>Atmosphere at T-0</h3><span>temperature · cloud (RH ≥ 90%) · wind</span></div><svg id="prof" viewBox="0 0 460 330" style="width:100%"></svg></div>
+  <div class="panel"><div class="ph"><h3>What drives the risk</h3><span>log-odds contribution</span></div><div id="factors" class="empty">–</div></div>
+  <div class="panel"><div class="ph"><h3>Attempts like this one</h3><span id="precsum"></span></div><div id="precs" class="empty">–</div></div>
+</div>
+
+<div class="row3"><div class="panel">
+  <div class="ph"><h3>Window planner · next 7 days</h3><span>colour = call · brightness = risk · click an hour to assess</span></div>
+  <div id="heat"></div>
+  <div class="legend"><span><i style="background:#ef4444"></i>NO-GO (forecast rain/thunder)</span><span><i style="background:#fb923c"></i>LIKELY NO-GO (estimated rule)</span><span><i style="background:#a3a3a3"></i>UNDECIDED</span><span><i style="background:#22c55e"></i>LIKELY GO</span></div>
+  <div class="ph" style="margin-top:16px"><h3>Best windows</h3><span>LIKELY GO, lowest risk first</span></div>
+  <div class="best" id="best"></div>
 </div></div>
 
-<section id="console"><div class="wrap">
-  <h2>Assess a launch</h2>
-  <p class="sub">Any hour in the next 16 days, or a past date to replay what the forecast said.</p>
-  <div class="grid2">
-    <div class="card">
-      <div class="row">
-        <div><label>Date (UTC)</label><input type="date" id="date"></div>
-        <div><label>Time (UTC)</label><input type="time" id="time" value="14:00" step="3600"></div>
-      </div>
-      <label>Launch site</label>
-      <select id="site"><option value="CCSFS">Cape Canaveral SFS (SLC-40, SLC-41)</option><option value="KSC">Kennedy Space Center (LC-39A, 39B)</option></select>
-      <label>Rocket</label>
-      <select id="vehicle"><option value="falcon_9">Falcon 9</option><option value="falcon_heavy">Falcon Heavy</option><option value="atlas_v">Atlas V</option><option value="vulcan">Vulcan</option><option value="new_glenn">New Glenn</option><option value="sls">SLS</option></select>
-      <button id="go">Assess launch</button>
-      <div class="err" id="err"></div>
-    </div>
-    <div id="globe"><div class="tag" id="globeTag">Cape Canaveral SFS · 28.49°N 80.57°W</div></div>
-  </div>
-</div></section>
-
-<section id="result" class="hidden"><div class="wrap">
-  <div class="verdict">
-    <div class="vbox">
-      <div class="vlabel">Weather call</div>
-      <div class="vword" id="vword">–</div>
-      <svg class="gauge" viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#1e293b" stroke-width="14" stroke-linecap="round"/>
-        <path id="garc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/>
-        <defs><linearGradient id="gg"><stop offset="0" stop-color="#2f5bd3"/><stop offset=".6" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
-        <text x="100" y="92" text-anchor="middle" fill="#e6edf7" font-size="28" font-weight="800" id="gpct">–</text>
-        <text x="100" y="114" text-anchor="middle" fill="#8b98ad" font-size="10">riskier than % of launches that flew</text></svg>
-    </div>
-    <div class="card">
-      <div class="vlabel" id="vtitle">–</div>
-      <p class="why" id="vwhy"></p>
-      <div class="chips" id="vchips"></div>
-    </div>
-  </div>
-  <div class="cols3">
-    <div class="card"><h2>What drives the risk</h2><p class="sub">Model factor contributions for this hour</p><div id="factors"></div></div>
-    <div class="card"><h2>Launch rules</h2><p class="sub">All 10 lightning rules estimated from the forecast, plus user constraints</p><div id="checks"></div></div>
-    <div class="card"><h2>Past attempts like this</h2><p class="sub" id="precsum"></p><div id="precs"></div></div>
-  </div>
-  <div class="card" style="margin-top:18px"><h2>Forecast at T-0</h2><p class="sub" id="src"></p><div class="tiles" id="tiles"></div></div>
-  <div class="card" style="margin-top:18px">
-    <h2>Correct the officer</h2><p class="sub">Was the call wrong? Say why. Corrections are saved and feed the next training run.</p>
-    <textarea id="corr" placeholder="e.g. This window scrubbed for cumulus over the pad at T-10."></textarea>
-    <button class="ghost" id="send">Save correction</button> <span id="sent" class="sub"></span>
-  </div>
-</div></section>
-
-<section id="week"><div class="wrap">
-  <h2>Best windows this week</h2>
-  <p class="sub">Hourly weather risk for the selected site, next 7 days (UTC). Click an hour to assess it.</p>
-  <div class="card"><div id="heat"></div>
-    <div class="legend">lower risk <span class="ramp"></span> higher risk · colour = rank vs launches that flew</div></div>
-</div></section>
-
-<section id="how"><div class="wrap">
-  <h2>How it works</h2>
-  <div class="flow">
-    <div class="step"><span class="num">01</span><b>Every miss, recorded</b>1,502 non-launches with the weather observed at the pad, cause labels with evidence grades, and 525 archived Space Force forecasts.</div>
-    <div class="step"><span class="num">02</span><b>Causes recovered</b>Validated enrichment and quote-checked web research recover causes the record never published.</div>
-    <div class="step"><span class="num">03</span><b>Weather model</b>Gradient-boosted trees on archived forecasts at each attempt's hour: trained on what a forecast said, served on a forecast. No LLM, zero tokens.</div>
-    <div class="step"><span class="num">04</span><b>Rules, honestly</b>The 10 lightning rules and user constraints. A forecast can fire a rule, never clear one; missing instruments are named.</div>
-    <div class="step"><span class="num">05</span><b>Memory that learns</b>Every mission lives in GBrain with sourced facts; corrections feed the next run.</div>
-  </div>
-</div></section>
-
-<footer><div class="wrap">
-  <div id="modelline"></div>
-  Data: Launch Library 2 update stream, KXMR METAR, GOES GLM, NEXRAD, IGRA soundings, archived 45th Weather Squadron forecasts, Open-Meteo live and archived forecasts, NOAA SWPC.
-  A forecast is never graded as an observation; a model score is a ranked risk, not a probability of scrub.
-</div></footer>
+<footer id="foot"></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.121.0/Build/Cesium/Cesium.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const SITES = {CCSFS:{name:"Cape Canaveral SFS",lat:28.49,lon:-80.57,pads:[["SLC-40",28.5621,-80.5772],["SLC-41",28.5833,-80.5829]]},
                KSC:{name:"Kennedy Space Center",lat:28.59,lon:-80.65,pads:[["LC-39A",28.6082,-80.6041],["LC-39B",28.6272,-80.6208]]}};
-const today = new Date(); $("date").value = today.toISOString().slice(0,10);
+const LGBM_YES_PCT = 93;  // test operating point: 12 false alarms / 165 flown = 7.3% -> yes above the 93rd pct of flown
+let site = "CCSFS", last = null;
+const pad2 = n => String(n).padStart(2, "0");
+const iso = d => d.toISOString().slice(0, 10);
 
-// ---- globe ------------------------------------------------------------------
+// clock + countdown
+setInterval(() => {
+  const n = new Date(); $("utc").textContent = n.toISOString().slice(11, 19);
+  const t = new Date(`${$("date").value}T${$("time").value}:00Z`); const ms = t - n;
+  if (isNaN(ms)) return;
+  const a = Math.abs(ms), h = Math.floor(a / 3.6e6), m = Math.floor(a % 3.6e6 / 6e4), s = Math.floor(a % 6e4 / 1e3);
+  $("countdown").textContent = (ms >= 0 ? "T-" : "T+") + `${h}:${pad2(m)}:${pad2(s)}`;
+}, 1000);
+const now = new Date(); $("date").value = iso(now); $("time").value = pad2((now.getUTCHours() + 3) % 24) + ":00";
+if (now.getUTCHours() + 3 >= 24) $("date").value = iso(new Date(now.getTime() + 864e5));
+const presets = [["Next hour", 1], ["+6 h", 6], ["Tomorrow 07Z", "t07"], ["Tomorrow 19Z", "t19"], ["+3 days 12Z", "d3"]];
+$("presets").innerHTML = presets.map(([l, v]) => `<button data-v="${v}">${l}</button>`).join("");
+$("presets").onclick = e => { const v = e.target.dataset.v; if (!v) return; let d = new Date();
+  if (v === "t07" || v === "t19") { d = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1, v === "t07" ? 7 : 19)); }
+  else if (v === "d3") { d = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 3, 12)); }
+  else d = new Date(d.getTime() + (+v) * 3.6e6);
+  $("date").value = iso(d); $("time").value = pad2(d.getUTCHours()) + ":00"; assess(); };
+
+// globe
 let viewer = null;
-try {
-  viewer = new Cesium.Viewer("globe", {
-    baseLayer: new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png", credit:"© OpenStreetMap"})),
-    baseLayerPicker:false, geocoder:false, homeButton:false, sceneModePicker:false, navigationHelpButton:false,
-    animation:false, timeline:false, fullscreenButton:false, infoBox:false, selectionIndicator:false });
-  viewer.scene.skyAtmosphere.show = true; viewer.scene.globe.enableLighting = false;
-} catch (e) { $("globe").insertAdjacentHTML("beforeend", "<div style='padding:30px;color:#8b98ad'>3D globe unavailable in this browser.</div>"); }
-function showSite(key, risk) {
-  const s = SITES[key]; $("globeTag").textContent = `${s.name} · ${s.lat.toFixed(2)}°N ${Math.abs(s.lon).toFixed(2)}°W`;
-  if (!viewer) return;
-  viewer.entities.removeAll();
-  const col = risk == null ? Cesium.Color.fromCssColorString("#5b8cff") : Cesium.Color.fromCssColorString(risk > 75 ? "#ef4444" : risk > 45 ? "#f59e0b" : "#22c55e");
+try { viewer = new Cesium.Viewer("globe", {baseLayer:new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png"})),
+  baseLayerPicker:false,geocoder:false,homeButton:false,sceneModePicker:false,navigationHelpButton:false,animation:false,timeline:false,fullscreenButton:false,infoBox:false,selectionIndicator:false}); }
+catch (e) { $("globe").insertAdjacentHTML("beforeend", "<div class='empty'>3D globe unavailable</div>"); }
+function showSite(call) {
+  const s = SITES[site]; $("gtag").textContent = `${s.name} · ${s.lat.toFixed(2)}°N ${Math.abs(s.lon).toFixed(2)}°W`;
+  if (!viewer) return; viewer.entities.removeAll();
+  const col = Cesium.Color.fromCssColorString({"NO-GO":"#ef4444","LIKELY NO-GO":"#fb923c","LIKELY GO":"#22c55e","UNDECIDED":"#f59e0b"}[call] || "#4f8dff");
   for (const [n, la, lo] of s.pads) {
-    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), point:{pixelSize:12, color:col, outlineColor:Cesium.Color.WHITE, outlineWidth:2},
-      label:{text:n, font:"600 13px Inter", fillColor:Cesium.Color.WHITE, outlineColor:Cesium.Color.BLACK, outlineWidth:3, style:Cesium.LabelStyle.FILL_AND_OUTLINE, pixelOffset:new Cesium.Cartesian2(0,-20)}});
-    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), ellipse:{semiMajorAxis:18520, semiMinorAxis:18520, material:col.withAlpha(0.08), outline:true, outlineColor:col.withAlpha(0.6), height:0}});
+    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), point:{pixelSize:11, color:col, outlineColor:Cesium.Color.WHITE, outlineWidth:2},
+      label:{text:n, font:"600 12px Inter", fillColor:Cesium.Color.WHITE, outlineColor:Cesium.Color.BLACK, outlineWidth:3, style:Cesium.LabelStyle.FILL_AND_OUTLINE, pixelOffset:new Cesium.Cartesian2(0,-18)}});
+    viewer.entities.add({position:Cesium.Cartesian3.fromDegrees(lo, la), ellipse:{semiMajorAxis:18520, semiMinorAxis:18520, material:col.withAlpha(.07), outline:true, outlineColor:col.withAlpha(.55)}});
   }
-  viewer.camera.flyTo({destination:Cesium.Cartesian3.fromDegrees(s.lon + 0.05, s.lat - 0.55, 60000), orientation:{heading:0, pitch:Cesium.Math.toRadians(-38), roll:0}, duration:1.6});
+  viewer.camera.flyTo({destination:Cesium.Cartesian3.fromDegrees(s.lon + .06, s.lat - .5, 55000), orientation:{heading:0, pitch:Cesium.Math.toRadians(-36), roll:0}, duration:1.4});
 }
-showSite("CCSFS");
-$("site").onchange = () => { showSite($("site").value); loadWeek(); };
+$("tabs").onclick = e => { const b = e.target.closest("button"); if (!b) return;
+  site = b.dataset.site; [...$("tabs").children].forEach(x => x.classList.toggle("on", x === b)); showSite(); loadWeek(); if (last) assess(); };
+$("vehicle").onchange = () => { loadWeek(); if (last) assess(); };
+showSite();
 
-// ---- stats ------------------------------------------------------------------
+// stats
 fetch("/api/stats").then(r => r.json()).then(s => {
-  $("s-missed").textContent = s.missed.toLocaleString(); $("s-unk").textContent = s.unexplained_pct + "%";
-  $("s-scrubs").textContent = s.scrubs; $("s-slips").textContent = s.slips.toLocaleString();
-  const m = s.model.lightgbm; $("s-auc").textContent = m.roc_auc.toFixed(2);
-  $("modelline").innerHTML = `Model: LightGBM, test on ${m.n} launches from 2025–26 (${m.positives} weather-stopped): ROC-AUC <b>${m.roc_auc}</b>, PR-AUC <b>${m.pr_auc}</b> (base rate ${(m.positives/m.n).toFixed(2)}), Brier ${m.brier}. Logistic regression on the same features: ROC-AUC ${s.model.logistic_regression.roc_auc}.<br>`;
+  $("s-wx").textContent = s.weather_share_pct + "%"; $("s-wxn").textContent = `${s.weather_scrubs} of ${s.known_cause_scrubs}`;
+  $("s-avoid").textContent = s.avoidable_pct_moving_top10 + "%";
+  const m = s.model.lightgbm; $("s-auc").textContent = m.roc_auc.toFixed(3);
+  $("foot").innerHTML = `Weather model: LightGBM on archived forecasts at each attempt's hour; tested on ${m.n} launches from 2025–26 it never saw (${m.positives} weather scrubs): ROC-AUC ${m.roc_auc}, PR-AUC ${m.pr_auc} vs base rate ${(m.positives/m.n).toFixed(2)}. Qwen3.5-9B fine-tuned on River on the same launches ties it (precision 0.50, recall 0.40 at 24 calls); when both flag a launch they are right 11 of 14 times.<br>
+  Lightning rules are <b>estimated</b> from the forecast cloud profile (cloud = RH ≥ 90% on pressure levels) where a forecast lacks the instrument; a forecast-only call is never plain GO. Data: Launch Library 2, KXMR METAR, GOES GLM, NEXRAD, IGRA, 45th Weather Squadron forecasts, Open-Meteo, NOAA SWPC.`;
 });
 
-// ---- assess -----------------------------------------------------------------
-let last = null;
-async function assess() {
-  $("err").textContent = ""; $("go").disabled = true; $("go").innerHTML = '<span class="spin"></span>Assessing';
-  const q = new URLSearchParams({date:$("date").value, time:$("time").value, site:$("site").value, vehicle:$("vehicle").value});
+// assessment
+async function runOfficer(query) {
+  $("err").textContent = ""; $("go").disabled = true; $("askb").disabled = true;
+  $("go").innerHTML = '<span class="spin"></span>Qwen officer working'; $("vempty").innerHTML = '<span class="spin"></span>Parsing · forecast · rules · LightGBM · fine-tuned Qwen · memory · writing the call';
   try {
-    const r = await (await fetch("/api/assess?" + q)).json();
+    const r = await (await fetch("/api/ask?" + query)).json();
     if (r.error) { $("err").textContent = r.error; return; }
-    last = r; render(r); showSite(r.input.site, r.risk.pct_vs_flew);
-    $("result").classList.remove("hidden"); $("result").scrollIntoView({behavior:"smooth"});
+    const p = r.params; $("date").value = p.date; $("time").value = p.time; $("vehicle").value = p.vehicle;
+    if (p.site !== site) { site = p.site; [...$("tabs").children].forEach(x => x.classList.toggle("on", x.dataset.site === site)); loadWeek(); }
+    last = r.assessment; render(r.assessment); showSite(r.brief.call || r.assessment.verdict); renderBrief(r);
   } catch (e) { $("err").textContent = "Server error: " + e; }
-  finally { $("go").disabled = false; $("go").textContent = "Assess launch"; }
+  finally { $("go").disabled = false; $("askb").disabled = false; $("go").textContent = "Run weather assessment"; }
 }
+function assess() { runOfficer(new URLSearchParams({date:$("date").value, time:$("time").value, site, vehicle:$("vehicle").value})); }
 $("go").onclick = assess;
+$("askb").onclick = () => { if ($("q").value.trim()) runOfficer(new URLSearchParams({q:$("q").value})); };
+$("q").onkeydown = e => { if (e.key === "Enter") $("askb").click(); };
+function renderBrief(r) {
+  const b = r.brief || {}, call = b.call || r.assessment.verdict, cls = call.replace(/ /g, "-");
+  $("vcall").textContent = call; $("vcall").className = "vcall c-" + cls; $("vbar").className = "vbar b-" + cls;
+  $("bhead").textContent = "Qwen officer: " + (b.headline || r.assessment.verdict_reason);
+  $("breasons").innerHTML = (b.reasons || []).map(x => `<li>${x}</li>`).join("");
+  $("bwatch").textContent = (b.watch || []).length ? "Would change the call: " + b.watch.join(" · ") : "";
+  $("trace").innerHTML = r.trace.map(t => `<span class="${t.ok ? (t.parallel ? "par" : "") : "bad"}" title="${t.note || ""}">${t.parallel ? "∥ " : ""}${t.step} · ${t.ms} ms</span>`).join("")
+    + `<span>total ${(r.total_ms / 1000).toFixed(1)} s · allowed: ${r.allowed_calls.join(" / ")} · memory: ${r.memory.source}</span>`;
+  const qw = r.qwen_classifier;
+  if (!qw.available) { $("m-qwen").innerHTML = `<span class="small">${qw.reason || "unavailable"}</span>`; $("m-agree").textContent = "–"; return; }
+  const qy = qw.weather_stop === "yes", gy = r.assessment.risk.pct_vs_flew >= LGBM_YES_PCT;
+  $("m-qwen").innerHTML = `<span class="${qy ? "c-NO-GO" : "c-LIKELY-GO"}">${qy ? "WEATHER STOP" : "NO STOP"}</span>`;
+  $("m-agree").innerHTML = qy === gy ? `<span class="agree">AGREE${qy ? " · STOP" : ""}</span>` : `<span class="disagree">DISAGREE</span>`;
+}
 
+async function qwen(q, r) {
+  $("m-qwen").innerHTML = '<span class="spin"></span><span class="small">asking River</span>'; $("m-agree").textContent = "–";
+  try {
+    const x = await (await fetch("/api/qwen?" + q)).json();
+    if (last !== r) return;
+    if (!x.available) { $("m-qwen").innerHTML = `<span class="small">${x.reason}</span>`; return; }
+    const qy = x.weather_stop === "yes", gy = r.risk.pct_vs_flew >= LGBM_YES_PCT;
+    $("m-qwen").innerHTML = `<span class="${qy ? "c-NO-GO" : "c-LIKELY-GO"}">${qy ? "WEATHER STOP" : "NO STOP"}</span>`;
+    $("m-agree").innerHTML = qy === gy ? `<span class="agree">AGREE${qy ? " · STOP" : ""}</span>` : `<span class="disagree">DISAGREE</span>`;
+  } catch (e) { $("m-qwen").innerHTML = '<span class="small">River unavailable</span>'; }
+}
+
+const LAMP = {ESTIMATED_VIOLATION:"s-red", NO_GO:"s-red", ESTIMATED_CLEAR:"s-green", CLEAR_IN_FORECAST:"s-green", MEASURED:"s-blue", NOT_ESTIMABLE:"s-gray"};
+const SHORT = {"LLCC-1":"Lightning","LLCC-2/3":"Anvil","LLCC-4":"Debris cloud","LLCC-5":"Disturbed wx","LLCC-6":"Thick cloud","LLCC-7":"Smoke plume",
+  "LLCC-8":"Field mill","LLCC-9":"Tribo-electric","LLCC-10":"Cumulus",PRECIP:"Precipitation",THUNDER:"Thunderstorm",WIND:"Surface wind",SHEAR:"Upper shear"};
 function render(r) {
-  $("vword").textContent = r.verdict;
-  $("vword").className = "vword " + (r.verdict === "LIKELY GO" ? "v-LIKELY GO" : r.verdict === "LIKELY NO-GO" ? "v-LIKELY NOGO" : "v-" + r.verdict);
-  const pct = r.risk.pct_vs_flew; $("gpct").textContent = pct + "%";
-  $("garc").style.transition = "stroke-dashoffset 1s ease"; $("garc").style.strokeDashoffset = 251 * (1 - pct / 100);
-  $("vtitle").textContent = `${r.input.vehicle} · ${r.input.site_name} · ${r.input.date} ${r.input.time} UTC`;
-  $("vwhy").innerHTML = r.verdict_reason + ` Weather risk is higher than <b>${pct}%</b> of launches that flew and higher than <b>${r.risk.pct_vs_weather_scrubs}%</b> of past weather scrubs.`;
-  $("vchips").innerHTML = [r.source, `model score ${r.risk.score}`, r.precedent_summary].map(t => `<span class="chip">${t}</span>`).join("");
-  const mx = Math.max(...r.factors.map(f => Math.abs(f.push)), 0.01);
-  $("factors").innerHTML = r.factors.map(f => {
-    const w = 50 * Math.abs(f.push) / mx, up = f.push > 0;
-    return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#334155"></i></span><span style="text-align:right;font-family:JetBrains Mono">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`;
-  }).join("") + `<p class="cd">Red pushes risk up, green pulls it down (log-odds).</p>`;
-  $("checks").innerHTML = r.checks.map(c => `<div class="check"><div>${c.id && c.id.startsWith("LLCC") ? `<span class="cd" style="font-family:JetBrains Mono">${c.id}</span> ` : ""}${c.rule}<div class="cd">${c.method}${c.confidence && c.confidence !== "forecast" && c.confidence !== "n/a" ? ` · ${c.confidence} confidence` : ""} · measured by ${c.measured_by}</div></div><span class="st st-${c.status}">${c.status.replaceAll("_", " ")}</span></div>`).join("")
-    + `<p class="cd">Dashed = estimated from the forecast profile (cloud = RH ≥ ${r.cloud_rh_threshold}% on pressure levels). Layers: ${r.cloud_layers.join("; ")}.</p>`;
-  $("precsum").textContent = r.precedent_summary;
-  $("precs").innerHTML = r.precedents.map(p => {
-    const cls = p.outcome === "flew" ? "o-flew" : p.outcome === "weather scrub" ? "o-weather" : "o-no";
-    return `<div class="prec"><div>${p.mission}<div class="cd">${p.time_utc} UTC · ${p.site}</div></div><span class="${cls}">${p.outcome}${p.cause && p.outcome !== "flew" && p.cause !== "UNKNOWN" ? " · " + p.cause : ""}</span></div>`;
-  }).join("");
-  $("src").textContent = `${r.source}, Open-Meteo best-match model. Forecast, not observation.`;
-  const w = r.weather, T = [["Rain at T-0", w.precipitation + " mm"], ["Storm energy", Math.round(w.cape) + " J/kg"], ["Gusts", Math.round(w.wind_gusts_10m) + " kt"],
-    ["Low cloud", w.cloud_cover_low + "%"], ["Freezing level", Math.round(w.freezing_level_height) + " m"], ["Upper shear", w.max_shear_kt_per_km + " kt/km"],
-    ["Jet wind 250 hPa", Math.round(w.wind_250hPa_kt) + " kt"], ["Humidity", w.relative_humidity_2m + "%"]];
-  $("tiles").innerHTML = T.map(([k, v]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+  $("vempty").style.display = "none"; $("vbody").style.display = "";
+  const cls = r.verdict.replace(/ /g, "-");
+  $("vcall").textContent = r.verdict; $("vcall").className = "vcall c-" + cls; $("vbar").className = "vbar b-" + cls;
+  $("vwhy").innerHTML = `${r.input.vehicle} · ${r.input.site_name} · ${r.input.date} ${r.input.time} UTC<br>${r.verdict_reason}`;
+  $("vsrc").textContent = r.source; const p = r.risk.pct_vs_flew;
+  $("gpct").textContent = p + "%"; $("garc").style.strokeDashoffset = 189 * (1 - p / 100);
+  $("m-gbm").innerHTML = `${p}<span class="small">th pct</span> <span class="small">· ${r.risk.pct_vs_weather_scrubs}th of wx scrubs</span>`;
+  $("board").innerHTML = r.checks.map((c, i) => {
+    const est = c.status.startsWith("ESTIMATED") || c.status === "NOT_ESTIMABLE";
+    return `<div class="lamp ${LAMP[c.status] || "s-gray"} ${est ? "est" : ""} ${c.confidence === "low" ? "low" : ""}" data-i="${i}">
+      <span class="dot"></span><div class="id">${c.id}</div><div class="nm">${SHORT[c.id] || c.rule}${c.confidence === "low" ? " ?" : ""}</div>
+      <div class="val">${fmtVal(c)}</div><div class="thr">${fmtThr(c)}</div></div>`; }).join("");
+  $("detail").style.display = "none";
+  $("board").onclick = e => { const l = e.target.closest(".lamp"); if (!l) return; const c = r.checks[+l.dataset.i];
+    $("detail").style.display = "block";
+    $("detail").innerHTML = `${c.quantity ? `<b>${c.quantity}</b>: ${fmtVal(c)}${c.low != null ? ` (range ${fmtN(c.low)}–${fmtN(c.high)} ${c.unit || ""})` : ""} · threshold: ${c.threshold_desc || "–"}<br>` : ""}${c.calibration ? `Calibration: ${c.calibration}<br>` : ""}<b>${c.id} · ${c.rule}</b> — <b>${c.status.replaceAll("_", " ")}</b>${c.confidence && !["forecast","n/a"].includes(c.confidence) ? ` (${c.confidence} confidence)` : ""}<br>Method: ${c.method}<br>Would be measured by: ${c.measured_by}${Object.keys(c.evidence || {}).length ? `<br><span class="mono" style="font-size:11px">${JSON.stringify(c.evidence)}</span>` : ""}`; };
+  drawProfile(r);
+  const mx = Math.max(...r.factors.map(f => Math.abs(f.push)), .01);
+  $("factors").className = ""; $("factors").innerHTML = r.factors.map(f => { const w = 50 * Math.abs(f.push) / mx, up = f.push > 0;
+    return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#334155"></i></span><span class="mono" style="text-align:right;font-size:12px">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`; }).join("")
+    + `<div class="small" style="margin-top:8px">Red raises weather risk, green lowers it.</div>`;
+  $("precsum").textContent = r.precedent_summary.replace(" of the 6 most similar past attempts were stopped by weather", "/6 stopped by weather");
+  $("precs").className = ""; $("precs").innerHTML = r.precedents.map(x => { const o = x.outcome === "flew" ? "o1" : x.outcome === "weather scrub" ? "o2" : "o3";
+    return `<div class="prec"><span class="d ${o}"></span><div>${x.mission}<div class="small">${x.time_utc} UTC · ${x.site}</div></div><span class="small">${x.outcome}</span></div>`; }).join("");
   $("sent").textContent = ""; $("corr").value = "";
 }
 
-$("send").onclick = async () => {
-  if (!last || !$("corr").value.trim()) return;
-  await fetch("/api/correct", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({assessment:last.input, verdict:last.verdict, risk:last.risk, correction:$("corr").value})});
-  $("sent").textContent = "Saved. It will be used in the next training run.";
-};
+function fmtN(v) { return v == null ? "–" : Math.abs(v) >= 1000 ? Math.round(v).toLocaleString() : (Math.round(v * 10) / 10).toString(); }
+function fmtVal(c) { if (c.value == null) return c.status === "NOT_ESTIMABLE" ? "no data" : (c.status.includes("CLEAR") ? "clear" : c.status.includes("VIOL") ? "flagged" : "–");
+  return `${c.status.startsWith("ESTIMATED") ? "≈" : ""}${fmtN(c.value)} ${c.unit || ""}`; }
+function fmtThr(c) { if (c.threshold == null) return c.threshold_desc ? (c.threshold_desc.length > 26 ? c.threshold_desc.slice(0, 24) + "…" : c.threshold_desc) : "";
+  return `limit ${fmtN(c.threshold)} ${c.unit && c.unit.length < 8 ? c.unit : ""}`; }
+function drawProfile(r) {
+  const W = 460, H = 330, L = 44, R = 96, T = 10, B = 28, maxFt = 42000, tMin = -60, tMax = 35;
+  const x = t => L + (t - tMin) / (tMax - tMin) * (W - L - R), y = ft => H - B - ft / maxFt * (H - T - B);
+  let s = "";
+  for (let ft = 0; ft <= maxFt; ft += 10000) s += `<line x1="${L}" x2="${W - R}" y1="${y(ft)}" y2="${y(ft)}" stroke="#1b2536"/><text x="${L - 6}" y="${y(ft) + 3}" fill="#56627a" font-size="9" text-anchor="end">${ft / 1000}k ft</text>`;
+  for (let t = -60; t <= 30; t += 30) s += `<text x="${x(t)}" y="${H - 10}" fill="#56627a" font-size="9" text-anchor="middle">${t}°C</text>`;
+  const pr = r.profile.filter(p => p.ft <= maxFt);
+  // cloud bands from consecutive saturated levels
+  for (let i = 0; i < pr.length; i++) if (pr[i].rh >= 90) {
+    const lo = i > 0 ? (pr[i - 1].ft + pr[i].ft) / 2 : pr[i].ft - 800, hi = i < pr.length - 1 ? (pr[i].ft + pr[i + 1].ft) / 2 : pr[i].ft + 800;
+    s += `<rect x="${L}" width="${W - L - R}" y="${y(hi)}" height="${y(lo) - y(hi)}" fill="rgba(148,163,184,.16)"/>`; }
+  for (const [t, c, lab] of [[0, "#38bdf8", "0°C"], [-10, "#8b6bff", "-10°C tribo"], [-20, "#f472b6", "-20°C anvil"]])
+    s += `<line x1="${x(t)}" x2="${x(t)}" y1="${T}" y2="${H - B}" stroke="${c}" stroke-dasharray="3 3" opacity=".7"/><text x="${x(t) + 3}" y="${T + 9}" fill="${c}" font-size="8.5">${lab}</text>`;
+  if (r.freezing_level_ft) s += `<line x1="${L}" x2="${W - R}" y1="${y(r.freezing_level_ft)}" y2="${y(r.freezing_level_ft)}" stroke="#38bdf8" opacity=".55"/><text x="${L + 4}" y="${y(r.freezing_level_ft) - 4}" fill="#38bdf8" font-size="9">freezing level ${Math.round(r.freezing_level_ft).toLocaleString()} ft</text>`;
+  s += `<polyline fill="none" stroke="#f59e0b" stroke-width="2.2" points="${pr.map(p => `${x(p.temp_c)},${y(p.ft)}`).join(" ")}"/>`;
+  s += pr.map(p => `<circle cx="${x(p.temp_c)}" cy="${y(p.ft)}" r="2.6" fill="#f59e0b"/>`).join("");
+  s += `<text x="${W - R + 10}" y="${T + 8}" fill="#56627a" font-size="9">RH · wind</text>`;
+  s += pr.map(p => `<rect x="${W - R + 10}" y="${y(p.ft) - 4}" width="${p.rh * .42}" height="7" rx="2" fill="${p.rh >= 90 ? "#94a3b8" : "#334155"}"/><text x="${W - R + 58}" y="${y(p.ft) + 3}" fill="#7f8ba0" font-size="8.5" font-family="JetBrains Mono">${Math.round(p.wind_kt ?? 0)} kt</text>`).join("");
+  $("prof").innerHTML = s;
+}
 
-// ---- week heatmap -----------------------------------------------------------
-function color(p) { const s = [[0,[16,35,63]],[50,[47,91,211]],[80,[245,158,11]],[100,[239,68,68]]];
-  for (let i = 1; i < s.length; i++) if (p <= s[i][0]) { const [a, ca] = s[i-1], [b, cb] = s[i], t = (p - a) / (b - a);
-    return `rgb(${ca.map((c, j) => Math.round(c + t * (cb[j] - c))).join(",")})`; } return "rgb(239,68,68)"; }
+$("send").onclick = async () => { if (!last || !$("corr").value.trim()) return;
+  await fetch("/api/correct", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({assessment:last.input, verdict:last.verdict, risk:last.risk, correction:$("corr").value})});
+  $("sent").textContent = "Saved for the next training run."; };
+
+// window planner
+const CALLC = {"NO-GO":[239,68,68],"LIKELY NO-GO":[251,146,60],"UNDECIDED":[163,163,163],"LIKELY GO":[34,197,94]};
 async function loadWeek() {
-  $("heat").innerHTML = '<div style="grid-column:1/-1;padding:14px"><span class="spin"></span>Scoring 168 hours…</div>';
-  const r = await (await fetch(`/api/week?site=${$("site").value}&vehicle=${$("vehicle").value}`)).json();
-  if (r.error) { $("heat").innerHTML = `<div class="err">${r.error}</div>`; return; }
-  const byDay = {}; for (const h of r.hours) (byDay[h.t.slice(0,10)] ||= [])[+h.t.slice(11,13)] = h;
-  let html = "<div></div>" + Array.from({length:24}, (_, i) => `<div style="text-align:center">${i % 3 ? "" : String(i).padStart(2,"0")}</div>`).join("");
+  $("heat").innerHTML = '<div style="grid-column:1/-1;padding:12px" class="small"><span class="spin"></span>Scoring 168 hours with every rule…</div>'; $("best").innerHTML = "";
+  const r = await (await fetch(`/api/week?site=${site}&vehicle=${$("vehicle").value}`)).json();
+  if (r.error) { $("heat").innerHTML = `<div style="color:#fca5a5">${r.error}</div>`; return; }
+  const nowH = new Date().toISOString().slice(0, 13); const byDay = {};
+  for (const h of r.hours) (byDay[h.t.slice(0, 10)] ||= [])[+h.t.slice(11, 13)] = h;
+  let html = "<div></div>" + Array.from({length:24}, (_, i) => `<div style="text-align:center">${i % 3 ? "" : pad2(i)}</div>`).join("");
   for (const [d, hs] of Object.entries(byDay)) {
-    html += `<div>${new Date(d + "T00:00Z").toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"})}</div>`;
-    for (let i = 0; i < 24; i++) { const h = hs[i];
-      html += h ? `<div class="c" title="${d} ${String(i).padStart(2,"0")}:00 UTC · riskier than ${h.pct_vs_flew}% of flown launches" style="background:${color(h.pct_vs_flew)}" onclick="pick('${d}',${i})"></div>` : "<div></div>"; }
+    html += `<div style="align-self:center">${new Date(d + "T00:00Z").toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"})}</div>`;
+    for (let i = 0; i < 24; i++) { const h = hs[i]; if (!h) { html += "<div></div>"; continue; }
+      const [cr, cg, cb] = CALLC[h.call], a = .35 + .65 * (h.call === "LIKELY GO" ? 1 - h.pct_vs_flew / 100 : h.pct_vs_flew / 100);
+      html += `<div class="c ${h.t.slice(0, 13) === nowH ? "now" : ""}" style="background:rgba(${cr},${cg},${cb},${a.toFixed(2)})" title="${d} ${pad2(i)}:00 UTC · ${h.call} · riskier than ${h.pct_vs_flew}% of flown${h.violations.length ? " · " + h.violations.join(", ") : ""}" onclick="pick('${d}',${i})"></div>`; }
   }
   $("heat").innerHTML = html;
+  $("best").innerHTML = r.best_windows.length ? r.best_windows.map(h => `<button onclick="pick('${h.t.slice(0, 10)}',${+h.t.slice(11, 13)})"><div class="k">${new Date(h.t + ":00Z").toLocaleDateString(undefined, {weekday:"short", day:"numeric", timeZone:"UTC"})} ${h.t.slice(11, 16)}Z</div><div class="s">riskier than ${h.pct_vs_flew}% of flown</div></button>`).join("")
+    : '<div class="small">No LIKELY GO hours in the next 7 days at this site.</div>';
 }
-function pick(d, h) { $("date").value = d; $("time").value = String(h).padStart(2,"0") + ":00"; assess(); }
+function pick(d, h) { $("date").value = d; $("time").value = pad2(h) + ":00"; assess(); window.scrollTo({top:0, behavior:"smooth"}); }
 loadWeek();
 </script>
 </body>

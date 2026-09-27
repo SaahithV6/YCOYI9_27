@@ -1,0 +1,5 @@
+{
+  "training": "river://f29eaa37-c72b-4d7b-bd1c-cefed4c7cd9a/weights/scrubline-weather-river-weather-20260927-160452",
+  "inference": "river://f29eaa37-c72b-4d7b-bd1c-cefed4c7cd9a/sampler_weights/scrubline-weather-infer-river-weather-20260927-160452",
+  "base_model": "Qwen/Qwen3.5-9B"
+}

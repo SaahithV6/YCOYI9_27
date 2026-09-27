@@ -4,17 +4,20 @@
 
 ## The short version (read this first)
 
-Launch pads on the Space Coast have shown they can fly 143 times a year. They fly 73.
-Since 2020 a Cape launch has missed its announced date **1,502 times** (1,216 slips before
-the countdown, 286 scrubs during it). For **1,235 of those (82%) nobody published why**, so
-nobody learns from them. There isn't even an agreed definition of what counts as a scrub,
-a slip, or a launch that went fine.
+Launch pads on the Space Coast have shown they can fly 143 times a year. They fly 73. Weather is the
+biggest cause we can name: of the 154 Cape countdown scrubs since 2020 whose cause is on record, **91 (59%)
+were weather** (76 at the launch site, 12 in the recovery zone, 3 upper-level winds). And weather is the
+one cause that is visible in advance.
 
-We're building a **launch weather officer**: you choose a date, a time and a rocket; it
-checks the real launch rules against real weather data and the Space Force forecast, pulls
-up every past failure that looked like this one, scores the risk with a small non-LLM model,
-and says **GO / NO-GO / UNDECIDED and why**, citing its evidence. When the team corrects it,
-the correction is remembered, and the next answer is better.
+**Weather scrubs are preventable.** Our weather-risk model, scored on launches it was not trained on,
+shows that moving just the riskiest 10% of launch hours would have avoided **47% of weather scrubs**
+(62% at 20%). Scrubline turns that into a decision a launch team can make before committing the pad:
+
+We're building a **launch weather officer**: you choose a date, a time and a rocket; it checks all ten
+lightning launch rules against the forecast (estimated where a forecast lacks the instrument), scores the
+weather risk with a model trained on every past attempt, gets a second opinion from a Qwen model fine-tuned
+on River, and says **NO-GO / LIKELY NO-GO / UNDECIDED / LIKELY GO and why**, citing its evidence. A 7-day
+planner shows the best windows before anyone commits the pad.
 
 **For the feasibility check, the questions are:**
 1. Is the demo below buildable in 3h45m with the pieces marked "have"?
@@ -58,9 +61,9 @@ stops a year across the whole coast (45 of the 105 countdowns stopped on the day
 (a16z_throughput_numbers.md, a16z_throughput_building_answer.txt). Those dollar figures
 are the pitch's own estimates, and none of our datasets records their original source.
 Read them as an order of magnitude, not a measured cost per scrub. We have no measured
-market size. By the same record, weather alone is a small slice. The bigger costs are
-turnaround and sequencing, and the 82% of misses that nobody explains, which means
-nobody can plan around them.
+market size. What the record does show is that weather is the largest named cause of
+countdown scrubs (91 of 154 with a known cause), and the one a team can see coming days
+ahead, which is what makes it the preventable part of the cost.
 
 **Where this project cuts the cost:**
 
@@ -70,9 +73,10 @@ nobody can plan around them.
   choose a low-risk hour before the pad is tied up. Flexibility is the biggest lever we
   measured: a longer window plus a next-day recycle takes the weather-scrub risk from
   14.5% to 0.5% (a16z_throughput_numbers.md, from ~/Documents/scrubline/artifacts/mitigation.json).
-- **Recover the cause.** 1,235 of 1,502 misses (82%) have no published cause (this
-  README, section 3). Each one we explain with evidence gives operators, schedulers and
-  insurers a case they can learn from, not just a blank.
+- **Move the risky hours.** Ranked by the model on launches it was not trained on, moving
+  the riskiest 10% of launch hours would have avoided 47% of weather scrubs (62% at 20%).
+  Every past attempt, with its weather and cause, sits in GBrain memory so each call cites
+  the precedents that look like it.
 - **Say what's missing before GO.** The rules check never marks an unmeasured rule as
   fine. It names the missing instrument (`UNAVAILABLE`), so a team knows before the count
   what it is flying blind on. Five of the ten launch commit criteria can't be evaluated

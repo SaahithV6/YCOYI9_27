@@ -1,0 +1,195 @@
+{"mission": "Starlink Group 10-43", "time_utc": "2026-06-03T11:25:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Amazon Leo (LA-07)", "time_utc": "2026-05-29T23:29:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-13T22:51:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-13T22:55:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-12T20:21:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "ViaSat-3 F3 (ViaSat-3 Asia-Pacific)", "time_utc": "2026-04-27T14:21:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "ViaSat-3 F3 (ViaSat-3 Asia-Pacific)", "time_utc": "2026-04-27T14:36:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Crew-12", "time_utc": "2026-02-10T13:52:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Crew-12", "time_utc": "2026-02-09T14:52:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "GPS III SV09", "time_utc": "2026-01-26T18:13:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Amazon Leo (LA-04)", "time_utc": "2025-12-14T18:43:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-11-13T19:57:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-11-13T20:30:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-11-12T15:04:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-11-09T20:04:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-10-02T23:28:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nusantara Lima", "time_utc": "2025-09-10T01:37:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nusantara Lima", "time_utc": "2025-09-10T21:59:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nusantara Lima", "time_utc": "2025-09-09T01:14:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Amazon Leo (KF-02)", "time_utc": "2025-08-09T13:46:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KF-02)", "time_utc": "2025-08-08T10:44:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-83", "time_utc": "2025-05-12T05:45:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Amazon Leo (KA-01)", "time_utc": "2025-04-09T22:47:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-11T04:12:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-11T04:30:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-09T00:30:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-09T18:20:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-06T06:15:00+00:00", "label": 1, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-04T17:04:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Maiden Flight", "time_utc": "2025-01-09T16:02:00+00:00", "label": 1, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Thuraya 4-NGS", "time_utc": "2025-01-04T01:27:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-71", "time_utc": "2025-01-06T20:43:59+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 12-11", "time_utc": "2025-01-08T15:27:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-12", "time_utc": "2025-01-10T19:11:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-4", "time_utc": "2025-01-13T16:47:09+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Blue Ghost Lunar Lander Mission 1 & Hakuto-R M2 \u201cResilience\u201d", "time_utc": "2025-01-15T06:11:39+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Maiden Flight", "time_utc": "2025-01-16T07:03:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 13-1", "time_utc": "2025-01-21T05:24:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-7", "time_utc": "2025-01-27T22:05:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "SpainSat NG I", "time_utc": "2025-01-30T01:34:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-3", "time_utc": "2025-02-04T10:15:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "WorldView Legion 5 & 6", "time_utc": "2025-02-04T23:13:00+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 12-9", "time_utc": "2025-02-08T19:18:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-18", "time_utc": "2025-02-11T18:53:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-8", "time_utc": "2025-02-15T06:14:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-12", "time_utc": "2025-02-18T23:21:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-14", "time_utc": "2025-02-21T15:19:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nova-C IM-2 & Others", "time_utc": "2025-02-27T00:16:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-13", "time_utc": "2025-02-27T03:34:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-20", "time_utc": "2025-03-03T02:24:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-21", "time_utc": "2025-03-13T02:35:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Crew-10", "time_utc": "2025-03-14T23:03:48+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-16", "time_utc": "2025-03-15T11:35:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-25", "time_utc": "2025-03-18T19:57:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "NROL-69", "time_utc": "2025-03-24T17:48:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-80", "time_utc": "2025-03-31T19:52:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Fram2", "time_utc": "2025-04-01T01:46:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-72", "time_utc": "2025-04-06T03:07:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-17", "time_utc": "2025-04-13T00:53:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-73", "time_utc": "2025-04-14T04:00:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dragon CRS-2 SpX-32", "time_utc": "2025-04-21T08:15:45+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Bandwagon 3 (Dedicated Mid-Inclination Rideshare)", "time_utc": "2025-04-22T00:48:34+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-74", "time_utc": "2025-04-25T01:52:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-23", "time_utc": "2025-04-28T02:09:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KA-01)", "time_utc": "2025-04-28T23:01:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-10", "time_utc": "2025-04-29T02:34:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-75", "time_utc": "2025-05-02T01:51:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-84", "time_utc": "2025-05-04T08:54:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-93", "time_utc": "2025-05-07T01:17:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-91", "time_utc": "2025-05-10T06:28:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-83", "time_utc": "2025-05-13T05:02:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-67", "time_utc": "2025-05-14T16:38:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-15", "time_utc": "2025-05-21T03:19:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-22", "time_utc": "2025-05-24T17:19:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-32", "time_utc": "2025-05-28T13:30:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "GPS III SV08", "time_utc": "2025-05-30T17:37:59+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-19", "time_utc": "2025-06-03T04:43:40+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Sirius SXM-10", "time_utc": "2025-06-07T04:54:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-24", "time_utc": "2025-06-10T13:05:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 12-26", "time_utc": "2025-06-13T15:29:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-18", "time_utc": "2025-06-18T05:55:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-23", "time_utc": "2025-06-23T05:58:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KA-02)", "time_utc": "2025-06-23T10:54:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Axiom Space Mission 4", "time_utc": "2025-06-25T06:31:52+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-16", "time_utc": "2025-06-25T19:54:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-34", "time_utc": "2025-06-28T04:26:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "MTG-S1", "time_utc": "2025-07-01T21:04:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-25", "time_utc": "2025-07-02T06:28:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-28", "time_utc": "2025-07-08T08:21:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dror-1", "time_utc": "2025-07-13T05:04:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KF-01)", "time_utc": "2025-07-16T06:30:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "O3b mPower 9-10", "time_utc": "2025-07-22T21:12:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-26", "time_utc": "2025-07-26T09:01:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-29", "time_utc": "2025-07-30T03:37:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Crew-11", "time_utc": "2025-08-01T15:43:42+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-30", "time_utc": "2025-08-04T07:57:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KF-02)", "time_utc": "2025-08-11T12:35:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "USSF-106", "time_utc": "2025-08-13T00:56:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-20", "time_utc": "2025-08-14T12:29:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "OTV-8 (X-37B) (USSF-36)", "time_utc": "2025-08-22T03:50:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dragon CRS-2 SpX-33", "time_utc": "2025-08-24T06:45:36+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-56", "time_utc": "2025-08-27T11:10:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-11", "time_utc": "2025-08-28T08:12:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-14", "time_utc": "2025-08-31T11:49:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-22", "time_utc": "2025-09-03T11:56:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-57", "time_utc": "2025-09-05T12:32:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nusantara Lima", "time_utc": "2025-09-12T01:56:00+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Cygnus CRS-2 NG-23 (S.S. William \u201cWillie\u201d C. McCool)", "time_utc": "2025-09-14T22:11:48+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-61", "time_utc": "2025-09-18T09:30:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-27", "time_utc": "2025-09-21T10:53:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "IMAP & others", "time_utc": "2025-09-24T11:30:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-15", "time_utc": "2025-09-25T08:39:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KA-03)", "time_utc": "2025-09-25T12:09:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-59", "time_utc": "2025-10-07T06:46:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (KF-03)", "time_utc": "2025-10-14T01:58:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-52", "time_utc": "2025-10-16T09:27:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-17", "time_utc": "2025-10-19T17:39:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "SpainSat NG II", "time_utc": "2025-10-24T01:30:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-21", "time_utc": "2025-10-26T15:00:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-37", "time_utc": "2025-10-29T16:35:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Bandwagon 4 (Dedicated Mid-Inclination Rideshare)", "time_utc": "2025-11-02T05:09:59+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-81", "time_utc": "2025-11-06T01:31:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-51", "time_utc": "2025-11-09T08:10:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-87", "time_utc": "2025-11-11T03:21:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EscaPADE", "time_utc": "2025-11-13T20:55:01+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "ViaSat-3 F2 (ViaSat-3 EMEA)", "time_utc": "2025-11-14T03:04:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-89", "time_utc": "2025-11-15T03:08:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-85", "time_utc": "2025-11-15T06:44:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-94", "time_utc": "2025-11-19T00:12:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-78", "time_utc": "2025-11-21T03:39:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-79", "time_utc": "2025-11-22T07:53:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-86", "time_utc": "2025-12-01T07:44:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-95", "time_utc": "2025-12-02T22:18:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-92", "time_utc": "2025-12-08T22:26:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "NROL-77", "time_utc": "2025-12-09T19:16:25+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-90", "time_utc": "2025-12-11T22:01:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-82", "time_utc": "2025-12-15T05:25:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (LA-04)", "time_utc": "2025-12-16T08:28:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-99", "time_utc": "2025-12-17T13:42:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-88", "time_utc": "2026-01-04T06:48:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-96", "time_utc": "2026-01-09T21:41:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-97", "time_utc": "2026-01-12T21:08:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-98", "time_utc": "2026-01-14T18:08:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-100", "time_utc": "2026-01-18T23:31:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "GPS III SV09", "time_utc": "2026-01-28T04:53:16+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-101", "time_utc": "2026-01-30T07:22:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "USSF-87", "time_utc": "2026-02-12T09:22:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Crew-12", "time_utc": "2026-02-13T10:15:56+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-103", "time_utc": "2026-02-16T07:59:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-36", "time_utc": "2026-02-20T01:41:40+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 6-104", "time_utc": "2026-02-22T03:47:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-110", "time_utc": "2026-02-24T23:04:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 6-108", "time_utc": "2026-02-27T12:16:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-41", "time_utc": "2026-03-02T02:56:40+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-40", "time_utc": "2026-03-04T10:52:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "EchoStar 25", "time_utc": "2026-03-10T04:19:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-48", "time_utc": "2026-03-14T12:37:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-46", "time_utc": "2026-03-17T13:27:34+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 10-33", "time_utc": "2026-03-19T14:20:10+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 10-62", "time_utc": "2026-03-22T14:47:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-44", "time_utc": "2026-03-30T21:15:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Artemis II", "time_utc": "2026-04-01T22:35:12+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-58", "time_utc": "2026-04-02T11:55:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (LA-05)", "time_utc": "2026-04-04T05:46:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Cygnus CRS-2 NG-24 (S.S. Steven R. Nagel)", "time_utc": "2026-04-11T11:41:21+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-24", "time_utc": "2026-04-14T09:33:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "BlueBird 7 (Block 2 #2)", "time_utc": "2026-04-19T11:25:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "GPS III SV10", "time_utc": "2026-04-21T06:53:25+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (LA-06)", "time_utc": "2026-04-28T00:53:30+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "ViaSat-3 F3 (ViaSat-3 Asia-Pacific)", "time_utc": "2026-04-29T14:13:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-38", "time_utc": "2026-05-01T18:06:10+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Dragon CRS-2 SpX-34", "time_utc": "2026-05-15T22:05:41+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-31", "time_utc": "2026-05-21T10:04:20+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-47", "time_utc": "2026-05-25T11:48:04+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-53", "time_utc": "2026-05-29T12:57:15+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (LA-07)", "time_utc": "2026-05-29T23:53:00+00:00", "label": 0, "pred": "yes", "raw": "{\"weather_stop\": \"yes\"}"}
+{"mission": "Starlink Group 10-43", "time_utc": "2026-06-04T10:26:30+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-35", "time_utc": "2026-06-08T10:13:50+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-54", "time_utc": "2026-06-12T12:37:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "BlueBird 8-10 (Block 2 #3-5)", "time_utc": "2026-06-17T06:39:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Project Starfall Demonstration Mission", "time_utc": "2026-06-23T10:53:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Sirius SXM-11", "time_utc": "2026-06-29T02:25:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Amazon Leo (LA-08)", "time_utc": "2026-07-02T04:30:15+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-50", "time_utc": "2026-07-05T10:50:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-42", "time_utc": "2026-07-09T09:25:43+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-45", "time_utc": "2026-07-14T09:10:12+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "MRV-1", "time_utc": "2026-07-21T21:15:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "NROL-95", "time_utc": "2026-07-30T07:10:19+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "BlueBird 11-13 (Block 2 #6-8)", "time_utc": "2026-08-05T07:49:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-19", "time_utc": "2026-08-11T15:58:26+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Globalstar 2-R Mission 1 (x 8)", "time_utc": "2026-08-16T01:12:14+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-39", "time_utc": "2026-08-21T15:14:22+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Starlink Group 10-49", "time_utc": "2026-08-25T09:33:38+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "Nancy Grace Roman Space Telescope", "time_utc": "2026-08-30T11:26:04+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
+{"mission": "O3b mPower 11-13", "time_utc": "2026-09-13T18:49:00+00:00", "label": 0, "pred": "no", "raw": "{\"weather_stop\": \"no\"}"}
