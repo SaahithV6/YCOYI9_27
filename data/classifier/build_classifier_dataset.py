@@ -3,7 +3,7 @@
 Schema: artifacts/classifier/schema.json. Task: given one non-launch event, output
 {"cause": <enum>}. Labels come only from confirmed evidence: the event's own stated /
 webcast / press cause, plus web-research results with a source URL and quote
-(artifacts/research/results_*.json). Candidate causes are NOT labels.
+(artifacts/research/results_*.json) that passed quote verification (research/verified.json). Candidate causes are NOT labels.
 
 Every labeled event appears twice: "full" (with the operator's text) and "masked"
 (text removed; only mission, timing and observed weather). The masked variant is what
@@ -72,10 +72,14 @@ def main():
     # 45 WS launch-day POV per event (same matching as enrich_causes)
     pov = {int(r["event_index"]): int(r["forecast_pov_pct"]) for r in csv.DictReader((ART / "cause_candidates.csv").open())
            if r["evidence_grade"] == "FORECAST" and r["forecast_pov_pct"]}
+    # Only research rows whose quote was checked against the source (research/verified.json).
+    vpath = ART / "research" / "verified.json"
+    accepted = {r["event_index"] for r in json.loads(vpath.read_text()) if r["accepted"]} if vpath.exists() else set()
     web = {}
     for f in glob.glob(str(ART / "research" / "results_*.json")):
         for r in json.loads(Path(f).read_text()):
-            if r.get("evidence_grade") == "WEB" and r.get("cause") in CAUSES and r["cause"] != "UNKNOWN" and r.get("quote") and r.get("source_url"):
+            if r.get("evidence_grade") == "WEB" and r.get("cause") in CAUSES and r["cause"] != "UNKNOWN" and r.get("quote") and r.get("source_url") \
+                    and int(r["event_index"]) in accepted:
                 web[int(r["event_index"])] = r
 
     OUT.mkdir(exist_ok=True)

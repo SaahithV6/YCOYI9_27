@@ -1,0 +1,222 @@
+[
+ {
+  "event_index": 0,
+  "mission": "Crew-13",
+  "date": "2026-09-16",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.nasa.gov/blogs/spacestation/2026/09/16/cargo-mission-and-crew-13-updates-station-research-maintenance-continue/",
+  "source_date": "2026-09-16",
+  "quote": "The team successfully replaced an oxidizer valve in Dragon's propulsion system after a leak was detected earlier in processing.",
+  "notes": "NASA/SpaceX targeted early October to allow completion of prelaunch activities and readiness reviews, matching dataset's stated text. Underlying cause: Dragon propulsion oxidizer valve leak."
+ },
+ {
+  "event_index": 74,
+  "mission": "BlueBird 7 (Block 2 #2)",
+  "date": "2026-04-19",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Spaceflight Now (2026-04-20) explicitly calls the T-3:57 hold 'unexplained'/'undisclosed'; Blue Origin never stated a cause."
+ },
+ {
+  "event_index": 199,
+  "mission": "SpainSat NG II",
+  "date": "2025-10-22",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Spaceflight Now and SatNews both state the 24-hour slip was 'for reasons not disclosed by SpaceX.' An unverified search snippet mentioned propellant loading/a boat but could not be confirmed in either primary article, so it was discarded."
+ },
+ {
+  "event_index": 285,
+  "mission": "Axiom Space Mission 4",
+  "date": "2025-06-23",
+  "cause": "PAYLOAD",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.nasa.gov/blogs/spacestation/2025/06/19/nasa-provides-latest-axiom-mission-4-launch-station-operations-update",
+  "source_date": "2025-06-19",
+  "quote": "NASA needs additional time to continue evaluating International Space Station operations after recent repair work in the aft (back) most segment of the orbital laboratory's Zvezda service module.",
+  "notes": "Stand-down attempt (June 22) is within +/-1 day of dataset's June 23 date; NASA's June 23 post confirmed NET June 25, matching stated text. Cause is ISS/Zvezda station-readiness, not the launch vehicle; mapped to PAYLOAD as closest available enum value (no station-readiness category exists) -- flagged as a judgment call."
+ },
+ {
+  "event_index": 385,
+  "mission": "Starlink Group 12-20",
+  "date": "2025-02-28",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Spaceflight Now's own launch page lists only 'Delayed from Feb. 27/28, Mar. 1' with no reason given anywhere found."
+ },
+ {
+  "event_index": 418,
+  "mission": "Starlink Group 12-11",
+  "date": "2025-01-06",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found explicitly stating a cause for the Jan 6, 2025 attempt; only the successful Jan 8 launch is well documented."
+ },
+ {
+  "event_index": 434,
+  "mission": "Astranis: From One to Many (4x Astranis MicroGEO)",
+  "date": "2024-12-21",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://satnews.com/2025/01/01/spacex-launches-astranis-from-one-to-many-mission-after-a-last-second-abort-days-earlier/",
+  "source_date": "2025-01-01",
+  "quote": "This was SpaceX's second attempt to launch the MicroGEO satellites for Astranis which ended in a last-second abort on December 21 as the Falcon 9 rocket's first stage engines ignited.",
+  "notes": "Corroborated by Spaceflight Now's Dec 20/21 live-coverage headline 'Mid-ignition issue forces a scrub.' Pad abort at first-stage engine ignition."
+ },
+ {
+  "event_index": 511,
+  "mission": "Starlink Group 6-61",
+  "date": "2024-10-21",
+  "cause": "WX_RECOVERY",
+  "evidence_grade": "WEB",
+  "source_url": "https://spaceflightnow.com/2024/10/21/live-coverage-spacex-to-launch-starlink-satellites-on-falcon-9-rocket-from-cape-canaveral-4/",
+  "source_date": "2024-10-21",
+  "quote": "SpaceX launches Starlink mission following scrub due to poor booster recovery weather",
+  "notes": "Source's own headline explicitly attributes the scrub/push to Oct 22 to poor booster recovery weather."
+ },
+ {
+  "event_index": 561,
+  "mission": "Galileo L13 (FOC FM26 & FM32)",
+  "date": "2024-09-16",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Search snippets suggested recovery-weather delay but direct fetches of Spaceflight Now/SatNews/mynews13 could not confirm an explicit sentence for this specific attempt; NASASpaceflight forum returned 403."
+ },
+ {
+  "event_index": 626,
+  "mission": "Starlink Group 10-4",
+  "date": "2024-07-19",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://satnews.com/2024/07/22/spacex-is-ready-to-begin-launches-with-a-july-23-starlink-smallsat-group-10-4-launch/",
+  "source_date": "2024-07-22",
+  "quote": "The Federal Aviation Administration (FAA) received a request from SpaceX on Monday (July 15) to continue launching Falcon 9 flights during the investigation following July 11 failure of the Starlink 9-3 mission in which the rocket's upper stage experienced a liquid oxygen leak.",
+  "notes": "This mission's repeated NET slips, including the dataset's July 19 -> July 21 slip, fell within the FAA-mandated Falcon 9 grounding after the July 11, 2024 Starlink 9-3 upper-stage failure; SpaceX could not launch until FAA cleared it (RTF July 27). Source names this mission specifically but does not use the words 'July 19' verbatim -- softer than a pinpoint quote."
+ },
+ {
+  "event_index": 696,
+  "mission": "Starlink Group 6-56",
+  "date": "2024-05-06",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found stating an explicit cause for the May 6, 2024 attempt/slip; only coverage of the eventual May 8 launch was found."
+ },
+ {
+  "event_index": 730,
+  "mission": "NROL-70",
+  "date": "2024-03-28",
+  "cause": "GROUND_SYSTEM",
+  "evidence_grade": "WEB",
+  "source_url": "https://spaceflightnow.com/2024/03/28/live-coverage-ula-nro-to-launch-final-delta-4-heavy-rocket/",
+  "source_date": "2024-03-28",
+  "quote": "During the hold a Cape GN2 (gaseous nitrogen) pipeline ground pump failed causing a scrub.",
+  "notes": "Confirms dataset's own stated cause (GN2 ground pump failure) for the March 28, 2024 hold-then-scrub. Could not independently verify the 'NET April 1st' detail; mission ultimately launched April 9, 2024."
+ },
+ {
+  "event_index": 789,
+  "mission": "Starlink Group 6-39",
+  "date": "2024-02-09",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found with an explicit cause for a Feb 9, 2024 attempt; all coverage found is for the eventual Feb 25, 2024 launch."
+ },
+ {
+  "event_index": 878,
+  "mission": "USSF-124",
+  "date": "2023-10-27",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "General reporting shows Tranche 0 payload integration/vendor delays pushed USSF-124 into 2024, but no source explicitly ties a stated cause to an Oct 27, 2023 attempt specifically."
+ },
+ {
+  "event_index": 962,
+  "mission": "Galaxy 37",
+  "date": "2023-07-24",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found with an explicit cause for a July 23/24, 2023 attempt; all coverage found is for the eventual August 3, 2023 launch."
+ },
+ {
+  "event_index": 1038,
+  "mission": "NROL-68",
+  "date": "2023-04-25",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "A SatNews article (2023-04-06) describes an off-nominal flight valve found during processing, but it is dated 19 days before this event and describes the start of an ongoing multi-week valve-leak saga (eventual launch June 22), not an explicit cause specifically for the April 25 attempt. Rejected for exceeding the +/-1 day source-date window; marked UNKNOWN rather than inferred."
+ },
+ {
+  "event_index": 1214,
+  "mission": "Hotbird 13F",
+  "date": "2022-10-15",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://spaceflightnow.com/2022/10/14/falcon-9-hotbird-13f-live-coverage/",
+  "source_date": "2022-10-14",
+  "quote": "SpaceX delayed the launch time to the end of the launch window to allow additional time for data review.",
+  "notes": "This was an in-window hold/recycle, not a full day scrub: target slipped from 11:26pm EDT Oct 14 (03:26 UTC Oct 15) to window-end 1:22am EDT (05:22 UTC) the same night, matching dataset's 'additional launcher data review' text. Source does not specify what the data concerned beyond 'launcher data.'"
+ },
+ {
+  "event_index": 1320,
+  "mission": "Nilesat-301",
+  "date": "2022-05-17",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "advanced-television.com (2022-05-20) attributes the slip to Covid-related satellite production delay and confirms the NET June 10 target matching dataset text, but is dated 3 days after this event, outside the +/-1 day window; rejected as not pinned to the specific May 17 attempt. Marked UNKNOWN."
+ },
+ {
+  "event_index": 1340,
+  "mission": "Starlink Group 4-14",
+  "date": "2022-04-14",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found explicitly tying an April 14, 2022 schedule event for Starlink 4-14 to any stated cause. Coverage only shows the mission slipping within its actual launch day (Apr 21) due to high winds, and a separate, unrelated Crew-4 slip. Not used since it doesn't match this attempt."
+ },
+ {
+  "event_index": 1473,
+  "mission": "Starlink 17",
+  "date": "2021-02-04",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.clickorlando.com/news/local/2021/02/04/spacex-targeting-this-weekend-for-next-starlink-launch/",
+  "source_date": "2021-02-04",
+  "quote": "additional inspections before flying one of our fleet-leading boosters",
+  "notes": "Article published same day as event date. SpaceX moved target from Thursday/Friday to Sunday 4:31am, citing booster inspection need, matching dataset text 'Delay to Sunday confirmed by SpaceX.'"
+ }
+]

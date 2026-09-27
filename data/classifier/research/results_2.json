@@ -1,0 +1,211 @@
+[
+  {
+    "event_index": 39,
+    "mission": "Globalstar 2-R Mission 1 (x 8)",
+    "date": "2026-06-08",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Mission slipped repeatedly (NET June TBD, NET June 20 TBC, NET early June) before launching Aug 15-16, 2026. No source explicitly states a cause for the June 8 stand-down; coverage frames it as an unexplained schedule slip."
+  },
+  {
+    "event_index": 129,
+    "mission": "GPS III SV09",
+    "date": "2026-01-26",
+    "cause": "WX_LAUNCH_SITE",
+    "evidence_grade": "WEB",
+    "source_url": "https://spaceflightnow.com/2026/01/26/live-coverage-spacex-to-launch-gps-3-satellite-following-switch-from-ula-vulcan-rocket/",
+    "source_date": "2026-01-26",
+    "quote": "The mission was delayed again from Monday night to Tuesday with the 45th Weather Squadron forecasting just a 40 percent chance for acceptable weather on Monday.",
+    "notes": "Monday (Jan 26) attempt delayed to Tuesday (Jan 27) for poor launch-site weather forecast. A separate earlier Jan 25->26 delay cited recovery weather, but that is a different attempt."
+  },
+  {
+    "event_index": 272,
+    "mission": "O3b mPower 9-10",
+    "date": "2025-07-21",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "https://mynews13.com/fl/orlando/space/2025/07/21/spacex-ses-o3b-mpower",
+    "source_date": "2025-07-21",
+    "quote": "While not given as the reason for Monday's abort, weather was already expected to be an issue...",
+    "notes": "Abort at T-11s; multiple outlets confirm SpaceX did not disclose a cause, and one source explicitly rules out weather as the stated reason."
+  },
+  {
+    "event_index": 346,
+    "mission": "Starlink Group 12-17",
+    "date": "2025-04-11",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Spaceflight Now recap only notes SpaceX was 'stymied by back-to-back scrubs on consecutive nights' before launching; no source states an explicit cause for the April 11 attempt specifically."
+  },
+  {
+    "event_index": 402,
+    "mission": "WorldView Legion 5 & 6",
+    "date": "2025-02-03",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "https://mynews13.com/fl/orlando/space/2025/02/03/spacex-maxar-3-worldview-3-mission",
+    "source_date": "2025-02-03",
+    "quote": "No reason was given for the delays.",
+    "notes": "Source explicitly states no cause was disclosed for the Feb 3 to Feb 4 slip."
+  },
+  {
+    "event_index": 425,
+    "mission": "Thuraya 4-NGS",
+    "date": "2025-01-01",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Slip to Jan 3 confirmed by multiple outlets, but no source states an explicit cause for the Jan 1 stand-down itself; weather is discussed only for the eventual Jan 3 attempt."
+  },
+  {
+    "event_index": 449,
+    "mission": "GPS III SV07 (RRT-1)",
+    "date": "2024-12-14",
+    "cause": "WX_LAUNCH_SITE",
+    "evidence_grade": "WEB",
+    "source_url": "https://spaceflightnow.com/2024/12/13/live-coverage-spacex-to-launch-rrt-1-on-falcon-9-rocket-from-cape-canaveral/",
+    "source_date": "2024-12-13",
+    "quote": "The company cited high winds at the pad its reason for standing down from Friday's launch attempt.",
+    "notes": "Corroborates the target dataset's own stated text (high surface winds)."
+  },
+  {
+    "event_index": 523,
+    "mission": "Starlink Group 6-61",
+    "date": "2024-10-13",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Explicit sourcing found only for a later, different attempt (Oct 22 scrub for booster recovery weather ahead of the Oct 23 launch); nothing explicit for the Oct 13 stand-down, so per the no-cross-attempt rule it is UNKNOWN."
+  },
+  {
+    "event_index": 604,
+    "mission": "Starlink Group 8-3",
+    "date": "2024-08-06",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Mission launched Aug 10, 2024. No source explicitly states a cause for the Aug 6 stand-down/slip to NET Aug 9."
+  },
+  {
+    "event_index": 656,
+    "mission": "Astra 1P/SES-24",
+    "date": "2024-06-14",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Sources explicitly attribute the later June 18/19 delays to weather, but that is tied to those dates, not the June 14 stand-down named here; per the strict per-date rule this is UNKNOWN."
+  },
+  {
+    "event_index": 728,
+    "mission": "NROL-70",
+    "date": "2024-03-29",
+    "cause": "GROUND_SYSTEM",
+    "evidence_grade": "WEB",
+    "source_url": "https://www.clickorlando.com/news/space-news/2024/03/28/ula-set-for-final-delta-iv-heavy-rocket-launch-from-florida-coast/",
+    "source_date": "2024-03-28",
+    "quote": "The team continues to troubleshoot the pipeline and more time is needed to instill confidence in the system.",
+    "notes": "A Cape GN2 ground pipeline/pump failure (during a wind-related hold on Mar 28) drove the scrub and the further stand-down before the planned Mar 29 attempt; ULA's explicitly stated blocker for the continued slip is the ground pipeline, not wind."
+  },
+  {
+    "event_index": 785,
+    "mission": "Nova-C IM-1 (Intuitive Machines / Odysseus)",
+    "date": "2024-02-14",
+    "cause": "PAYLOAD",
+    "evidence_grade": "WEB",
+    "source_url": "https://www.space.com/spacex-delays-intuitive-machines-im-1-moon-lander-launch",
+    "source_date": "2024-02-14",
+    "quote": "off-nominal methane temperatures prior to stepping into methane load",
+    "notes": "Methane is loaded into the Odysseus lander's own propulsion system (payload), not the Falcon 9, so classified PAYLOAD rather than VEHICLE."
+  },
+  {
+    "event_index": 874,
+    "mission": "Starlink Group 6-26",
+    "date": "2023-10-30",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "Public record shows Starlink 6-25 scrubbed Oct 29 (staging-system abort) then launched Oct 30; Starlink 6-26 itself launched Nov 4. No source explicitly discusses a '6-26' scrub on Oct 30, so this is UNKNOWN per the no-inference rule (apparent mission/date mismatch in the input data)."
+  },
+  {
+    "event_index": 934,
+    "mission": "Crew-7",
+    "date": "2023-08-25",
+    "cause": "SCHEDULE",
+    "evidence_grade": "WEB",
+    "source_url": "https://www.cbsnews.com/news/nasa-spacex-launch-delayed-international-space-station-international-crew/",
+    "source_date": "2023-08-24",
+    "quote": "to allow mission managers to close out a couple of items and to resolve just one minor technical issue with one piece of open paperwork",
+    "notes": "NASA ordered a 24-hour slip explicitly to close out paperwork/administrative items, not a named hardware, weather, or range fault."
+  },
+  {
+    "event_index": 1015,
+    "mission": "Starlink Group 6-3",
+    "date": "2023-05-12",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "No source found discussing a May 12, 2023 stand-down or NET May 19 retarget; the actual May 18 launch coverage only mentions a same-day weather wait within that later window, not a cause for the May 12 stand-down."
+  },
+  {
+    "event_index": 1183,
+    "mission": "Artemis I",
+    "date": "2022-11-16",
+    "cause": "RANGE",
+    "evidence_grade": "WEB",
+    "source_url": "https://www.theregister.com/2022/11/16/artemis_launches_despite_ethernet_outage/",
+    "source_date": "2022-11-16",
+    "quote": "The switch was on site at the Eastern Range radar facility, which is 'necessary for launch.' NASA's liveblog of the launch said the fault switch caused 'loss of signal.'",
+    "notes": "Faulty ethernet switch at the Eastern Range radar facility (needed for range-safety/FTS signal) caused a hold at T-10:00 during the count; classified RANGE since it is explicitly a range-safety asset failure."
+  },
+  {
+    "event_index": 1311,
+    "mission": "Transporter 5 (Dedicated SSO Rideshare)",
+    "date": "2022-05-25",
+    "cause": "PAYLOAD",
+    "evidence_grade": "WEB",
+    "source_url": "https://spaceflightnow.com/2022/05/25/spacex-launches-fifth-transporter-rideshare-mission/",
+    "source_date": "2022-05-25",
+    "quote": "SpaceX called a brief hold in the countdown to complete thermal testing for the rocket's carefully-choreographed payload deployment sequence.",
+    "notes": "Hold explicitly for payload deployment-sequence thermal testing, matching the ~30-minute hold in the input data."
+  },
+  {
+    "event_index": 1336,
+    "mission": "Crew-4",
+    "date": "2022-04-21",
+    "cause": "CASCADE",
+    "evidence_grade": "WEB",
+    "source_url": "https://spaceflightnow.com/2022/04/20/crew-4-delayed-to-wait-for-ax-1-return/",
+    "source_date": "2022-04-20",
+    "quote": "The four-man crew was supposed to depart the space station Tuesday and splash down off the coast of Florida Wednesday. But mission managers extended their stay at the outpost due to persistent bad weather in SpaceX's recovery zones in the Gulf of Mexico and the Atlantic Ocean.",
+    "notes": "Explicit source ties Crew-4's slip directly to the Ax-1 crew's undocking/splashdown being delayed (Ax-1 was occupying Crew-4's needed ISS docking port); Crew-4's own launch date moved because of another mission's schedule, so classified CASCADE. Ax-1's own delay was caused by recovery-zone weather, but that is one hop removed from Crew-4's own attempt."
+  },
+  {
+    "event_index": 1453,
+    "mission": "Starlink 20",
+    "date": "2021-03-10",
+    "cause": "UNKNOWN",
+    "evidence_grade": "NONE",
+    "source_url": "",
+    "source_date": "",
+    "quote": "",
+    "notes": "NASASpaceflight.com states the attempt was 'postponed to allow time for additional checkouts' ahead of the March 11, 2021 launch, but does not specify which system (vehicle, ground, or payload) was being checked out. Too vague to assign a specific cause under the strict evidence rule, so UNKNOWN."
+  }
+]

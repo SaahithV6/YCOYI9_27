@@ -1,0 +1,191 @@
+[
+ {
+  "event_index": 0,
+  "mission": "Crew-13",
+  "date": "2026-09-16",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 285,
+  "mission": "Axiom Space Mission 4",
+  "date": "2025-06-23",
+  "cause": "PAYLOAD",
+  "quote_check": "PARTIAL 96%",
+  "accepted": false,
+  "note": "real cause (ISS Zvezda readiness) but no label fits; mapping to PAYLOAD would be false"
+ },
+ {
+  "event_index": 434,
+  "mission": "Astranis: From One to Many (4x Astranis MicroGEO)",
+  "date": "2024-12-21",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 511,
+  "mission": "Starlink Group 6-61",
+  "date": "2024-10-21",
+  "cause": "WX_RECOVERY",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 626,
+  "mission": "Starlink Group 10-4",
+  "date": "2024-07-19",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": false,
+  "note": "quote does not tie the grounding to the July 19 attempt (same-date rule)"
+ },
+ {
+  "event_index": 730,
+  "mission": "NROL-70",
+  "date": "2024-03-28",
+  "cause": "GROUND_SYSTEM",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 1214,
+  "mission": "Hotbird 13F",
+  "date": "2022-10-15",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 1473,
+  "mission": "Starlink 17",
+  "date": "2021-02-04",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 219,
+  "mission": "IMAP & others",
+  "date": "2025-09-22",
+  "cause": "SCHEDULE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 292,
+  "mission": "Starlink Group 10-23",
+  "date": "2025-06-22",
+  "cause": "RANGE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 810,
+  "mission": "Axiom Space Mission 3",
+  "date": "2024-01-17",
+  "cause": "VEHICLE",
+  "quote_check": "PARTIAL 96%",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 983,
+  "mission": "NROL-68",
+  "date": "2023-06-21",
+  "cause": "GROUND_SYSTEM",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 1430,
+  "mission": "CST-100 Starliner Orbital Flight Test 2 (OFT-2)",
+  "date": "2021-08-03",
+  "cause": "VEHICLE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 129,
+  "mission": "GPS III SV09",
+  "date": "2026-01-26",
+  "cause": "WX_LAUNCH_SITE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 449,
+  "mission": "GPS III SV07 (RRT-1)",
+  "date": "2024-12-14",
+  "cause": "WX_LAUNCH_SITE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 728,
+  "mission": "NROL-70",
+  "date": "2024-03-29",
+  "cause": "GROUND_SYSTEM",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 785,
+  "mission": "Nova-C IM-1 (Intuitive Machines / Odysseus)",
+  "date": "2024-02-14",
+  "cause": "PAYLOAD",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 934,
+  "mission": "Crew-7",
+  "date": "2023-08-25",
+  "cause": "SCHEDULE",
+  "quote_check": "FETCH FAIL HTTPError 406",
+  "accepted": true,
+  "note": "CBS blocks scripted fetch (406); quote confirmed via WebFetch, article dated 2023-08-24"
+ },
+ {
+  "event_index": 1183,
+  "mission": "Artemis I",
+  "date": "2022-11-16",
+  "cause": "RANGE",
+  "quote_check": "PARTIAL 80%",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 1311,
+  "mission": "Transporter 5 (Dedicated SSO Rideshare)",
+  "date": "2022-05-25",
+  "cause": "PAYLOAD",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ },
+ {
+  "event_index": 1336,
+  "mission": "Crew-4",
+  "date": "2022-04-21",
+  "cause": "CASCADE",
+  "quote_check": "EXACT",
+  "accepted": true,
+  "note": ""
+ }
+]

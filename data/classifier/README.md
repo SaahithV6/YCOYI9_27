@@ -4,9 +4,10 @@ Task: given one time a Cape launch did not go when announced, output `{"cause": 
 
 | file | rows | what |
 |---|---|---|
-| `train.jsonl` | 366 | 183 labeled events before 2025, each twice (full + masked) |
-| `eval.jsonl` | 168 | 84 labeled events from 2025 on, each twice |
-| `unlabeled.jsonl` | 1,235 | events with no published cause; run the trained model on these |
+| `train.jsonl` | 396 | 198 labeled events before 2025, each twice (full + masked) |
+| `eval.jsonl` | 176 | 88 labeled events from 2025 on, each twice |
+| `unlabeled.jsonl` | 1,216 | events with no published cause; run the trained model on these |
+| `research/` | | web research on 59 unexplained scrubs: `results_*.json` (every attempt, with source URL + quote where found) and `verified.json` (each quote checked against its source page) |
 | `schema.json` | | label enum, input fields, split, system prompt |
 | `build_classifier_dataset.py` | | how the files were built (runs inside the scrubline repo) |
 
@@ -18,8 +19,14 @@ River's fine-tuning endpoint expects if it differs; the fields are all there.
 TRAFFIC_ORBITAL, SCHEDULE, CASCADE, UNKNOWN.
 
 **Where labels come from:** only confirmed evidence, meaning the operator's own statement, a webcast
-quote, or press (267 events). Candidate causes (instrument / forecast / carry) are NOT labels.
-Web-research labels (source URL + quote) will be added in a later version after their quotes are verified.
+quote, or press (267 events), plus **19 web-research labels** (v2). Candidate causes (instrument /
+forecast / carry) are NOT labels.
+
+Web research: agents searched 59 unexplained scrub attempts under a strict rule (a source must state
+the cause for that mission on that date, quoted exactly). 21 came back with a cause, 38 stayed UNKNOWN.
+Every quote was then fetched from its source: 17 exact, 3 near-exact (punctuation), 1 confirmed by hand.
+Rejected 2: Starlink 10-4 (quote does not tie the grounding to that date) and Axiom Mission 4 (real
+cause, ISS Zvezda readiness, but no label fits; decide whether the schema needs a station-readiness label).
 
 **full vs masked:** `full` includes the operator's text; `masked` removes it and leaves mission,
 vehicle, pad, month, hour and observed weather (verdict, rules fired, ceiling, CAPE, freezing level,
@@ -28,10 +35,10 @@ events look like `masked`, so **report the masked eval score as the headline**. 
 inflated because the cause is often written in the text.
 
 **Caveats:**
-- Small and imbalanced. Train (full variant): WX_LAUNCH_SITE 72, VEHICLE 45, SCHEDULE 20, RANGE 19,
-  PAYLOAD 11, WX_RECOVERY 9, WX_UPPER_WINDS 4, GROUND_SYSTEM 2, TRAFFIC_ORBITAL 1.
-- Eval has no RANGE / WX_UPPER_WINDS / GROUND_SYSTEM / TRAFFIC_ORBITAL, so eval accuracy says
-  nothing about those classes.
+- Small and imbalanced. Train (full variant): WX_LAUNCH_SITE 73, VEHICLE 50, SCHEDULE 21, RANGE 20,
+  PAYLOAD 13, WX_RECOVERY 10, GROUND_SYSTEM 5, WX_UPPER_WINDS 4, TRAFFIC_ORBITAL 1, CASCADE 1.
+- Eval has 1 RANGE and no WX_UPPER_WINDS / GROUND_SYSTEM / TRAFFIC_ORBITAL / CASCADE, so eval
+  accuracy says little about those classes.
 - Predictions on `unlabeled.jsonl` stay graded PREDICTED until a person or an instrument confirms them.
 
 Sources: Launch Library 2 update stream (via scrubline), KXMR METAR, GOES GLM, NEXRAD, IGRA soundings,

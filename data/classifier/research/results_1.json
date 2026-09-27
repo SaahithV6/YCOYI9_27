@@ -1,0 +1,222 @@
+[
+ {
+  "event_index": 15,
+  "mission": "Starlink Group 10-19",
+  "date": "2026-08-10",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Spaceflight Now's Aug 11 2026 recap confirms a Monday scrub occurred but states no reason for it; only Tuesday's forecast is discussed."
+ },
+ {
+  "event_index": 89,
+  "mission": "Artemis II",
+  "date": "2026-04-01",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "https://www.nasa.gov/blogs/missions/2026/04/01/live-artemis-ii-launch-day-updates/",
+  "source_date": "2026-04-01",
+  "quote": "The launch team has made the decision to extend the T-10 minute hold ahead of today's launch to give engineers time to work through final preparations for liftoff.",
+  "notes": "NASA's own launch blog gives a reason, but it names no specific system, vehicle fault, weather, or range issue -- too vague to map onto a taxonomy cause without guessing. Also note this was a hold/recycle, not a scrub for the day; Artemis II launched later the same day."
+ },
+ {
+  "event_index": 219,
+  "mission": "IMAP & others",
+  "date": "2025-09-22",
+  "cause": "SCHEDULE",
+  "evidence_grade": "WEB",
+  "source_url": "https://science.nasa.gov/blogs/imap/2025/09/22/nasa-spacex-now-targeting-sept-24-for-space-weather-launch/",
+  "source_date": "2025-09-22",
+  "quote": "to allow more time for the recovery assets to arrive at the landing zone.",
+  "notes": "Also corroborated by SpaceNews (spacenews.com/nasa-delays-launch-of-heliophysics-missions/). Explicit cause is Falcon 9 booster-recovery ship/assets not yet in position -- a logistics/schedule issue, not attributed to weather in the source, so not labeled WX_RECOVERY."
+ },
+ {
+  "event_index": 292,
+  "mission": "Starlink Group 10-23",
+  "date": "2025-06-22",
+  "cause": "RANGE",
+  "evidence_grade": "WEB",
+  "source_url": "https://spaceflightnow.com/2025/06/21/live-coverage-spacex-to-launch-27-starlink-satellites-on-falcon-9-rocket-from-cape-canaveral-2/",
+  "source_date": "2025-06-22",
+  "quote": "there was a poor signal coming from the flight termination system on the Falcon 9 rocket that prevented a launch on Sunday.",
+  "notes": "Matches the input's own stated text and is independently corroborated by Spaceflight Now's launch-day coverage. Classified RANGE per the taxonomy's definition covering FTS/range safety signal issues."
+ },
+ {
+  "event_index": 388,
+  "mission": "Starlink Group 12-13",
+  "date": "2025-02-26",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Multiple sources (Spaceflight Now, SatNews, mynews13) confirm two prior scrubbed attempts before the Feb 26 launch, but none states a reason; one summary explicitly noted SpaceX did not disclose a reason for the scrubs."
+ },
+ {
+  "event_index": 424,
+  "mission": "Thuraya 4-NGS",
+  "date": "2025-01-02",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Spaceflight Now's live-coverage page for the eventual Jan 3 launch discusses weather forecasting but gives no explicit statement that weather or any other cause drove the Jan 2 stand-down."
+ },
+ {
+  "event_index": 446,
+  "mission": "GPS III SV07 (RRT-1)",
+  "date": "2024-12-15",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Found reporting that an RRT-1 attempt on Dec. 13, 2024 was scrubbed for high winds, but that is a different date than this event's Dec 15 and outside the +/-1 day window, so it isn't used as evidence for this attempt."
+ },
+ {
+  "event_index": 515,
+  "mission": "Starlink Group 8-19",
+  "date": "2024-10-17",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "SatNews coverage mentions liftoff-wind and cumulus-cloud-rule concerns for the following day's (Oct 18) attempt, but does not explicitly state that weather caused the Oct 17 stand-down itself."
+ },
+ {
+  "event_index": 563,
+  "mission": "Crew-9",
+  "date": "2024-09-12",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Crew-9's schedule that month was widely tied to the unresolved Starliner crew-return decision (sources dated Aug 6 and Aug 24, 2024), and later to Tropical Storm Helene (Sept 24-25 announcements). Neither is dated within +/-1 day of this Sept 12 stand-down, so no source directly ties a cause to this specific date."
+ },
+ {
+  "event_index": 627,
+  "mission": "Starlink Group 8-3",
+  "date": "2024-07-11",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "The Falcon 9 fleet was grounded by the FAA after the Starlink 9-3 upper-stage failure on July 11, 2024, and this attempt's stated NET (July 17, later slipping to the actual July 27 return-to-flight launch) is consistent with that grounding, but this event's stand-down time (00:33 UTC July 11) appears to precede the ~02:35 UTC Starlink 9-3 failure, and no source was found explicitly naming Starlink Group 8-3's slip as caused by the grounding. Not used without direct confirmation."
+ },
+ {
+  "event_index": 712,
+  "mission": "Starlink Group 6-48",
+  "date": "2024-04-10",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Small same-day slip (~1.5 hours); no dedicated press coverage of a stated cause was found."
+ },
+ {
+  "event_index": 753,
+  "mission": "Starlink Group 6-42",
+  "date": "2024-03-13",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Sources confirm the mission ultimately launched March 23, but none give a stated reason for the stand-down from the NET March 21 target."
+ },
+ {
+  "event_index": 810,
+  "mission": "Axiom Space Mission 3",
+  "date": "2024-01-17",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.nasa.gov/blogs/spacestation/2024/01/17/ax-3-launch-date-adjusted-crew-harvests-plants-and-conducts-fluid-research/",
+  "source_date": "2024-01-17",
+  "quote": "allowed additional time for SpaceX to complete data analysis of the parachute system energy modulator -- the straps that connect the Dragon spacecraft's parachute bag to the parachute door.",
+  "notes": "NASA's space station blog explicitly ties the 24-hour push to Dragon parachute-system data review."
+ },
+ {
+  "event_index": 915,
+  "mission": "Starlink Group 6-18",
+  "date": "2023-09-24",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Small same-day slip (~3.5 hours); no dedicated press coverage of a stated cause was found."
+ },
+ {
+  "event_index": 983,
+  "mission": "NROL-68",
+  "date": "2023-06-21",
+  "cause": "GROUND_SYSTEM",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.americaspace.com/2023/06/21/ula-scrubs-nrol-68-launch-realigns-for-thursday/",
+  "source_date": "2023-06-21",
+  "quote": "teams would stand down from the first launch attempt, citing an issue with a ground systems pneumatic valve.",
+  "notes": "AmericaSpace's same-day launch-coverage article explicitly names the cause."
+ },
+ {
+  "event_index": 1056,
+  "mission": "ViaSat-3 F1 (ViaSat-3 Americas) & others",
+  "date": "2023-03-25",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "Coverage found explains later slips in the campaign (April 18->26 static-fire engine swap, April 26->27 weather, an unexplained T-59s abort, and a lightning strike), but nothing explicitly states why the mission moved from its earlier target to the NET April 18 date announced around March 25."
+ },
+ {
+  "event_index": 1282,
+  "mission": "Starlink Group 4-25",
+  "date": "2022-07-14",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found stating a reason for the stand-down to NET July 24."
+ },
+ {
+  "event_index": 1333,
+  "mission": "Starlink Group 4-16",
+  "date": "2022-04-22",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "No source found stating a reason for the stand-down to NET April 29 (coverage of the eventual April 29 launch only discusses turnaround records, not the delay's cause)."
+ },
+ {
+  "event_index": 1430,
+  "mission": "CST-100 Starliner Orbital Flight Test 2 (OFT-2)",
+  "date": "2021-08-03",
+  "cause": "VEHICLE",
+  "evidence_grade": "WEB",
+  "source_url": "https://www.nasa.gov/blogs/commercialcrew/2021/08/03/nasas-boeing-oft-2-launch-scrubbed-for-aug-3-attempt/",
+  "source_date": "2021-08-03",
+  "quote": "unexpected valve position indications in the Starliner propulsion system",
+  "notes": "NASA's Commercial Crew blog post from the day of the scrub gives this as the cause; later root-caused to valve corrosion, but the same-day statement is what's cited here."
+ },
+ {
+  "event_index": 1495,
+  "mission": "Starlink 15",
+  "date": "2020-11-23",
+  "cause": "UNKNOWN",
+  "evidence_grade": "NONE",
+  "source_url": "",
+  "source_date": "",
+  "quote": "",
+  "notes": "A Teslarati-quoted SpaceX statement about 'recovery weather' and 'data reviews' exists, but it is dated to the prior day's stand-down (moving toward a Nov 23 backup attempt), not to this Nov 23 scrub itself which pushed the launch a further day. Not used because it describes a different attempt."
+ }
+]
