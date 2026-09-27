@@ -28,6 +28,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "train"))
 import build_weather_table as bwt  # noqa: E402
+sys.path.insert(0, str(ROOT / "app"))
+import rules_estimate as rules  # noqa: E402
 
 SITES = {"CCSFS": ("Cape Canaveral SFS", 28.49, -80.57), "KSC": ("Kennedy Space Center", 28.59, -80.65)}
 VEHICLES = {"falcon_9": "Falcon 9", "falcon_heavy": "Falcon Heavy", "atlas_v": "Atlas V", "vulcan": "Vulcan",
@@ -70,8 +72,9 @@ def fetch_hourly(site, day):
     if k in _cache:
         return _cache[k]
     _, lat, lon = SITES[site]
-    hourly = ",".join(bwt.SURFACE + ["weather_code"] + [f"{v}_{p}hPa" for p in bwt.LEVELS
-                                                         for v in ("wind_speed", "wind_direction", "geopotential_height")])
+    names = bwt.SURFACE + ["weather_code"] + [f"{v}_{p}hPa" for p in bwt.LEVELS
+                                               for v in ("wind_speed", "wind_direction", "geopotential_height")] + rules.hourly_vars()
+    hourly = ",".join(dict.fromkeys(names))
     start, end = day - timedelta(days=1), day + timedelta(days=1)
     today = date.today()
     base = "https://api.open-meteo.com/v1/forecast" if end >= today else "https://historical-forecast-api.open-meteo.com/v1/forecast"
@@ -106,24 +109,33 @@ def assess(day, hhmm, site, vehicle):
     top = sorted(factors.items(), key=lambda x: -abs(x[1]))[:6]
 
     i = hours.at(t)
-    wcode = hourly["weather_code"][i] if "weather_code" in hourly else None
-    rain = f["precipitation"] or 0
-    checks = [
-        {"rule": "Lightning (10 nmi / 30 min)", "status": "UNAVAILABLE", "detail": "needs flash positions (GOES GLM); a forecast has none"},
-        {"rule": "Cumulus cloud", "status": "UNAVAILABLE", "detail": f"needs cloud layer bases/tops; forecast low cloud {f['cloud_cover_low']}%"},
-        {"rule": "Disturbed weather", "status": "NO_GO" if wcode in THUNDER_CODES else "UNAVAILABLE",
-         "detail": "thunderstorm in the forecast weather code" if wcode in THUNDER_CODES else "needs radar + cloud layers"},
-        {"rule": "Thick cloud layer", "status": "UNAVAILABLE", "detail": f"needs layer tops; freezing level {round(f['freezing_level_height'] or 0)} m"},
-        {"rule": "Anvil / debris cloud", "status": "UNAVAILABLE", "detail": "needs weather radar"},
-        {"rule": "Surface electric field", "status": "UNAVAILABLE", "detail": "needs the field-mill network (not public)"},
-        {"rule": "Triboelectrification", "status": "UNAVAILABLE", "detail": "needs cloud temperatures along the flight path"},
-        {"rule": "Flight through precipitation", "status": "NO_GO" if rain > 0 else "CLEAR_IN_FORECAST",
-         "detail": f"{rain} mm forecast at T-0"},
-        {"rule": "Surface winds", "status": "MEASURED", "detail": f"{round(f['wind_speed_10m'] or 0)} kt, gusts {round(f['wind_gusts_10m'] or 0)} kt (vehicle limit unpublished)"},
-        {"rule": "Upper-level wind shear", "status": "MEASURED", "detail": f"max {round(f['max_shear_kt_per_km'] or 0, 1)} kt/km (not in the Space Force POV)"},
+    est = rules.estimate(hourly, i)
+    rain, wcode = f["precipitation"] or 0, hourly["weather_code"][i]
+    measured = [
+        {"id": "PRECIP", "rule": "Flight through precipitation", "status": "NO_GO" if rain > 0 else "CLEAR_IN_FORECAST",
+         "confidence": "forecast", "method": "forecast precipitation at T-0", "evidence": {"rain_mm": rain}, "measured_by": "radar / surface obs"},
+        {"id": "THUNDER", "rule": "Thunderstorm over the site", "status": "NO_GO" if wcode in THUNDER_CODES else "CLEAR_IN_FORECAST",
+         "confidence": "forecast", "method": "forecast weather code", "evidence": {"weather_code": wcode}, "measured_by": "GOES GLM / radar"},
+        {"id": "WIND", "rule": "Surface winds", "status": "MEASURED", "confidence": "forecast",
+         "method": f"{round(f['wind_speed_10m'] or 0)} kt, gusts {round(f['wind_gusts_10m'] or 0)} kt (vehicle limit unpublished)", "evidence": {}, "measured_by": "tower anemometers"},
+        {"id": "SHEAR", "rule": "Upper-level wind shear", "status": "MEASURED", "confidence": "forecast",
+         "method": f"max {round(f['max_shear_kt_per_km'] or 0, 1)} kt/km (not in the Space Force POV)", "evidence": {}, "measured_by": "balloon / jimsphere"},
     ]
-    no_go = [c["rule"] for c in checks if c["status"] == "NO_GO"]
-    verdict = "NO-GO" if no_go else "UNDECIDED"
+    checks = est["rules"] + measured
+    no_go = [c["rule"] for c in measured if c["status"] == "NO_GO"]
+    likely = [c["rule"] for c in est["rules"] if c["status"] == "ESTIMATED_VIOLATION" and c["confidence"] == "medium"]
+    low = [c["rule"] for c in est["rules"] if c["status"] == "ESTIMATED_VIOLATION" and c["confidence"] == "low"]
+    pct_flew = percentile(FLEW_SCORES, score)
+    if no_go:
+        verdict, reason = "NO-GO", f"The forecast itself shows {', '.join(no_go).lower()} at T-0."
+    elif likely:
+        verdict, reason = "LIKELY NO-GO", f"Estimated violation of {', '.join(likely)} from the forecast cloud profile."
+    elif pct_flew <= 50:
+        verdict, reason = "LIKELY GO", "No medium-confidence rule violation is estimated and the weather risk is no higher than the typical launch that flew."
+    else:
+        verdict, reason = "UNDECIDED", "No rule violation is estimated with confidence, but the weather risk is above the typical launch that flew."
+    reason += (f" Low-confidence flags: {', '.join(low)}." if low else "") + \
+        " Estimates replace instruments a forecast lacks; a real GO needs the Space Force forecast (L-5 to L-1) or observations on the day."
 
     z = ((X - _mu) / _sd).fillna(0).values[0]
     dist = np.sqrt((((HIST_X - _mu) / _sd).fillna(0).values - z) ** 2).sum(axis=1)
@@ -139,10 +151,10 @@ def assess(day, hhmm, site, vehicle):
         "input": {"date": day.isoformat(), "time": hhmm, "site": site, "site_name": SITES[site][0], "vehicle": VEHICLES.get(vehicle, vehicle)},
         "source": source,
         "verdict": verdict,
-        "verdict_reason": (f"Forecast shows {', '.join(no_go).lower()}." if no_go else
-                           "The forecast can flag risk but cannot clear the lightning rules: no flash positions, no cloud layers. "
-                           "GO needs the Space Force forecast (L-5 to L-1) or observations on the day."),
-        "risk": {"score": round(score, 3), "pct_vs_flew": percentile(FLEW_SCORES, score),
+        "verdict_reason": reason,
+        "cloud_layers": est["evidence"]["layers"],
+        "cloud_rh_threshold": est["cloud_rh_threshold"],
+        "risk": {"score": round(score, 3), "pct_vs_flew": pct_flew,
                  "pct_vs_weather_scrubs": percentile(WX_SCORES, score)},
         "factors": [{"name": n, "push": round(v, 3)} for n, v in top],
         "checks": checks,

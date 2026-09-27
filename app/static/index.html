@@ -63,6 +63,10 @@ button.ghost{background:transparent;border:1px solid var(--line);box-shadow:none
 .st{font:600 11px 'JetBrains Mono';padding:4px 8px;border-radius:6px;white-space:nowrap;align-self:flex-start}
 .st-NO_GO{background:rgba(239,68,68,.15);color:#fca5a5} .st-UNAVAILABLE{background:rgba(148,163,184,.12);color:#cbd5e1}
 .st-MEASURED{background:rgba(91,140,255,.15);color:#b3c7ff} .st-CLEAR_IN_FORECAST{background:rgba(34,197,94,.14);color:#86efac}
+.st-ESTIMATED_VIOLATION{background:rgba(239,68,68,.10);color:#fca5a5;border:1px dashed rgba(239,68,68,.5)}
+.st-ESTIMATED_CLEAR{background:rgba(34,197,94,.08);color:#86efac;border:1px dashed rgba(34,197,94,.45)}
+.st-NOT_ESTIMABLE{background:rgba(148,163,184,.10);color:#94a3b8}
+.v-LIKELY{font-size:34px} .v-LIKELY.GO{color:#4ade80} .v-LIKELY.NOGO{color:#f87171}
 .cd{color:var(--muted);font-size:12px;margin-top:3px}
 .prec{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;display:flex;justify-content:space-between;gap:10px}
 .prec:last-child{border:0}
@@ -148,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;colo
   </div>
   <div class="cols3">
     <div class="card"><h2>What drives the risk</h2><p class="sub">Model factor contributions for this hour</p><div id="factors"></div></div>
-    <div class="card"><h2>Launch rules</h2><p class="sub">What a forecast can and can't settle</p><div id="checks"></div></div>
+    <div class="card"><h2>Launch rules</h2><p class="sub">All 10 lightning rules estimated from the forecast, plus user constraints</p><div id="checks"></div></div>
     <div class="card"><h2>Past attempts like this</h2><p class="sub" id="precsum"></p><div id="precs"></div></div>
   </div>
   <div class="card" style="margin-top:18px"><h2>Forecast at T-0</h2><p class="sub" id="src"></p><div class="tiles" id="tiles"></div></div>
@@ -238,7 +242,8 @@ async function assess() {
 $("go").onclick = assess;
 
 function render(r) {
-  $("vword").textContent = r.verdict; $("vword").className = "vword v-" + r.verdict;
+  $("vword").textContent = r.verdict;
+  $("vword").className = "vword " + (r.verdict === "LIKELY GO" ? "v-LIKELY GO" : r.verdict === "LIKELY NO-GO" ? "v-LIKELY NOGO" : "v-" + r.verdict);
   const pct = r.risk.pct_vs_flew; $("gpct").textContent = pct + "%";
   $("garc").style.transition = "stroke-dashoffset 1s ease"; $("garc").style.strokeDashoffset = 251 * (1 - pct / 100);
   $("vtitle").textContent = `${r.input.vehicle} · ${r.input.site_name} · ${r.input.date} ${r.input.time} UTC`;
@@ -249,7 +254,8 @@ function render(r) {
     const w = 50 * Math.abs(f.push) / mx, up = f.push > 0;
     return `<div class="bar"><span>${f.name}</span><span class="track"><i style="left:${up ? 50 : 50 - w}%;width:${w}%;background:${up ? "#ef4444" : "#22c55e"}"></i><i style="left:50%;width:1px;background:#334155"></i></span><span style="text-align:right;font-family:JetBrains Mono">${up ? "+" : ""}${f.push.toFixed(2)}</span></div>`;
   }).join("") + `<p class="cd">Red pushes risk up, green pulls it down (log-odds).</p>`;
-  $("checks").innerHTML = r.checks.map(c => `<div class="check"><div>${c.rule}<div class="cd">${c.detail}</div></div><span class="st st-${c.status}">${c.status.replaceAll("_", " ")}</span></div>`).join("");
+  $("checks").innerHTML = r.checks.map(c => `<div class="check"><div>${c.id && c.id.startsWith("LLCC") ? `<span class="cd" style="font-family:JetBrains Mono">${c.id}</span> ` : ""}${c.rule}<div class="cd">${c.method}${c.confidence && c.confidence !== "forecast" && c.confidence !== "n/a" ? ` · ${c.confidence} confidence` : ""} · measured by ${c.measured_by}</div></div><span class="st st-${c.status}">${c.status.replaceAll("_", " ")}</span></div>`).join("")
+    + `<p class="cd">Dashed = estimated from the forecast profile (cloud = RH ≥ ${r.cloud_rh_threshold}% on pressure levels). Layers: ${r.cloud_layers.join("; ")}.</p>`;
   $("precsum").textContent = r.precedent_summary;
   $("precs").innerHTML = r.precedents.map(p => {
     const cls = p.outcome === "flew" ? "o-flew" : p.outcome === "weather scrub" ? "o-weather" : "o-no";
