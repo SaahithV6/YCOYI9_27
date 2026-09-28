@@ -513,6 +513,28 @@ async function loadWeek() {
 }
 function pick(d, h) { $("date").value = d; $("time").value = pad2(h) + ":00"; assess(); window.scrollTo({top:0, behavior:"smooth"}); }
 loadWeek();
+
+// ---------------- autopilot for the recorded demo (/?auto=1) ----------------
+if (new URLSearchParams(location.search).has("auto")) (async () => {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const see = (el, block = "start") => el && el.scrollIntoView({behavior:"smooth", block});
+  const waitFor = async (cond, ms = 40000) => { const t = Date.now(); while (!cond() && Date.now() - t < ms) await sleep(250); };
+  await sleep(2000);
+  const q = "Can Falcon 9 go from SLC-40 on October 1 at 8 AM UTC?", box = $("q"); box.focus();
+  for (const ch of q) { box.value += ch; await sleep(45); }            // visible typing
+  await sleep(600); const before = last; $("askb").click();
+  await waitFor(() => last && last !== before);                         // Qwen officer finished
+  await sleep(2500);
+  see($("simc"), "center"); await sleep(12000);                         // scrub simulation
+  see($("vpanel")); await sleep(12000);                                 // rules board with values vs limits
+  see($("altwrap"), "center"); await sleep(10000);                      // better windows
+  const b = document.querySelector(".alt button"), prev = last;
+  if (b) { b.click(); await waitFor(() => last && last !== prev); }     // re-run for the better window
+  await sleep(9000);                                                    // two-model check at the top
+  see($("simc"), "center"); await sleep(24000);                         // liftoff to orbit
+  see($("heat"), "center"); await sleep(12000);                         // window planner
+  window.scrollTo({top:0, behavior:"smooth"});
+})();
 </script>
 </body>
 </html>

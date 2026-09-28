@@ -95,11 +95,16 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--sky))
 <script>
 const $ = id => document.getElementById(id);
 let cur = 0; const S = [...document.querySelectorAll(".slide")];
-function show(i) { if (i >= S.length) { location.href = "/"; return; }  // past the last slide -> live demo
+function show(i) { if (i >= S.length) { location.href = "/" + location.search; return; }  // past the last slide -> live demo
   cur = Math.max(0, Math.min(S.length - 1, i)); S.forEach((s, j) => s.classList.toggle("on", j === cur)); $("nav").textContent = cur === S.length - 1 ? `${cur + 1} / ${S.length} · click → live demo` : `${cur + 1} / ${S.length} · ← →`; }
 addEventListener("keydown", e => { if (["ArrowRight", " ", "PageDown"].includes(e.key)) show(cur + 1); if (["ArrowLeft", "PageUp"].includes(e.key)) show(cur - 1); });
 addEventListener("click", () => show(cur + 1));
 window.show = show;
+// Autopilot for recording: /slides?auto=1 advances every 15 s, then opens the console in autopilot.
+if (new URLSearchParams(location.search).has("auto")) {
+  const step = () => { if (cur >= S.length - 1) { location.href = "/?auto=1"; return; } show(cur + 1); setTimeout(step, 15000); };
+  setTimeout(step, 15000);
+}
 const M = v => v >= 1e6 ? `$${(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)}M` : `$${Math.round(v / 1e3)}k`;
 const NAMES = {WX_LAUNCH_SITE:"Weather · site", VEHICLE:"Vehicle", RANGE:"Range", WX_RECOVERY:"Weather · recovery", SCHEDULE:"Schedule", WX_UPPER_WINDS:"Weather · upper winds", GROUND_SYSTEM:"Ground system", PAYLOAD:"Payload"};
 fetch("/api/stats").then(r => r.json()).then(s => {
